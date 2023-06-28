@@ -2,9 +2,10 @@
 // $xs: 0;
 export const XS = 0;
 
-// $ssm: 320px;
+// $SMIPHONE5: 320px;
 export const SMIPHONE5 = '20rem';
 
+// $SAMSUNGSM 360px
 export const SAMSUNGSM = '22.5rem';
 
 // $ssm: 375px;

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import * as C from '@/styles/Constants';
 import Link from "next/link";
+import { Container } from "@/styles/Grid";
 
 export const Header = styled.header`
   width: 100%;
@@ -10,6 +11,7 @@ export const Header = styled.header`
   transition: all 0.4s ease-in;
   border: none;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 6px 12px; 
+  /* margin-bottom: 70px; */
 `;
 
 export const HeaderWrap = styled.div`
@@ -17,19 +19,16 @@ export const HeaderWrap = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
     height: 100%;
     transition: all .4s;
     background-color: transparent;
 `;
 
-export const HeaderContainer = styled.div`
-    display: none;
-
+export const HeaderContainer = styled(Container)`
     @media (min-width: ${C.XL}) {
         width: 100%;
         display: flex;
-        justify-content: center;
         align-items: center;
     }
 `;
@@ -40,6 +39,22 @@ export const HeaderTitle = styled(Link)`
     margin-right: 100px;
     text-decoration: none;
     color: #000;
+`;
+
+export const NavContainer = styled.div`
+    display: none;
+
+    @media (min-width: ${C.XL}) {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
 `;
 
 export const Navbar = styled.nav`

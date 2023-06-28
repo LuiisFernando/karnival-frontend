@@ -1,7 +1,13 @@
 import Link from 'next/link';
+import { FaUser } from "react-icons/fa";
+
+import { useAuth } from '@/hooks/useAuth';
+
 import * as Styled from './styles';
 
 export default function Header() {
+
+    const { user, logout } = useAuth();
 
     function renderMenu() {
         return (
@@ -22,7 +28,7 @@ export default function Header() {
                     </Link>
                 </li>
                 <li>
-                    <Link href="servicos">
+                    <Link href="/servicos">
                         Serviços
                     </Link>
                 </li>
@@ -33,21 +39,25 @@ export default function Header() {
     return (
         <Styled.Header>
             <Styled.HeaderWrap>
-                <Styled.HeaderTitle href="/">KARNIVAL</Styled.HeaderTitle>
-                <Styled.Navbar>
-                    {renderMenu()}
-                </Styled.Navbar>
-            </Styled.HeaderWrap>
-            <Styled.HeaderWrap>
-                <Styled.Navbar>
-                    <ul>
-                        <li>
-                            <Link href="login">
-                                Login
+                <Styled.HeaderContainer>
+                    <Styled.HeaderTitle href="/">KARNIVAL</Styled.HeaderTitle>
+                    <Styled.NavContainer>
+                        <Styled.Navbar>
+                            {renderMenu()}
+                        </Styled.Navbar>
+                        {!user && (
+                            <Link href="/login">
+                                <FaUser size={20} color="#000" />
                             </Link>
-                        </li>
-                    </ul>
-                </Styled.Navbar>
+                        )}
+                        {user && (
+                            <div>
+                                <span>Olá, {user.name}</span>
+                                <button onClick={logout}>Sair</button>
+                            </div>
+                        )}
+                    </Styled.NavContainer>
+                </Styled.HeaderContainer>
             </Styled.HeaderWrap>
         </Styled.Header>
     );
