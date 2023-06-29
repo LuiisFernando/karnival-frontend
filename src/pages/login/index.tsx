@@ -1,23 +1,23 @@
 import React from "react";
 
-import { loginService } from '@/services/loginService';
-
 import { Container } from "@/styles/Grid";
 
 import * as Styled from '@/styles/pages/login/styles';
 import { useAuth } from "@/hooks/useAuth";
+import { toast } from "react-toastify";
 
 export default function Login() {
-
     const auth = useAuth();
 
     async function login(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        const email = (e.currentTarget.elements[0] as HTMLInputElement).value;
-        const password = (e.currentTarget.elements[1] as HTMLInputElement).value;
+        toast.success("aeee");
 
-        await auth.login(email, password);
+        // const email = (e.currentTarget.elements[0] as HTMLInputElement).value;
+        // const password = (e.currentTarget.elements[1] as HTMLInputElement).value;
+
+        // await auth.login(email, password);
     }
 
     return (

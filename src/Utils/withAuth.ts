@@ -2,7 +2,6 @@
 import { parseCookies } from 'nookies';
 import jwt_decode from 'jwt-decode';
 import { IUser } from '@/types/Login';
-import { NextPageContext } from 'next';
 
 export function withSSRAuth(fn: Function, onlyAdm: boolean) {
     return async (ctx: any) => {
