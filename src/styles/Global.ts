@@ -1,8 +1,7 @@
-
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
-	* {
+* {
     margin: 0;
     padding: 0;
     vertical-align: baseline;
@@ -10,10 +9,10 @@ const GlobalStyles = createGlobalStyle`
 	-webkit-font-smoothing: antialiased;
   }
 
-	body {
-		font-family: 'Poppins', sans-serif;
-		position: relative;
-	}
+body {
+	font-family: 'Poppins', sans-serif;
+	position: relative;
+}
 `;
 
 export default GlobalStyles;
