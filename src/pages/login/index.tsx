@@ -2,7 +2,6 @@ import React from "react";
 import Head from "next/head";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { toast } from "react-toastify";
 
 import Input from '@/components/Form/Input';
 
@@ -10,34 +9,20 @@ import { loginSchema } from "@/Utils/schemas/user/loginSchema";
 
 import { useAuth } from "@/hooks/useAuth";
 
+import { LoginForm } from "@/types/Login";
+
 import { Container } from "@/styles/Grid";
 import * as Styled from '@/styles/pages/login/styles';
 
-type FormData = {
-    email: string;
-    password: string;
-};
-
 export default function Login() {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<LoginForm>({
         resolver: yupResolver(loginSchema),
     });
 
     const auth = useAuth();
 
-    async function login(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-
-        toast.success("aeee");
-
-        // const email = (e.currentTarget.elements[0] as HTMLInputElement).value;
-        // const password = (e.currentTarget.elements[1] as HTMLInputElement).value;
-
-        // await auth.login(email, password);
-    }
-
-    async function onSubmit(data: FormData) {
-        console.log(data);
+    async function onSubmit(data: LoginForm) {
+        await auth.login(data);
     }
 
     return (

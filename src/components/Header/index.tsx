@@ -4,36 +4,93 @@ import { FaUser } from "react-icons/fa";
 import { useAuth } from '@/hooks/useAuth';
 
 import * as Styled from './styles';
+import { Role } from '@/types/Login';
 
 export default function Header() {
 
     const { user, logout } = useAuth();
 
+    console.log(user?.role);
+
     function renderMenu() {
-        return (
-            <ul>
-                <li>
-                    <Link href="/">
-                        Inicio
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/eventos">
-                        Eventos
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/agenda">
-                        Agenda
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/servicos">
-                        Serviços
-                    </Link>
-                </li>
-            </ul>
-        );
+        if (!user) {
+            return (
+                <ul>
+                    <li>
+                        <Link href="/">
+                            Inicio
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/eventos">
+                            Eventos
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/agenda">
+                            Agenda
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/servicos">
+                            Serviços
+                        </Link>
+                    </li>
+                </ul>
+            );
+        }
+        else if (user?.role === Role.Administrador) {
+            return (
+                <ul>
+                    <li>
+                        <Link href="/">
+                            Inicio oi  adm
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/eventos">
+                            Eventos
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/agenda">
+                            Agenda
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/servicos">
+                            Serviços
+                        </Link>
+                    </li>
+                </ul>
+            );
+        }
+        else if (user?.role === Role.User) {
+            return (
+                <ul>
+                    <li>
+                        <Link href="/">
+                            Inicio oi  user
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/eventos">
+                            Eventos
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/agenda">
+                            Agenda
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/servicos">
+                            Serviços
+                        </Link>
+                    </li>
+                </ul>
+            );
+        }
     }
 
     return (

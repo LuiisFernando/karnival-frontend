@@ -3,15 +3,25 @@ export interface ILoginResponse {
     token: string;
 }
 
+export enum Role {
+    Administrador = 'Administrador',
+    User = 'User'
+}
+
 export interface IUser {
     id: number;
     name: string;
     email: string;
-    role: string;
+    role: Role;
 }
 
 export interface IUserDecoded {
     nameid: string;
     role: string;
     unique_name: string;
+}
+
+export interface LoginForm {
+    email: string;
+    password: string;
 }
