@@ -16,8 +16,6 @@ export function withSSRAuth(fn: Function, onlyAdm: boolean) {
 
             const tokenDecode = jwt_decode<IUser>(token);
 
-            console.log(tokenDecode);
-
             if (onlyAdm && tokenDecode.role === 'Administrador') {
                 return await fn(ctx);
 

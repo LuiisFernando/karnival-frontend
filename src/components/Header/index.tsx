@@ -10,8 +10,6 @@ export default function Header() {
 
     const { user, logout } = useAuth();
 
-    console.log(user?.role);
-
     function renderMenu() {
         if (!user) {
             return (
