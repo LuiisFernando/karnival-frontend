@@ -61,8 +61,8 @@ export default function Home() {
           </Styled.ItemCarousel>
           <Styled.ItemCarousel>
             <picture>
-              <source srcSet="/images/services/estetica.png" type="image/webp" />
-              <img src="/images/services/estetica.png" alt="Landscape picture" />
+              <source srcSet="/images/services/slide.jpg" type="image/webp" />
+              <img src="/images/services/slide.jpg" alt="Landscape picture" />
             </picture>
           </Styled.ItemCarousel>
           <Styled.ItemCarousel>
