@@ -42,7 +42,7 @@ export default function Header() {
                 <ul>
                     <li>
                         <Link href="/">
-                            Inicio oi  adm
+                            Inicio
                         </Link>
                     </li>
                     <li>
@@ -58,6 +58,11 @@ export default function Header() {
                     <li>
                         <Link href="/servicos">
                             Serviços
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/dashboard/usuarios">
+                            Usuários
                         </Link>
                     </li>
                 </ul>
@@ -68,7 +73,7 @@ export default function Header() {
                 <ul>
                     <li>
                         <Link href="/">
-                            Inicio oi  user
+                            Inicio
                         </Link>
                     </li>
                     <li>
@@ -84,6 +89,11 @@ export default function Header() {
                     <li>
                         <Link href="/servicos">
                             Serviços
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/tarefas">
+                            Tarefas
                         </Link>
                     </li>
                 </ul>

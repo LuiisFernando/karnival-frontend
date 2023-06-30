@@ -8,6 +8,7 @@ export function withSSRAuth(fn: Function, onlyAdm: boolean) {
         try {
             const cookies = parseCookies(ctx);
             const token = cookies['karnival.token'];
+            console.log('caiu')
             if (!token) {
                 ctx.res.statusCode = 302;
                 ctx.res.setHeader('Location', `/login`);

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { setCookie, parseCookies, destroyCookie } from "nookies";
 import jwt_decode from 'jwt-decode';
 
-import { loginService } from "@/services/loginService";
+import { loginService } from "@/services/authenticationService";
 import { IUser, IUserDecoded, ILoginForm, Role } from "@/types/Login";
 
 type AuthProviderType = {
@@ -59,7 +59,7 @@ export function AuthProvider({ children }: AuthProviderType ) {
             path: '/'
         });
         setUser(null);
-        route.reload();
+        route.push('/');
     }
     
     return (
