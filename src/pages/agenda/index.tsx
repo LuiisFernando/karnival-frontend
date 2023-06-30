@@ -4,6 +4,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import 'moment/locale/pt-br';
 import moment from 'moment';
+import Head from "next/head";
 
 moment.locale("moment/locale/pt-br");
 
@@ -22,6 +23,8 @@ const HeaderCellContent: React.FC<any> = (props: any) => {
   );
 };
 
+type View = 'month' | 'week' | 'work_week' | 'day' | 'agenda';
+
 const DateCellContent: React.FC<any> = (props: any) => {
   const { date } = props;
   const dayOfWeek = date.getDay();
@@ -35,25 +38,27 @@ const DateCellContent: React.FC<any> = (props: any) => {
   );
 };
 
-export default function Agenda() {
-
-  // let dataInicial = moment(new Date("2023-06-31"));
-  // let datafim = moment(new Date("2023-06-31"));
-
-  // console.log(dataInicial);
-
-  
+export default function Agenda() { 
   const dataInicial1 = new Date(2023, 5, 29, 13, 0);
   const dataFim1 = new Date(2023, 5, 29, 13, 30);
 
-  const dataInicial12 = new Date(2023, 5, 29, 13, 30);
-  const dataFim2 = new Date(2023, 5, 29, 14, 0, 0);
+  const dataInicial12 = new Date(2023, 5, 29, 14, 30);
+  const dataFim2 = new Date(2023, 5, 29, 19, 0, 0);
 
+  const dia27Ini = new Date(2023, 5, 27, 18, 0);
+  const dia27Fim = new Date(2023, 5, 27, 19, 0);
+
+
+  const minDate = new Date(0, 0, 0, 9, 0, 0);
+  const maxDate = new Date(0, 0, 0, 20, 0, 0);
+
+  const [defaultView, setDetaultView] = useState<View>('week');
 
   const eventos = [
-    { start: dataInicial1, end: dataFim1, title: "evento 1", teste: '123' },
-    { start: dataInicial12, end: dataFim2, title: "evento 2", teste: '321' }
-  ]
+    { start: dataInicial1, end: dataFim1, title: "reservado", teste: '123', blocked: true },
+    { start: dataInicial12, end: dataFim2, title: "reservado", teste: '321' },
+    { start: dia27Ini, end: dia27Fim, title: "reservado", teste: '321' }
+  ];
 
   const [eventsData, setEventsData] = useState<any>(eventos);
 
@@ -79,6 +84,20 @@ export default function Agenda() {
   };
 
   const handleSelect = ({ start, end }: any) => {
+    // console.log(start);
+    const isSunday = moment(start).day() === 0;
+    const hourSelecteIsLessThanMinHour = moment(start).hour() < moment(minDate).hour();
+// debugger
+    if (defaultView === 'month')
+      setDetaultView('day');
+
+    if (hourSelecteIsLessThanMinHour)
+      return;
+
+
+    if (isSunday)
+      return;
+
     const title = window.prompt("New Event name " + start);
     if (title)
       setEventsData([
@@ -92,12 +111,10 @@ export default function Agenda() {
   };
 
   function eventPropGetter(event: any, start: any, end: any, isSelected: any) {
-    // console.log('evento >> ', event);
-    // var backgroundColor = '#' + event.hexColor;
     var style = {
-        backgroundColor: 'red',
+        backgroundColor: isSelected ? 'red' : 'blue',
         borderRadius: '5px',
-        // opacity: 0.8,
+        opacity: 0.4,
         color: '#FFF',
         border: '0px',
     };
@@ -107,40 +124,55 @@ export default function Agenda() {
   }
 
   const customDayPropGetter = (date: Date) => {
-    if (date.getDate() === 7 || date.getDate() === 6)
-      return {
-        className: 'special-day',
-        style: {
-          border: 'solid 3px ' + (date.getDate() === 7 ? '#faa' : '#afa'),
-          backgroundColor: 'red'
-        },
-      };
-    else return {};
+    const _date = moment(date);
+    const isSaturday = _date.day() === 6;
+    const isSunday = _date.day() === 0;
+
+    return {
+      style: {
+        backgroundColor: isSunday ? 'rgba(181, 181, 181, 0.3)' : 'transparent'
+      }
+    };
+
+    
+    // if (date.getDate() === 7 || date.getDate() === 6)
+    //   return {
+    //     className: 'special-day',
+    //     style: {
+    //       border: 'solid 3px ' + (date.getDate() === 7 ? '#faa' : '#afa'),
+    //       backgroundColor: 'red'
+    //     },
+    //   };
+    // else return {
+    //   style: {
+    //   }
+    // };
   };
 
   return (
     <>
+    <Head>
+      <title>Karnival: Agenda</title>
+    </Head>
       <h1>Agenda</h1>
-      <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 50 }}>
 
         <Calendar
           popup
-          min={new Date(0, 0, 0, 9, 0, 0)}
-          max={new Date(0, 0, 0, 20, 0, 0)}
+          defaultView={defaultView}
+          onView={setDetaultView}
+          min={minDate}
+          max={maxDate}
           step={30}
           views={["day", "week", "month", "agenda"]}
           culture="pt-BR"
           selectable
           localizer={localizer}
           defaultDate={new Date()}
-          defaultView="day"
           events={eventsData}
           style={{ height: '600px', width: '90%' }}
-          onSelectEvent={(event) => alert(event.teste)}
-          onSelectSlot={(e) => {
-            console.log(e);
-            handleSelect(e);
-          }}
+          onSelectEvent={(event) => alert(event.title)}
+          onSelectSlot={handleSelect}
           messages={defaultMessages}
           eventPropGetter={eventPropGetter}
           components={{

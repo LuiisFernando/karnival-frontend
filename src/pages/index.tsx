@@ -49,8 +49,8 @@ export default function Home() {
         <Carousel className="Carousel" {...mainCarouselSettings}>
         <Styled.ItemCarousel>
             <picture>
-              <source srcSet="/images/services/tatuagem2.jpg" type="image/webp" />
-              <img src="/images/services/tatuagem2.jpg" alt="Landscape picture" />
+              <source srcSet="/images/services/tatuagem.jpg" type="image/webp" />
+              <img src="/images/services/tatuagem.jpg" alt="Landscape picture" />
             </picture>
           </Styled.ItemCarousel>
           <Styled.ItemCarousel>
