@@ -133,20 +133,6 @@ export default function Agenda() {
         backgroundColor: isSunday ? 'rgba(181, 181, 181, 0.3)' : 'transparent'
       }
     };
-
-    
-    // if (date.getDate() === 7 || date.getDate() === 6)
-    //   return {
-    //     className: 'special-day',
-    //     style: {
-    //       border: 'solid 3px ' + (date.getDate() === 7 ? '#faa' : '#afa'),
-    //       backgroundColor: 'red'
-    //     },
-    //   };
-    // else return {
-    //   style: {
-    //   }
-    // };
   };
 
   return (
@@ -154,9 +140,7 @@ export default function Agenda() {
     <Head>
       <title>Karnival: Agenda</title>
     </Head>
-      <h1>Agenda</h1>
       <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 50 }}>
-
         <Calendar
           popup
           defaultView={defaultView}
