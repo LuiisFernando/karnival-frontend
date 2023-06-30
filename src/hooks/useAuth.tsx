@@ -28,7 +28,7 @@ export function AuthProvider({ children }: AuthProviderType ) {
 
         if (token) {
             const tokenDecoded = jwt_decode<IUserDecoded>(token);
-            console.log(tokenDecoded);
+            
             let userDecoded: Partial<IUser> = {};
             userDecoded.id = Number(tokenDecoded.nameid);
             userDecoded.name = tokenDecoded.unique_name;
