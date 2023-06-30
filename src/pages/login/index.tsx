@@ -9,19 +9,19 @@ import { loginSchema } from "@/Utils/schemas/user/loginSchema";
 
 import { useAuth } from "@/hooks/useAuth";
 
-import { LoginForm } from "@/types/Login";
+import { ILoginForm } from "@/types/Login";
 
 import { Container } from "@/styles/Grid";
 import * as Styled from '@/styles/pages/login/styles';
 
 export default function Login() {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<LoginForm>({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<ILoginForm>({
         resolver: yupResolver(loginSchema),
     });
 
     const auth = useAuth();
 
-    async function onSubmit(data: LoginForm) {
+    async function onSubmit(data: ILoginForm) {
         await auth.login(data);
     }
 

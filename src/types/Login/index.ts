@@ -21,7 +21,7 @@ export interface IUserDecoded {
     unique_name: string;
 }
 
-export interface LoginForm {
+export interface ILoginForm {
     email: string;
     password: string;
 }

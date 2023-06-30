@@ -4,7 +4,7 @@ import { setCookie, parseCookies, destroyCookie } from "nookies";
 import jwt_decode from 'jwt-decode';
 
 import { loginService } from "@/services/loginService";
-import { IUser, IUserDecoded, LoginForm, Role } from "@/types/Login";
+import { IUser, IUserDecoded, ILoginForm, Role } from "@/types/Login";
 
 type AuthProviderType = {
 	children: ReactNode;
@@ -12,7 +12,7 @@ type AuthProviderType = {
 
 type ContextProps = {
     user: IUser | null,
-    login: (data: LoginForm) => void;
+    login: (data: ILoginForm) => void;
     logout: () => void;
 }
 
@@ -37,7 +37,7 @@ export function AuthProvider({ children }: AuthProviderType ) {
         }
     }, []);
 
-    async function login(data: LoginForm) {
+    async function login(data: ILoginForm) {
         const response = await loginService(data.email, data.password);
         
         destroyCookie({}, 'karnival.token', {
