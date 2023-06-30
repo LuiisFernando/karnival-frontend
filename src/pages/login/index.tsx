@@ -1,12 +1,28 @@
 import React from "react";
-
-import { Container } from "@/styles/Grid";
-
-import * as Styled from '@/styles/pages/login/styles';
-import { useAuth } from "@/hooks/useAuth";
+import Head from "next/head";
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from "react-toastify";
 
+import Input from '@/components/Form/Input';
+
+import { loginSchema } from "@/Utils/schemas/user/loginSchema";
+
+import { useAuth } from "@/hooks/useAuth";
+
+import { Container } from "@/styles/Grid";
+import * as Styled from '@/styles/pages/login/styles';
+
+type FormData = {
+    email: string;
+    password: string;
+};
+
 export default function Login() {
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
+        resolver: yupResolver(loginSchema),
+    });
+
     const auth = useAuth();
 
     async function login(e: React.FormEvent<HTMLFormElement>) {
@@ -20,27 +36,34 @@ export default function Login() {
         // await auth.login(email, password);
     }
 
+    async function onSubmit(data: FormData) {
+        console.log(data);
+    }
+
     return (
-        <Container>
-            <Styled.LoginContainer>
-                <h1>Login</h1>
+        <>
+            <Head>
+                <title>Karnival: Login</title>
+            </Head>
+            <Container>
+                <Styled.LoginContainer>
+                    <Styled.FormContainer>
+                        <h1>Login</h1>
 
-                <Styled.FormContainer>
-                    <Styled.Form onSubmit={(e) => login(e)}>
-                        <Styled.FormControl>
-                            {/* <label htmlFor="user">E-mail</label> */}
-                            <input id="user" name="user" placeholder="E-mail" type="email" />
-                        </Styled.FormControl>
+                        <Styled.Form onSubmit={handleSubmit(onSubmit)}>
+                            <Styled.FormControl>
+                                <Input name="email" register={register} errors={errors} placeholder="E-mail" />
+                            </Styled.FormControl>
 
-                        <Styled.FormControl className="form-label">
-                            {/* <label htmlFor="password">Senha</label> */}
-                            <input id="password" name="password" type="password" placeholder="Senha" />
-                        </Styled.FormControl>
+                            <Styled.FormControl className="form-label">
+                                <Input name="password" type="password" register={register} errors={errors} placeholder="Senha" />
+                            </Styled.FormControl>
 
-                        <button type="submit">Entrar</button>
-                    </Styled.Form>
-                </Styled.FormContainer>
-            </Styled.LoginContainer>
-        </Container>
+                            <button type="submit">Entrar</button>
+                        </Styled.Form>
+                    </Styled.FormContainer>
+                </Styled.LoginContainer>
+            </Container>
+        </>
     );
 }

@@ -10,8 +10,7 @@ export const Header = styled.header`
   display: flex;
   transition: all 0.4s ease-in;
   border: none;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 6px 12px; 
-  /* margin-bottom: 70px; */
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 6px 12px;
 `;
 
 export const HeaderWrap = styled.div`
