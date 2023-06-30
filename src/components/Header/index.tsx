@@ -14,7 +14,7 @@ export default function Header() {
             <ul>
                 <li>
                     <Link href="/">
-                        Home
+                        Inicio
                     </Link>
                 </li>
                 <li>
