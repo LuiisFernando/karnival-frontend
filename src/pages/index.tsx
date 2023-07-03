@@ -1,12 +1,7 @@
-import dynamic from "next/dynamic";
 import Head from "next/head";
 
 import * as Styled from '@/styles/pages/Home';
-
-const Carousel = dynamic(
-  () => import("@/components/Carousel"),
-  { ssr: true }
-);
+import Carousel from '@/components/Carousel';
 
 const SlickArrowLeft = ({ currentSlide, slideCount, ...props }: any) => (
   <button

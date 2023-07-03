@@ -4,7 +4,7 @@ import { FaUser } from "react-icons/fa";
 import { useAuth } from '@/hooks/useAuth';
 
 import * as Styled from './styles';
-import { Role } from '@/types/Login';
+import { Role } from '@/types/User';
 
 export default function Header() {
 
@@ -65,6 +65,24 @@ export default function Header() {
                             Usuários
                         </Link>
                     </li>
+                    <li>
+                        <Link href="/dashboard/agendamento-profissional">
+                            Agendar profissional
+                        </Link>
+                        <div style={{ position: 'absolute', display: 'none', background: '#FFF', width: 200, borderRadius: 5, top: 50 }}>
+                            <ul style={{ display: 'flex', flexDirection: 'column' }}>
+                                <li>
+                                    adm
+                                </li>
+                                <li>
+                                    svs
+                                </li>
+                                <li>
+                                    usu
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             );
         }
@@ -92,7 +110,7 @@ export default function Header() {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/tarefas">
+                        <Link href="dashboard/tarefas">
                             Tarefas
                         </Link>
                     </li>

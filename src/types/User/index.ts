@@ -15,6 +15,12 @@ export interface IUser {
     role: Role;
 }
 
+export interface IUserRegister {
+    name: string;
+    email: string;
+    role: number;
+}
+
 export interface IUserDecoded {
     nameid: string;
     role: string;

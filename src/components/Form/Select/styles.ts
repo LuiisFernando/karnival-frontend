@@ -1,15 +1,16 @@
 import styled from 'styled-components';
 
-export const InputContainer = styled.div`
+
+export const SelectContainer = styled.div`
     position: relative;
     height: 60px;
 `;
 
-interface InputProps {
+interface SelectProps {
     errors: any;
 }
 
-export const Input = styled.input<InputProps>`
+export const Select = styled.select<SelectProps>`
     border: ${props => props.errors ? '1px solid red !important' : '0'};
 
     width: 100%;

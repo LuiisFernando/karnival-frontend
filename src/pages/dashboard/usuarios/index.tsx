@@ -1,21 +1,32 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
+import Link from 'next/link';
+import Head from 'next/head';
+import { toast } from 'react-toastify';
+
 import { withSSRAuth } from "@/Utils/withAuth";
 import { getUsersService } from '@/services/userService';
-import Head from 'next/head';
+import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/ErrorMessage.string';
+
 import { Container } from '@/styles/Grid';
+
+import * as Styled from '@/styles/pages/dashboard/usuarios/styles';
 
 function Usuarios() {
     const [users, setUsers] = useState([]);
 
     async function getUsers() {
-        const response = await getUsersService();
-        console.log(response.data);
-        setUsers(response.data);
+        try {
+            const response = await getUsersService();
+            console.log(response.data);
+            setUsers(response.data);
+        } catch (e: any) {
+            const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
+            toast.error(errorMessage);
+        }
     }
     useEffect(() => {
         getUsers();
-        // console.log(users);
     }, []);
 
     return (
@@ -25,6 +36,13 @@ function Usuarios() {
             </Head>
             <Container>
                 <h1>Usuarios</h1>
+
+
+                <Styled.FilterContainer>
+                    <input type="text" name="filter" placeholder="Filtre por Nome ou E-mail" />
+
+                    <Link href="/dashboard/usuarios/cadastro">Cadastrar</Link>
+                </Styled.FilterContainer>
 
                 <table style={{ width: '100%' }}>
                     <thead>

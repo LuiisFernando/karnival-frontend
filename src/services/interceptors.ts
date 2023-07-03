@@ -2,10 +2,8 @@
 import {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import { parseCookies } from "nookies";
 
-let ctx: any;
-
 const onRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-    const { ['karnival.token']: token } = parseCookies(ctx);
+    const { ['karnival.token']: token } = parseCookies();
 
     if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
@@ -17,22 +15,21 @@ const onRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConf
 }
 
 const onRequestError = (error: AxiosError): Promise<AxiosError> => {
-    console.error(`[request error] [${JSON.stringify(error)}]`);
+    // console.error(`[request error] [${JSON.stringify(error)}]`);
     return Promise.reject(error);
 }
 
 const onResponse = (response: AxiosResponse): AxiosResponse => {
-    console.info(`[response] [${JSON.stringify(response)}]`);
+    // console.info(`[response] [${JSON.stringify(response)}]`);
     return response;
 }
 
 const onResponseError = (error: AxiosError): Promise<AxiosError> => {
-    console.error(`[response error] [${JSON.stringify(error)}]`);
+    // console.error(`[response error] [${JSON.stringify(error)}]`);
     return Promise.reject(error);
 }
 
 export function setupInterceptorsTo(axiosInstance: AxiosInstance, _ctx: any): AxiosInstance {
-    ctx = _ctx;
     axiosInstance.interceptors.request.use(onRequest, onRequestError);
     axiosInstance.interceptors.response.use(onResponse, onResponseError);
     return axiosInstance;

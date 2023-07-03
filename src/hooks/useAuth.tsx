@@ -2,9 +2,11 @@ import { ReactNode, createContext, useContext, useState, useEffect } from "react
 import { useRouter } from 'next/router';
 import { setCookie, parseCookies, destroyCookie } from "nookies";
 import jwt_decode from 'jwt-decode';
+import { toast } from "react-toastify";
 
+import { IUser, IUserDecoded, ILoginForm, Role } from "@/types/User";
+import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from "@/Utils/ErrorMessage.string";
 import { loginService } from "@/services/authenticationService";
-import { IUser, IUserDecoded, ILoginForm, Role } from "@/types/Login";
 
 type AuthProviderType = {
 	children: ReactNode;
@@ -38,20 +40,25 @@ export function AuthProvider({ children }: AuthProviderType ) {
     }, []);
 
     async function login(data: ILoginForm) {
-        const response = await loginService(data.email, data.password);
-        
-        destroyCookie({}, 'karnival.token', {
-            path: '/'
-        });
-
-        setCookie(undefined, 'karnival.token', response.data.token, {
-            maxAge: 60 * 60 * 24 * 7, // 7 dias
-            path: '/'
-        });
-
-        setUser(response.data.user);
-
-        route.push("/");
+        try {
+            const response = await loginService(data.email, data.password);
+            
+            destroyCookie({}, 'karnival.token', {
+                path: '/'
+            });
+    
+            setCookie(undefined, 'karnival.token', response.data.token, {
+                maxAge: 60 * 60 * 24 * 7, // 7 dias
+                path: '/'
+            });
+    
+            setUser(response.data.user);
+    
+            route.push("/");
+        } catch(e: any) {
+            const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
+            toast.error(errorMessage);
+        }
     }
 
     async function logout() {

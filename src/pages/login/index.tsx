@@ -9,7 +9,7 @@ import { loginSchema } from "@/Utils/schemas/user/loginSchema";
 
 import { useAuth } from "@/hooks/useAuth";
 
-import { ILoginForm } from "@/types/Login";
+import { ILoginForm } from "@/types/User";
 
 import { Container } from "@/styles/Grid";
 import * as Styled from '@/styles/pages/login/styles';

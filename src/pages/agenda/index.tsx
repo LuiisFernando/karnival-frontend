@@ -5,6 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import 'moment/locale/pt-br';
 import moment from 'moment';
 import Head from "next/head";
+import { Container } from "@/styles/Grid";
 
 moment.locale("moment/locale/pt-br");
 
@@ -55,9 +56,11 @@ export default function Agenda() {
   const [defaultView, setDetaultView] = useState<View>('week');
 
   const eventos = [
-    { start: dataInicial1, end: dataFim1, title: "reservado", teste: '123', blocked: true },
-    { start: dataInicial12, end: dataFim2, title: "reservado", teste: '321' },
-    { start: dia27Ini, end: dia27Fim, title: "reservado", teste: '321' }
+    { start: dataInicial1, end: dataFim1, title: "reservado", paid: true },
+    { start: dataInicial12, end: dataFim2, title: "reservado", paid: true },
+    { start: dataInicial12, end: dataFim2, title: "reservado2", paid: false },
+    { start: dataInicial12, end: dataFim2, title: "reservado3", paid: true },
+    { start: dia27Ini, end: dia27Fim, title: "reservado", paid: true }
   ];
 
   const [eventsData, setEventsData] = useState<any>(eventos);
@@ -112,7 +115,7 @@ export default function Agenda() {
 
   function eventPropGetter(event: any, start: any, end: any, isSelected: any) {
     var style = {
-        backgroundColor: isSelected ? 'red' : 'blue',
+        backgroundColor: event.paid ? 'green' : 'red',
         borderRadius: '5px',
         opacity: 0.4,
         color: '#FFF',
@@ -140,34 +143,36 @@ export default function Agenda() {
     <Head>
       <title>Karnival: Agenda</title>
     </Head>
-      <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 50 }}>
-        <Calendar
-          popup
-          defaultView={defaultView}
-          onView={setDetaultView}
-          min={minDate}
-          max={maxDate}
-          step={30}
-          views={["day", "week", "month", "agenda"]}
-          culture="pt-BR"
-          selectable
-          localizer={localizer}
-          defaultDate={new Date()}
-          events={eventsData}
-          style={{ height: '600px', width: '90%' }}
-          onSelectEvent={(event) => alert(event.title)}
-          onSelectSlot={handleSelect}
-          messages={defaultMessages}
-          eventPropGetter={eventPropGetter}
-          components={{
-            month: {
-              header: HeaderCellContent,
-              dateHeader: DateCellContent
-            }
-          }}
-          dayPropGetter={customDayPropGetter}
-        />
-      </div>
+    <Container>
+        <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 50 }}>
+          <Calendar
+            popup
+            defaultView={defaultView}
+            onView={setDetaultView}
+            min={minDate}
+            max={maxDate}
+            step={30}
+            views={["day", "week", "month", "agenda"]}
+            culture="pt-BR"
+            selectable
+            localizer={localizer}
+            defaultDate={new Date()}
+            events={eventsData}
+            style={{ height: '600px', width: '100%' }}
+            onSelectEvent={(event) => alert(event.title)}
+            onSelectSlot={handleSelect}
+            messages={defaultMessages}
+            eventPropGetter={eventPropGetter}
+            components={{
+              month: {
+                header: HeaderCellContent,
+                dateHeader: DateCellContent
+              }
+            }}
+            dayPropGetter={customDayPropGetter}
+          />
+        </div>
+    </Container>
     </>
   );
 }

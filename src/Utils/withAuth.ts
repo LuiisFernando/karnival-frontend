@@ -1,14 +1,14 @@
 
 import { parseCookies } from 'nookies';
 import jwt_decode from 'jwt-decode';
-import { IUser } from '@/types/Login';
+import { IUser } from '@/types/User';
 
 export function withSSRAuth(fn: Function, onlyAdm: boolean) {
     return async (ctx: any) => {
         try {
             const cookies = parseCookies(ctx);
             const token = cookies['karnival.token'];
-            console.log('caiu')
+            
             if (!token) {
                 ctx.res.statusCode = 302;
                 ctx.res.setHeader('Location', `/login`);
