@@ -12,7 +12,7 @@ import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from "@/Utils/Err
 import { Container } from "@/styles/Grid";
 
 export default function Profissionais() {
-    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IPersonRegister>({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<IPersonRegister>({
         resolver: yupResolver(personRegisterSchema),
     });
 

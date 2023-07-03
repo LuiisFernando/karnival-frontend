@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import 'moment/locale/pt-br';
-import moment from 'moment';
 import Head from "next/head";
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import 'moment/locale/pt-br';
+
 import { Container } from "@/styles/Grid";
 
 moment.locale("moment/locale/pt-br");

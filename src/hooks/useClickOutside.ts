@@ -7,8 +7,6 @@ export function useClickOutside(ref: any, fn: Function) {
      */
     function handleClickOutside(event: any) {
       if (ref.current && !ref.current.contains(event.target)) {
-        //   alert("You clicked outside of me!");
-        // debugger
         fn();
       }
     }
@@ -18,5 +16,5 @@ export function useClickOutside(ref: any, fn: Function) {
       // Unbind the event listener on clean up
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [ref]);
+  }, [ref, fn]);
 }

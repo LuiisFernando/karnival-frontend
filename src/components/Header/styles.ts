@@ -125,6 +125,7 @@ export const ULSubMenu = styled.ul`
     align-items: flex-start;
     justify-content: center;
     padding: 10px 0;
+    width: 100%;
 
     li:not(:last-child) {
         margin-bottom: 10px;
