@@ -1,4 +1,8 @@
 import Head from "next/head";
+import { GetServerSideProps } from 'next';
+
+import { withSSRAuth } from "@/Utils/withAuth";
+
 import { Container } from "@/styles/Grid";
 
 export default function Tarefas() {
@@ -13,3 +17,10 @@ export default function Tarefas() {
         </>
     );
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx: any) => {
+    return {
+        props: {
+        }
+    }
+}, true);

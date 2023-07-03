@@ -9,24 +9,28 @@ export function withSSRAuth(fn: Function, onlyAdm: boolean) {
             const cookies = parseCookies(ctx);
             const token = cookies['karnival.token'];
             
-            if (!token) {
-                ctx.res.statusCode = 302;
-                ctx.res.setHeader('Location', `/login`);
-                return { props: {} };
+            if (!token) {               
+                return {
+                    redirect: {
+                        permanent: false,
+                        destination: '/'
+                    }
+                };
             }
-
+            
             const tokenDecode = jwt_decode<IUser>(token);
 
             if (onlyAdm && tokenDecode.role === 'Administrador') {
                 return await fn(ctx);
 
             } else {
-                ctx.res.statusCode = 302;
-                ctx.res.setHeader('Location', `/login`);
-                return { props: {} };
+                return {
+                    redirect: {
+                        permanent: false,
+                        destination: '/'
+                    }
+                };
             }
-
-
 
             // if (tokenDecode.roles === null) {
             //     ctx.res.statusCode = 302;

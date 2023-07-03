@@ -1,8 +1,10 @@
 import Head from "next/head";
+import { GetServerSideProps } from 'next';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from "react-toastify";
 
+import { withSSRAuth } from "@/Utils/withAuth";
 import { IPersonRegister } from "@/types/Person";
 import { personRegisterSchema } from "@/Utils/schemas/person/personRegisterSchema";
 
@@ -18,9 +20,6 @@ export default function Profissionais() {
 
     async function onSubmit(data: any) {
         try {
-            // await createUser(data);
-            // toast.success(UserCreatedSuccess);
-            // reset();
             console.log(data);
         } catch (e: any) {
             const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
@@ -47,3 +46,10 @@ export default function Profissionais() {
         </>
     );
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx: any) => {
+    return {
+        props: {
+        }
+    }
+}, true);
