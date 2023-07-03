@@ -72,27 +72,27 @@ export default function Header() {
                         <div className="subMenu">
                             <Styled.ULSubMenu>
                                 <li>
-                                    <Link href="/dashboard/agendamento-profissional">
+                                    <Link href="/administrativo/agendamento-profissional">
                                         Agendar profissional
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/dashboard/profissionais">
+                                    <Link href="/administrativo/profissionais">
                                         Profissionais
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/dashboard/clientes">
+                                    <Link href="/administrativo/clientes">
                                         Clientes
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/dashboard/usuarios">
+                                    <Link href="/administrativo/usuarios">
                                         Usuários
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/dashboard/tarefas">
+                                    <Link href="/administrativo/tarefas">
                                         Tarefas
                                     </Link>
                                 </li>
@@ -126,7 +126,7 @@ export default function Header() {
                         </Link>
                     </li>
                     <li>
-                        <Link href="dashboard/tarefas">
+                        <Link href="administrativo/tarefas">
                             Tarefas
                         </Link>
                     </li>

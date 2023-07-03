@@ -10,7 +10,7 @@ import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/Err
 
 import { Container } from '@/styles/Grid';
 
-import * as Styled from '@/styles/pages/dashboard/usuarios/styles';
+import * as Styled from '@/styles/pages/administrativo/usuarios/styles';
 
 function Usuarios() {
     const [users, setUsers] = useState([]);
@@ -41,7 +41,7 @@ function Usuarios() {
                 <Styled.FilterContainer>
                     <input type="text" name="filter" placeholder="Filtre por Nome ou E-mail" />
 
-                    <Link href="/dashboard/usuarios/cadastro">Cadastrar</Link>
+                    <Link href="/administrativo/usuarios/cadastro">Cadastrar</Link>
                 </Styled.FilterContainer>
 
                 <table style={{ width: '100%' }}>
