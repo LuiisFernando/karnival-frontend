@@ -1,14 +1,14 @@
-import Head from "next/head";
 import { Container } from "@/styles/Grid";
+import Head from "next/head";
 
-export default function Tarefas() {
+export default function Clientes() {
     return (
         <>
             <Head>
-                <title>Karnival: Tarefas</title>
+                <title>Karnival: Clientes</title>
             </Head>
             <Container>
-                <h1>Tarefas</h1>
+                <h1>Clientes</h1>
             </Container>
         </>
     );

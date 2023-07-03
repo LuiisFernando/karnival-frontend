@@ -94,3 +94,39 @@ export const Navbar = styled.nav`
         }
     }
 `;
+
+
+interface LiProps {
+    active: boolean;
+}
+
+export const LiComSub = styled.li<LiProps>`
+    
+    cursor: pointer;
+    position: relative;
+
+    .subMenu {
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 6px 12px;
+        position: absolute;
+        display: ${props => props.active ? 'flex' : 'none'};
+        align-items: flex-start;
+        justify-content: start;
+        background: #FFF;
+        width: 220px;
+        border-radius: 5px;
+        top: 50px;
+        z-index: 1;
+    }
+`;
+
+export const ULSubMenu = styled.ul`
+    display: flex; 
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 10px 0;
+
+    li:not(:last-child) {
+        margin-bottom: 10px;
+    }
+`;

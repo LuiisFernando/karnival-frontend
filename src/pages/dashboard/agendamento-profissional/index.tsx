@@ -1,3 +1,4 @@
+import Head  from 'next/head';
 import { GetServerSideProps } from 'next';
 
 import { withSSRAuth } from "@/Utils/withAuth";
@@ -6,10 +7,15 @@ import { Container } from "@/styles/Grid";
 
 export default function AgendamentoProfissional() {
     return (
-        <Container>
-            <h1>agendamento profissional</h1>
-            
-        </Container>
+        <>
+            <Head>
+                <title>Karnival: Agendamento profissionais</title>
+            </Head>
+            <Container>
+                <h1>agendamento profissional</h1>
+                
+            </Container>
+        </>
     );
 }
 

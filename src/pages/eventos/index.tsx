@@ -1,3 +1,4 @@
+import { Container } from "@/styles/Grid";
 import Head from "next/head"
 
 export default function Eventos() {
@@ -6,7 +7,9 @@ export default function Eventos() {
             <Head>
                 <title>Karnival: Eventos</title>
             </Head>
-            <h1>Eventos</h1>
+            <Container>
+                <h1>Eventos</h1>
+            </Container>
         </>
     );
 }

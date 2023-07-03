@@ -1,14 +1,21 @@
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { FaUser } from "react-icons/fa";
 
 import { useAuth } from '@/hooks/useAuth';
-
-import * as Styled from './styles';
+import { useClickOutside } from '@/hooks/useClickOutside';
 import { Role } from '@/types/User';
 
-export default function Header() {
+import * as Styled from './styles';
 
+export default function Header() {
+    const [subAdmActive, setSubAdmActive] = useState(false);
     const { user, logout } = useAuth();
+
+    const wrapperRef = useRef(null);
+    useClickOutside(wrapperRef, () => {
+        setSubAdmActive(false);
+    });
 
     function renderMenu() {
         if (!user) {
@@ -60,29 +67,38 @@ export default function Header() {
                             Serviços
                         </Link>
                     </li>
-                    <li>
-                        <Link href="/dashboard/usuarios">
-                            Usuários
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/dashboard/agendamento-profissional">
-                            Agendar profissional
-                        </Link>
-                        <div style={{ position: 'absolute', display: 'none', background: '#FFF', width: 200, borderRadius: 5, top: 50 }}>
-                            <ul style={{ display: 'flex', flexDirection: 'column' }}>
+                    <Styled.LiComSub onClick={() => setSubAdmActive(!subAdmActive)} active={subAdmActive} ref={wrapperRef}>
+                        <span>Administrativo</span>
+                        <div className="subMenu">
+                            <Styled.ULSubMenu>
                                 <li>
-                                    adm
+                                    <Link href="/dashboard/agendamento-profissional">
+                                        Agendar profissional
+                                    </Link>
                                 </li>
                                 <li>
-                                    svs
+                                    <Link href="/dashboard/profissionais">
+                                        Profissionais
+                                    </Link>
                                 </li>
                                 <li>
-                                    usu
+                                    <Link href="/dashboard/clientes">
+                                        Clientes
+                                    </Link>
                                 </li>
-                            </ul>
+                                <li>
+                                    <Link href="/dashboard/usuarios">
+                                        Usuários
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href="/dashboard/tarefas">
+                                        Tarefas
+                                    </Link>
+                                </li>
+                            </Styled.ULSubMenu>
                         </div>
-                    </li>
+                    </Styled.LiComSub>
                 </ul>
             );
         }
