@@ -37,9 +37,15 @@ export const HeaderContainer = styled(Container)`
 export const HeaderTitle = styled(Link)`
     font-family: 'Ysabeau SC', sans-serif;
     font-size: 2rem;
-    margin-right: 100px;
     text-decoration: none;
     color: #000;
+    align-self: center;
+    text-align: center;
+
+
+    @media (min-width: ${C.XL}) {
+        margin-right: 100px;
+    }
 `;
 
 export const NavContainer = styled.div`

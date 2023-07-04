@@ -2,6 +2,7 @@ import Head from "next/head";
 
 import * as Styled from '@/styles/pages/Home';
 import Carousel from '@/components/Carousel';
+import { Container } from "@/styles/Grid";
 
 const SlickArrowLeft = ({ currentSlide, slideCount, ...props }: any) => (
   <button
@@ -74,6 +75,10 @@ export default function Home() {
           </Styled.ItemCarousel>
         </Carousel>
       </Styled.HeaderCarousel>
+
+      <Container>
+        <p>This is KARNIVAL</p>
+      </Container>
 
     </>
     
