@@ -1,10 +1,10 @@
 import api from "../api";
-import { IUserRegister } from '@/types/User';
+import { IUser, IUserCreate } from '@/types/User';
 
 export async function getUsersService() {
-    return await api.get('user/GetUsers');
+    return await api.get<IUser[]>('user/GetUsers');
 }
 
-export async function createUser(user: IUserRegister) {
+export async function createUser(user: IUserCreate) {
     return await api.post('user/CreateUser', user);
 }

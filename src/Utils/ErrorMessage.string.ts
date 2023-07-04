@@ -4,3 +4,5 @@ export const ErrorMessageDefaultWithMessage = (message: string) => `Ops ... ${me
 
 
 export const UserCreatedSuccess = "Usuário criado com sucesso";
+
+export const PersonProfessionalCreatedSuccess = "Profissional criado com sucesso";

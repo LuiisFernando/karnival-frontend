@@ -1,32 +1,28 @@
-import Head from "next/head";
+import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { toast } from "react-toastify";
+import Head from "next/head";
+import Link from "next/link";
 
+import { IPerson } from '@/types/Person';
 import { withSSRAuth } from "@/Utils/withAuth";
-import { IPersonRegister } from "@/types/Person";
-import { personRegisterSchema } from "@/Utils/schemas/person/personRegisterSchema";
-
-import Input from "@/components/Form/Input";
-import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from "@/Utils/ErrorMessage.string";
+import { formatCellphoneToMask } from '@/Utils/Functions';
+import { getProfessionalsService } from '@/services/personService';
 
 import { Container } from "@/styles/Grid";
 
-export default function Profissionais() {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<IPersonRegister>({
-        resolver: yupResolver(personRegisterSchema),
-    });
+import * as Styled from "@/styles/pages/administrativo/profissionais/styles";
 
-    async function onSubmit(data: any) {
-        try {
-            console.log(data);
-        } catch (e: any) {
-            const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
-            toast.error(errorMessage);
-        }
+export default function Profissionais() {
+    const [professionals, setProfessionals] = useState<IPerson[]>([]);
+
+    async function getProfessionals() {
+        const response = await getProfessionalsService();
+        setProfessionals(response.data);
     }
 
+    useEffect(() => {
+        getProfessionals();
+    }, []); 
 
     return (
         <>
@@ -36,12 +32,30 @@ export default function Profissionais() {
             <Container>
                 <h1>Profissionais</h1>
 
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <Input name="name" register={register} errors={errors} placeholder="Nome do profissional" />
-                    <Input name="email" register={register} errors={errors} placeholder="E-mail do profissional" />
-                    <Input name="cellphone" register={register} errors={errors} placeholder="Celular do profissional" />
-                    <button type="submit">Cadastrar</button>
-                </form>
+                <Styled.FilterContainer>
+                    <input type="text" name="filter" placeholder="Filtre por Nome ou E-mail" />
+
+                    <Link href="/administrativo/profissionais/cadastro">Cadastrar</Link>
+                </Styled.FilterContainer>
+
+                <table style={{ width: '100%' }}>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Celular</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {professionals?.map((pro: IPerson, index: any) => (
+                            <tr key={index}>
+                                <td>{pro.name}</td>
+                                <td>{pro.email}</td>
+                                <td>{formatCellphoneToMask(pro.cellphone)}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </Container>
         </>
     );

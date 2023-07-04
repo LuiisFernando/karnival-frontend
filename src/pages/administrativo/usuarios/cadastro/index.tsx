@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import Input from '@/components/Form/Input';
-import { IUserRegister } from '@/types/User';
+import { IUserCreate } from '@/types/User';
 import { withSSRAuth } from "@/Utils/withAuth";
 import { userRegisterSchema } from '@/Utils/schemas/user/registerUserSchema';
 
@@ -16,7 +16,7 @@ import { toast } from 'react-toastify';
 import { UserCreatedSuccess, ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/ErrorMessage.string';
 
 function Cadastro() {
-    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IUserRegister>({
+    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IUserCreate>({
         resolver: yupResolver(userRegisterSchema),
     });
 
@@ -31,7 +31,7 @@ function Cadastro() {
         }
     ];
 
-    async function onSubmit(data: IUserRegister) {
+    async function onSubmit(data: IUserCreate) {
         try {
             await createUser(data);
             toast.success(UserCreatedSuccess);

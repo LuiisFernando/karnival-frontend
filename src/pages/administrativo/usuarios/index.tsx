@@ -11,14 +11,14 @@ import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/Err
 import { Container } from '@/styles/Grid';
 
 import * as Styled from '@/styles/pages/administrativo/usuarios/styles';
+import { IUser } from '@/types/User';
 
 function Usuarios() {
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState<IUser[]>([]);
 
     async function getUsers() {
         try {
             const response = await getUsersService();
-            console.log(response.data);
             setUsers(response.data);
         } catch (e: any) {
             const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;

@@ -15,7 +15,7 @@ export interface IUser {
     role: Role;
 }
 
-export interface IUserRegister {
+export interface IUserCreate {
     name: string;
     email: string;
     role: number;

@@ -1,0 +1,1 @@
+export const maskCellphone = "(99) 99999-9999";
