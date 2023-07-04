@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Head from "next/head";
 import { GetServerSideProps } from 'next';
 import { useForm } from 'react-hook-form';
@@ -9,6 +10,8 @@ import { withSSRAuth } from "@/Utils/withAuth";
 import { Container } from "@/styles/Grid";
 
 export default function Servicos() {
+    const [services, setServices] = useState([]);
+
     return (
         <>
             <Head>
@@ -21,7 +24,6 @@ export default function Servicos() {
         </>
     );
 }
-
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx: any) => {
     return {

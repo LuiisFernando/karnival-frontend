@@ -9,9 +9,16 @@ const GlobalStyles = createGlobalStyle`
 	-webkit-font-smoothing: antialiased;
   }
 
+  #__next {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
 body {
 	font-family: 'Poppins', sans-serif;
-	position: relative;
+  position: relative;
+  min-height: 100vh;
 }
 
 table {
@@ -29,6 +36,21 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent; 
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #AEAEAE; 
+    border-radius: 4px;
+  }
 
 `;
 

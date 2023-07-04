@@ -8,6 +8,10 @@ export const Container = styled.div`
   margin-right: auto;
   margin-left: auto;
 
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
 /* BREAKPOINT 576px */
   @media (min-width: ${C.SMIPHONE5}) {
     max-width: 300px;

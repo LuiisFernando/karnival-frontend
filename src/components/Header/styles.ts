@@ -8,6 +8,7 @@ export const Header = styled.header`
   height: 70px;
   z-index: 9999;
   display: flex;
+  flex-direction: row;
   transition: all 0.4s ease-in;
   border: none;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 6px 12px;
@@ -17,8 +18,8 @@ export const HeaderWrap = styled.div`
     padding: 0 20px;
     width: 100%;
     display: flex;
+    flex-direction: row;
     align-items: center;
-    /* justify-content: center; */
     height: 100%;
     transition: all .4s;
     background-color: transparent;
@@ -28,6 +29,7 @@ export const HeaderContainer = styled(Container)`
     @media (min-width: ${C.XL}) {
         width: 100%;
         display: flex;
+        flex-direction: row;
         align-items: center;
     }
 `;

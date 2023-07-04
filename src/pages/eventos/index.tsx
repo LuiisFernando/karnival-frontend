@@ -9,6 +9,10 @@ export default function Eventos() {
             </Head>
             <Container>
                 <h1>Eventos</h1>
+
+                <div style={{ backgroundColor: 'red' }}>
+                    <p>teste</p>
+                </div>
             </Container>
         </>
     );

@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from "next/head";
 import Link from "next/link";
+import { toast } from 'react-toastify';
 
 import { IPerson } from '@/types/Person';
 import { withSSRAuth } from "@/Utils/withAuth";
 import { formatCellphoneToMask } from '@/Utils/Functions';
+import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/ErrorMessage.string';
 import { getProfessionalsService } from '@/services/personService';
 
 import { Container } from "@/styles/Grid";
@@ -16,8 +18,13 @@ export default function Profissionais() {
     const [professionals, setProfessionals] = useState<IPerson[]>([]);
 
     async function getProfessionals() {
-        const response = await getProfessionalsService();
-        setProfessionals(response.data);
+        try {
+            const response = await getProfessionalsService();
+            setProfessionals(response.data);
+        } catch (e: any) {
+            const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
+            toast.error(errorMessage);
+        }
     }
 
     useEffect(() => {
