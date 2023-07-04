@@ -77,11 +77,6 @@ export default function Header() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/administrativo/servicos">
-                                        Serviços
-                                    </Link>
-                                </li>
-                                <li>
                                     <Link href="/administrativo/profissionais">
                                         Profissionais
                                     </Link>
@@ -94,6 +89,11 @@ export default function Header() {
                                 <li>
                                     <Link href="/administrativo/usuarios">
                                         Usuários
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href="/administrativo/servicos">
+                                        Serviços
                                     </Link>
                                 </li>
                                 <li>

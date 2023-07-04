@@ -1,11 +1,29 @@
-import Head from "next/head";
+import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
+import Head from "next/head";
+import Link from "next/link";
 
+import { IPerson } from '@/types/Person';
 import { withSSRAuth } from "@/Utils/withAuth";
+import { formatCellphoneToMask } from '@/Utils/Functions';
+import { getClientService } from '@/services/personService';
 
 import { Container } from "@/styles/Grid";
 
+import * as Styled from "@/styles/pages/administrativo/profissionais/styles";
+
 export default function Clientes() {
+    const [clients, setClients] = useState<IPerson[]>([]);
+
+    async function getProfessionals() {
+        const response = await getClientService();
+        setClients(response.data);
+    }
+
+    useEffect(() => {
+        getProfessionals();
+    }, []); 
+
     return (
         <>
             <Head>
@@ -13,6 +31,31 @@ export default function Clientes() {
             </Head>
             <Container>
                 <h1>Clientes</h1>
+
+                <Styled.FilterContainer>
+                    <input type="text" name="filter" placeholder="Filtre por Nome ou E-mail" />
+
+                    <Link href="/administrativo/clientes/cadastro">Cadastrar</Link>
+                </Styled.FilterContainer>
+
+                <table style={{ width: '100%' }}>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Celular</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {clients?.map((pro: IPerson, index: any) => (
+                            <tr key={index}>
+                                <td>{pro.name}</td>
+                                <td>{pro.email}</td>
+                                <td>{pro.cellphone ? formatCellphoneToMask(pro.cellphone) : ""}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </Container>
         </>
     );

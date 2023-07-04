@@ -4,29 +4,33 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from "react-toastify";
 
-import { withSSRAuth } from "@/Utils/withAuth";
-import { IPersonCreate  } from "@/types/Person";
-import { personRegisterSchema } from "@/Utils/schemas/person/personRegisterSchema";
-
 import Input from "@/components/Form/Input";
+
+import { IPersonCreate  } from "@/types/Person";
+
+import { withSSRAuth } from "@/Utils/withAuth";
+import { personRegisterSchema } from "@/Utils/schemas/person/personRegisterSchema";
 import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonProfessionalCreatedSuccess } from "@/Utils/ErrorMessage.string";
+import { onlyNumbers } from "@/Utils/Functions";
 import { maskCellphone } from "@/Utils/masks";
 
+import { createPersonClient } from "@/services/personService";
+
 import { Container } from "@/styles/Grid";
-import { onlyNumbers } from "@/Utils/Functions";
-import { createPersonProfessional } from "@/services/personService";
 
 export default function Cadastro() {
-    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IPersonCreate >({
+    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IPersonCreate>({
         resolver: yupResolver(personRegisterSchema),
     });
 
     async function onSubmit(data: IPersonCreate ) {
+        
         try {
+            debugger
             if (data.cellphone)
                 data.cellphone = onlyNumbers(data.cellphone);
                 
-            await createPersonProfessional(data);
+            await createPersonClient(data);
             toast.success(PersonProfessionalCreatedSuccess);
             reset();
             setValue('cellphone', "");
@@ -40,15 +44,15 @@ export default function Cadastro() {
     return (
         <>
             <Head>
-                <title>Karnival: Profissionais</title>
+                <title>Karnival: Clientes</title>
             </Head>
             <Container>
-                <h1>Profissionais</h1>
+                <h1>Clientes</h1>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <Input name="name" register={register} errors={errors} placeholder="Nome do profissional" />
-                    <Input name="email" register={register} errors={errors} placeholder="E-mail do profissional" />
-                    <Input name="cellphone" mask={maskCellphone} register={register} errors={errors} placeholder="Celular do profissional" />
+                    <Input name="name" register={register} errors={errors} placeholder="Nome do cliente" />
+                    <Input name="email" register={register} errors={errors} placeholder="E-mail do cliente" />
+                    <Input name="cellphone" mask={maskCellphone} register={register} errors={errors} placeholder="Celular do cliente" />
                     <button type="submit">Cadastrar</button>
                 </form>
             </Container>

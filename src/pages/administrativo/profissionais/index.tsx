@@ -51,7 +51,7 @@ export default function Profissionais() {
                             <tr key={index}>
                                 <td>{pro.name}</td>
                                 <td>{pro.email}</td>
-                                <td>{formatCellphoneToMask(pro.cellphone)}</td>
+                                <td>{pro.cellphone ? formatCellphoneToMask(pro.cellphone) : ""}</td>
                             </tr>
                         ))}
                     </tbody>
