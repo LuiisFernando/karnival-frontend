@@ -1,8 +1,8 @@
+export const FieldRequested = "Campo obrigatório";
+export const InvalidEmail = "Insira um e-mail valido";
+export const MinCharName = "Digite pelo menos 3 caracteres";
+export const SelectInvalidOption = "Selecione uma opção valida";
 export const ErrorMessageDefault = "Ops ...Ocorreu um erro";
-
 export const ErrorMessageDefaultWithMessage = (message: string) => `Ops ... ${message}`;
-
-
 export const UserCreatedSuccess = "Usuário criado com sucesso";
-
 export const PersonProfessionalCreatedSuccess = "Profissional criado com sucesso";

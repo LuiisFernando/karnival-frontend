@@ -1,7 +1,8 @@
 import * as yup from "yup";
+import { FieldRequested, InvalidEmail, MinCharName, SelectInvalidOption } from "@/Utils/ErrorMessage.string";
 
 export const userRegisterSchema = yup.object({
-    name: yup.string().min(3, "Digite pelo menos 3 caracteres").required('Campo obrigatório'),
-    email: yup.string().email('Insira um e-mail valido').required('Campo obrigatório'),
-    role: yup.number().required().positive().integer().typeError('Selecione uma opção valida')
+    name: yup.string().min(3, MinCharName).required(FieldRequested),
+    email: yup.string().email(InvalidEmail).required(FieldRequested),
+    role: yup.number().required().positive().integer().typeError(SelectInvalidOption)
 });
