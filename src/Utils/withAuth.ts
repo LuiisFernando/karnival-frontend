@@ -2,9 +2,10 @@
 import { parseCookies } from 'nookies';
 import jwt_decode from 'jwt-decode';
 import { IUser } from '@/types/User';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
-export function withSSRAuth(fn: Function, onlyAdm: boolean) {
-    return async (ctx: any) => {
+export function withSSRAuth<P>(fn: Function, onlyAdm: boolean) {
+    return async (ctx: GetServerSidePropsContext): Promise<GetServerSidePropsResult<P>> => {
         try {
             const cookies = parseCookies(ctx);
             const token = cookies['karnival.token'];
@@ -50,9 +51,12 @@ export function withSSRAuth(fn: Function, onlyAdm: boolean) {
             return await fn(ctx);
         } catch (err) {
             console.log('erro >>>> ', err);
-            ctx.res.statusCode = 302;
-            ctx.res.setHeader('Location', `/login`);
-            return { props: {} };
+            return {
+                redirect: {
+                    permanent: false,
+                    destination: '/'
+                }
+             };
         }
     }
 }
