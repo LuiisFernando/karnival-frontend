@@ -97,8 +97,8 @@ export default function Header() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/administrativo/tarefas">
-                                        Tarefas
+                                    <Link href="/administrativo/gerenciar-tarefas">
+                                        Gerenciar Tarefas
                                     </Link>
                                 </li>
                             </Styled.ULSubMenu>

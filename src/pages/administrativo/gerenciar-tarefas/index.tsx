@@ -6,14 +6,14 @@ import { withSSRAuth } from "@/Utils/withAuth";
 
 import { Container } from "@/styles/Grid";
 
-export default function Tarefas() {
+export default function GerenciarTarefas() {
     return (
         <>
             <Head>
-                <title>Karnival: Tarefas</title>
+                <title>Karnival: Gerenciamento de tarefas</title>
             </Head>
             <Container>
-                <h1>Tarefas</h1>
+                <p>teste</p>
             </Container>
         </>
     );
@@ -24,4 +24,4 @@ export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx: an
         props: {
         }
     }
-}, Role.User);
+}, Role.Administrador);
