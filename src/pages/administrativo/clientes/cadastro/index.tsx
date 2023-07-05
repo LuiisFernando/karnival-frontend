@@ -11,7 +11,7 @@ import { IPersonCreate  } from "@/types/Person";
 
 import { withSSRAuth } from "@/Utils/withAuth";
 import { personRegisterSchema } from "@/Utils/schemas/person/personRegisterSchema";
-import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonProfessionalCreatedSuccess } from "@/Utils/ErrorMessage.string";
+import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonProfessionalCreatedSuccess } from "@/Utils/Messages.string";
 import { onlyNumbers } from "@/Utils/Functions";
 import { maskCellphone } from "@/Utils/masks";
 

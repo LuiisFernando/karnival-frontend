@@ -11,7 +11,7 @@ import { withSSRAuth } from "@/Utils/withAuth";
 import { personRegisterSchema } from "@/Utils/schemas/person/personRegisterSchema";
 
 import Input from "@/components/Form/Input";
-import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonProfessionalCreatedSuccess } from "@/Utils/ErrorMessage.string";
+import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonProfessionalCreatedSuccess } from "@/Utils/Messages.string";
 import { maskCellphone } from "@/Utils/masks";
 
 import { Container } from "@/styles/Grid";

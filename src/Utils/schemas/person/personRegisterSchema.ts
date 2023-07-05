@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { FieldRequested, InvalidEmail, MinCharName } from "@/Utils/ErrorMessage.string";
+import { FieldRequested, InvalidEmail, MinCharName } from "@/Utils/Messages.string";
 
 export const personRegisterSchema = yup.object({
     name: yup.string().min(3, MinCharName).required(FieldRequested),

@@ -5,7 +5,7 @@ import jwt_decode from 'jwt-decode';
 import { toast } from "react-toastify";
 
 import { IUser, IUserDecoded, ILoginForm, Role } from "@/types/User";
-import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from "@/Utils/ErrorMessage.string";
+import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from "@/Utils/Messages.string";
 import { loginService } from "@/services/authenticationService";
 
 type AuthProviderType = {

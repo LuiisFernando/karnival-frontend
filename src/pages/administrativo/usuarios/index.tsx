@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 import { IUser, Role } from '@/types/User';
 import { withSSRAuth } from "@/Utils/withAuth";
-import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/ErrorMessage.string';
+import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/Messages.string';
 import { getUsersService } from '@/services/userService';
 
 import { Container } from '@/styles/Grid';

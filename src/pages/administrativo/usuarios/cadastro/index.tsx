@@ -13,7 +13,7 @@ import { createUser } from "@/services/userService";
 import { Container } from '@/styles/Grid';
 import Select from '@/components/Form/Select';
 import { toast } from 'react-toastify';
-import { UserCreatedSuccess, ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/ErrorMessage.string';
+import { UserCreatedSuccess, ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/Messages.string';
 
 function Cadastro() {
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IUserCreate>({

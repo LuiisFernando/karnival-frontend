@@ -9,7 +9,7 @@ import { Role } from '@/types/User';
 
 import { withSSRAuth } from "@/Utils/withAuth";
 import { formatCellphoneToMask } from '@/Utils/Functions';
-import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/ErrorMessage.string';
+import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/Messages.string';
 import { getProfessionalsService } from '@/services/personService';
 
 import { Container } from "@/styles/Grid";
