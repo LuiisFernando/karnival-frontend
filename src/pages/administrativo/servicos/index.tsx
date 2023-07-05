@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from "react-toastify";
 
+import { Role } from "@/types/User";
 import { withSSRAuth } from "@/Utils/withAuth";
 
 import { Container } from "@/styles/Grid";
@@ -30,4 +31,4 @@ export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx: an
         props: {
         }
     }
-}, true);
+}, Role.Administrador);

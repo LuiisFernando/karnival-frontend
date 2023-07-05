@@ -1,6 +1,7 @@
 import Head  from 'next/head';
 import { GetServerSideProps } from 'next';
 
+import { Role } from '@/types/User';
 import { withSSRAuth } from "@/Utils/withAuth";
 
 import { Container } from "@/styles/Grid";
@@ -24,4 +25,4 @@ export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx: an
         props: {
         }
     }
-}, true);
+}, Role.Administrador);

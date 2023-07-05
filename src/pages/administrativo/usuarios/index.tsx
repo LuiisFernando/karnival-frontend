@@ -4,14 +4,14 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { toast } from 'react-toastify';
 
+import { IUser, Role } from '@/types/User';
 import { withSSRAuth } from "@/Utils/withAuth";
-import { getUsersService } from '@/services/userService';
 import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/ErrorMessage.string';
+import { getUsersService } from '@/services/userService';
 
 import { Container } from '@/styles/Grid';
 
 import * as Styled from '@/styles/pages/administrativo/usuarios/styles';
-import { IUser } from '@/types/User';
 
 function Usuarios() {
     const [users, setUsers] = useState<IUser[]>([]);
@@ -75,4 +75,4 @@ export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx: an
         props: {
         }
     }
-}, true);
+}, Role.Administrador);

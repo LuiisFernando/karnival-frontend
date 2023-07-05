@@ -1,10 +1,10 @@
 
 import { parseCookies } from 'nookies';
 import jwt_decode from 'jwt-decode';
-import { IUser } from '@/types/User';
+import { IUser, Role } from '@/types/User';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
-export function withSSRAuth<P>(fn: Function, onlyAdm: boolean) {
+export function withSSRAuth<P>(fn: Function, role: Role) {
     return async (ctx: GetServerSidePropsContext): Promise<GetServerSidePropsResult<P>> => {
         try {
             const cookies = parseCookies(ctx);
@@ -21,7 +21,7 @@ export function withSSRAuth<P>(fn: Function, onlyAdm: boolean) {
             
             const tokenDecode = jwt_decode<IUser>(token);
 
-            if (onlyAdm && tokenDecode.role === 'Administrador') {
+            if (tokenDecode.role === role) {
                 return await fn(ctx);
 
             } else {

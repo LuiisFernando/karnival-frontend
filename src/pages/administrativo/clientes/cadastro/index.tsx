@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 import Input from "@/components/Form/Input";
 
+import { Role } from "@/types/User";
 import { IPersonCreate  } from "@/types/Person";
 
 import { withSSRAuth } from "@/Utils/withAuth";
@@ -65,4 +66,4 @@ export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx: an
         props: {
         }
     }
-}, true);
+}, Role.Administrador);

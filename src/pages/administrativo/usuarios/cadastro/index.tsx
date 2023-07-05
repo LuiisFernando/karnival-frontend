@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import Input from '@/components/Form/Input';
-import { IUserCreate } from '@/types/User';
+import { IUserCreate, Role } from '@/types/User';
 import { withSSRAuth } from "@/Utils/withAuth";
 import { userRegisterSchema } from '@/Utils/schemas/user/registerUserSchema';
 
@@ -68,4 +68,4 @@ export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx: an
         props: {
         }
     }
-}, true);
+}, Role.Administrador);

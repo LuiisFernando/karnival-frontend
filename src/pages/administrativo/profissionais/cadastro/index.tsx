@@ -4,8 +4,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from "react-toastify";
 
-import { withSSRAuth } from "@/Utils/withAuth";
+import { Role } from "@/types/User";
 import { IPersonCreate  } from "@/types/Person";
+
+import { withSSRAuth } from "@/Utils/withAuth";
 import { personRegisterSchema } from "@/Utils/schemas/person/personRegisterSchema";
 
 import Input from "@/components/Form/Input";
@@ -61,4 +63,4 @@ export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx: an
         props: {
         }
     }
-}, true);
+}, Role.Administrador);

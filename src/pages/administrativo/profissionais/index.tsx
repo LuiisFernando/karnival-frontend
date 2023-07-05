@@ -5,6 +5,8 @@ import Link from "next/link";
 import { toast } from 'react-toastify';
 
 import { IPerson } from '@/types/Person';
+import { Role } from '@/types/User';
+
 import { withSSRAuth } from "@/Utils/withAuth";
 import { formatCellphoneToMask } from '@/Utils/Functions';
 import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/ErrorMessage.string';
@@ -73,4 +75,4 @@ export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx: an
         props: {
         }
     }
-}, true);
+}, Role.Administrador);
