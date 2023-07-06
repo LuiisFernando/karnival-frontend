@@ -1,3 +1,9 @@
+interface SelectProps {
+    value: string;
+    label: string;
+}
+
+
 export interface ILoginResponse {
     user: IUser;
     token: string;
@@ -15,10 +21,16 @@ export interface IUser {
     role: Role;
 }
 
-export interface IUserCreate {
+export interface IUserCreateRequest {
     name: string;
     email: string;
     role: number;
+}
+
+export interface IUserCreate {
+    name: string;
+    email: string;
+    role: SelectProps;
 }
 
 export interface IUserDecoded {
