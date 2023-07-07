@@ -27,7 +27,6 @@ export default function Cadastro() {
     async function onSubmit(data: IPersonCreate ) {
         
         try {
-            debugger
             if (data.cellphone)
                 data.cellphone = onlyNumbers(data.cellphone);
                 

@@ -37,6 +37,10 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
 
+td {
+  cursor: pointer;
+}
+
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;

@@ -15,9 +15,12 @@ import { getClientService } from '@/services/personService';
 import { Container } from "@/styles/Grid";
 
 import * as Styled from "@/styles/pages/administrativo/profissionais/styles";
+import { useRouter } from 'next/router';
 
 export default function Clientes() {
     const [clients, setClients] = useState<IPerson[]>([]);
+
+    const route = useRouter();
 
     async function getProfessionals() {
         try {
@@ -31,7 +34,11 @@ export default function Clientes() {
 
     useEffect(() => {
         getProfessionals();
-    }, []); 
+    }, []);
+
+    function edit(id: number) {
+        route.push(`/administrativo/clientes/editar?id=${id}`);
+    }
 
     return (
         <>
@@ -57,7 +64,7 @@ export default function Clientes() {
                     </thead>
                     <tbody>
                         {clients?.map((pro: IPerson, index: any) => (
-                            <tr key={index}>
+                            <tr key={index} onClick={() => edit(pro.id)}>
                                 <td>{pro.name}</td>
                                 <td>{pro.email}</td>
                                 <td>{pro.cellphone ? formatCellphoneToMask(pro.cellphone) : ""}</td>
