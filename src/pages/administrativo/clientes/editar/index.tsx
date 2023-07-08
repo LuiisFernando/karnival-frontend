@@ -1,41 +1,44 @@
 import { useEffect, useMemo, useState } from 'react';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { personEditSchema } from "@/Utils/schemas/person/personRegisterSchema";
+import Input from '@/components/Form/Input';
 
+import { personEditSchema } from "@/Utils/schemas/person/personRegisterSchema";
 import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonProfessionalEditedSuccess } from '@/Utils/Messages.string';
-import { getPersonClient, updatePersonClient } from '@/services/personService';
 import { IPerson, } from '@/types/Person';
-import Head from 'next/head';
-import { Container } from '@/styles/Grid';
+import { Role } from '@/types/User';
 import { onlyNumbers } from '@/Utils/Functions';
 import { maskCellphone } from '@/Utils/masks';
-import Input from '@/components/Form/Input';
-import { GetServerSideProps } from 'next';
+import { withSSRAuth } from '@/Utils/withAuth';
 
-interface EditProps {
-    client: IPerson;
-}
+import { getPersonClient, updatePersonClient } from '@/services/personService';
 
-export default function Editar({ client }: EditProps) {
-    const route = useRouter();
-    const { register, handleSubmit, formState: { errors }, reset, setValue, } = useForm<IPerson>({
+import { Container } from '@/styles/Grid';
+
+
+export default function Editar() {
+    const [person, setPerson] = useState<IPerson>();
+    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IPerson>({
         resolver: yupResolver(personEditSchema),
-        defaultValues: client
+        values: useMemo(() => person, [person])
     });
+
+    const route = useRouter();
     
     useEffect(() => {
         async function getPersonById() {
             const { id } = route.query;
             if (id) {
                 try {
-                    // const personResponse = await getPersonClient(Number(id));
-                    // console.log(personResponse.data)
-                    // reset(personResponse.data);
-                    // setValue('cellphone', personResponse.data.cellphone);
+                    const personResponse = await getPersonClient(Number(id));
+                    console.log(personResponse.data)
+                    setPerson(personResponse.data);
+                    setValue('cellphone', personResponse.data.cellphone);
                 } catch(e: any) {
                     const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
                     toast.error(errorMessage);
@@ -43,7 +46,7 @@ export default function Editar({ client }: EditProps) {
                 }
             }
         }
-        // getPersonById();
+        getPersonById();
     }, [route, reset]);
 
     async function onSubmit(data: IPerson ) {
@@ -80,13 +83,9 @@ export default function Editar({ client }: EditProps) {
     );
 }
 
-
-export const getServerSideProps: GetServerSideProps = async ({ req, params }) => {
-    // const { id }: any = params;
-    const client = {id: 2, name: 'cliente 12', email: 'cliente12@mail.com', cellphone: '23423234234', provider: false};
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx: any) => {
     return {
-      props: {
-        client
-      }
+        props: {
+        }
     }
-  }
+}, Role.Administrador);

@@ -6,7 +6,6 @@ import { Container } from "@/styles/Grid";
 export const Header = styled.header`
   width: 100%;
   height: 70px;
-  z-index: 9999;
   display: flex;
   flex-direction: row;
   transition: all 0.4s ease-in;
