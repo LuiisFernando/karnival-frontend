@@ -33,16 +33,15 @@ export default function Editar() {
     useEffect(() => {
         async function getPersonById() {
             const { id } = route.query;
+
             if (id) {
                 try {
                     const personResponse = await getPersonClient(Number(id));
-                    console.log(personResponse.data)
                     setPerson(personResponse.data);
                     setValue('cellphone', personResponse.data.cellphone);
                 } catch(e: any) {
                     const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
                     toast.error(errorMessage);
-    
                 }
             }
         }
@@ -54,8 +53,7 @@ export default function Editar() {
         try {
             if (data.cellphone)
                 data.cellphone = onlyNumbers(data.cellphone);
-                
-                console.log(data);
+
             await updatePersonClient(data);
             toast.success(PersonProfessionalEditedSuccess);
         } catch (e: any) {
