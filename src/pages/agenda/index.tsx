@@ -10,35 +10,13 @@ moment.locale("moment/locale/pt-br");
 
 const localizer = momentLocalizer(moment);
 
-const HeaderCellContent: React.FC<any> = (props: any) => {
-  const { date } = props;
-  
-  const dayOfWeek = date.getDay();
-
-  const className = dayOfWeek === 0 || dayOfWeek === 6 ? 'classes.day_weekend' : 'classes.day_working';
-  return (
-    <span className={className}>
-      {props.label}
-    </span>
-  );
-};
-
 type View = 'month' | 'week' | 'work_week' | 'day' | 'agenda';
 
-const DateCellContent: React.FC<any> = (props: any) => {
-  const { date } = props;
-  const dayOfWeek = date.getDay();
 
-  const className = dayOfWeek === 0 || dayOfWeek === 6 ? 'classes.day_weekend' : 'classes.day_working';
+export default function Agenda() {
+  const [defaultDate, setDefaultDate] = useState<Date>();
+  const [view, setView] = useState<View>();
 
-    return (
-    <span className={className}>
-      {props.label}
-    </span>
-  );
-};
-
-export default function Agenda() { 
   const dataInicial1 = new Date(2023, 5, 29, 13, 0);
   const dataFim1 = new Date(2023, 5, 29, 13, 30);
 
@@ -49,10 +27,8 @@ export default function Agenda() {
   const dia27Fim = new Date(2023, 5, 27, 19, 0);
 
 
-  const minDate = new Date(0, 0, 0, 9, 0, 0);
-  const maxDate = new Date(0, 0, 0, 20, 0, 0);
-
-  const [defaultView, setDetaultView] = useState<View>('week');
+  const minDate = new Date(0, 0, 0, 9, 0, 0); // horario de entrada
+  const maxDate = new Date(0, 0, 0, 20, 0, 0); // horario de saida
 
   const eventos = [
     { start: dataInicial1, end: dataFim1, title: "reservado", paid: true },
@@ -64,7 +40,7 @@ export default function Agenda() {
 
   const [eventsData, setEventsData] = useState<any>(eventos);
 
-  var defaultMessages = {
+  const defaultMessages = {
     date: 'Data',
     time: 'Hora',
     event: 'Evento',
@@ -86,12 +62,8 @@ export default function Agenda() {
   };
 
   const handleSelect = ({ start, end }: any) => {
-    // console.log(start);
     const isSunday = moment(start).day() === 0;
     const hourSelecteIsLessThanMinHour = moment(start).hour() < moment(minDate).hour();
-// debugger
-    if (defaultView === 'month')
-      setDetaultView('day');
 
     if (hourSelecteIsLessThanMinHour)
       return;
@@ -114,14 +86,14 @@ export default function Agenda() {
 
   function eventPropGetter(event: any, start: any, end: any, isSelected: any) {
     var style = {
-        backgroundColor: event.paid ? 'green' : 'red',
-        borderRadius: '5px',
-        opacity: 0.4,
-        color: '#FFF',
-        border: '0px',
+      backgroundColor: event.paid ? 'green' : 'red',
+      borderRadius: '5px',
+      opacity: 0.4,
+      color: '#FFF',
+      border: '0px',
     };
     return {
-        style: style
+      style: style
     };
   }
 
@@ -137,25 +109,56 @@ export default function Agenda() {
     };
   };
 
+  const HeaderWeekContent: React.FC<any> = (props: any) => {
+    const { date } = props;
+
+    const dayOfWeek = date.getDay();
+
+    const className = dayOfWeek === 0 || dayOfWeek === 6 ? 'classes.day_weekend' : 'classes.day_working';
+    return (
+      <span className={className}>
+        {props.label}
+      </span>
+    );
+  };
+
+  const DateCellContent: React.FC<any> = (props: any) => {
+    const { date } = props;
+    const dayOfWeek = date.getDay();
+
+    const className = dayOfWeek === 0 || dayOfWeek === 6 ? 'classes.day_weekend' : 'classes.day_working';
+
+    return (
+      <span className={className} style={{ cursor: 'pointer', display: 'block' , width: '100%', height: '100%'}} onClick={() => {
+        setView('day');
+        setDefaultDate(date);
+      }}>
+        {props.label}
+      </span>
+    );
+  };
+
   return (
     <>
-    <Head>
-      <title>Karnival: Agenda</title>
-    </Head>
-    <Container>
+      <Head>
+        <title>Karnival: Agenda</title>
+      </Head>
+      <Container>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 50 }}>
           <Calendar
             popup
-            defaultView={defaultView}
-            onView={setDetaultView}
+            defaultView={'week'}
+            view={view}
+            onView={setView}
             min={minDate}
             max={maxDate}
             step={30}
-            views={["day", "week", "month", "agenda"]}
+            views={["month", "week", "day"]}
             culture="pt-BR"
             selectable
             localizer={localizer}
-            defaultDate={new Date()}
+            defaultDate={defaultDate}
+            date={defaultDate}
             events={eventsData}
             style={{ height: '600px', width: '100%' }}
             onSelectEvent={(event) => alert(event.title)}
@@ -164,14 +167,17 @@ export default function Agenda() {
             eventPropGetter={eventPropGetter}
             components={{
               month: {
-                header: HeaderCellContent,
+                header: HeaderWeekContent,
                 dateHeader: DateCellContent
               }
+            }}
+            onNavigate={(date: Date) => {
+              setDefaultDate(date);
             }}
             dayPropGetter={customDayPropGetter}
           />
         </div>
-    </Container>
+      </Container>
     </>
   );
 }
