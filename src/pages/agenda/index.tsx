@@ -32,6 +32,9 @@ export default function Agenda() {
 
   const eventos = [
     { start: dataInicial1, end: dataFim1, title: "reservado", paid: true },
+    { start: dataInicial1, end: dataFim1, title: "reservado", paid: false },
+    { start: dataInicial1, end: dataFim1, title: "reservado", paid: false },
+    { start: dataInicial1, end: dataFim1, title: "reservado", paid: true },
     { start: dataInicial12, end: dataFim2, title: "reservado", paid: true },
     { start: dataInicial12, end: dataFim2, title: "reservado2", paid: false },
     { start: dataInicial12, end: dataFim2, title: "reservado3", paid: true },
@@ -165,6 +168,7 @@ export default function Agenda() {
             onSelectSlot={handleSelect}
             messages={defaultMessages}
             eventPropGetter={eventPropGetter}
+            dayLayoutAlgorithm={"no-overlap"}
             components={{
               month: {
                 header: HeaderWeekContent,
