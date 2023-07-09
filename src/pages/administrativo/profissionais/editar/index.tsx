@@ -10,7 +10,7 @@ import { HiArrowLeft } from "react-icons/hi";
 import Input from '@/components/Form/Input';
 
 import { personEditSchema } from "@/Utils/schemas/person/personRegisterSchema";
-import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonEditedSuccess } from '@/Utils/Messages.string';
+import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonProfessionalEditedSuccess } from '@/Utils/Messages.string';
 import { IPerson, } from '@/types/Person';
 import { Role } from '@/types/User';
 import { onlyNumbers } from '@/Utils/Functions';
@@ -37,9 +37,9 @@ export default function Editar() {
 
             if (id) {
                 try {
-                    const personResponse = await getPersonClient(Number(id));
-                    setPerson(personResponse.data);
-                    setValue('cellphone', personResponse.data.cellphone);
+                    // const personResponse = await getPersonClient(Number(id));
+                    // setPerson(personResponse.data);
+                    // setValue('cellphone', personResponse.data.cellphone);
                 } catch (e: any) {
                     const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
                     toast.error(errorMessage);
@@ -55,8 +55,8 @@ export default function Editar() {
             if (data.cellphone)
                 data.cellphone = onlyNumbers(data.cellphone);
 
-            await updatePersonClient(data);
-            toast.success(PersonEditedSuccess);
+            // await updatePersonClient(data);
+            toast.success(PersonProfessionalEditedSuccess);
         } catch (e: any) {
             const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
             toast.error(errorMessage);
@@ -71,17 +71,17 @@ export default function Editar() {
             <Container>
                 <StyledForm.FormContainer>
                     <StyledForm.FormTitleContainer>
-                        <StyledForm.FormGoBackButton href="/administrativo/clientes">
+                        <StyledForm.FormGoBackButton href="/administrativo/profissionais">
                             <HiArrowLeft size={20} />
                         </StyledForm.FormGoBackButton>
-                        <h1>Edição de Cliente</h1>
+                        <h1>Edição de Profissional</h1>
                         <span></span>
                     </StyledForm.FormTitleContainer>
 
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <Input name="name" register={register} errors={errors} placeholder="Nome do cliente" />
-                        <Input name="email" register={register} errors={errors} placeholder="E-mail do cliente" />
-                        <Input name="cellphone" mask={maskCellphone} register={register} errors={errors} placeholder="Celular do cliente" />
+                        <Input name="name" register={register} errors={errors} placeholder="Nome do profissional" />
+                        <Input name="email" register={register} errors={errors} placeholder="E-mail do profissional" />
+                        <Input name="cellphone" mask={maskCellphone} register={register} errors={errors} placeholder="Celular do profissional" />
                         <button type="submit">Editar</button>
                     </form>
                 </StyledForm.FormContainer>

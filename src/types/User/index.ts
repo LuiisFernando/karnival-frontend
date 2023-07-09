@@ -33,6 +33,13 @@ export interface IUserCreate {
     role: SelectProps;
 }
 
+export interface IUserEdit {
+    id: number;
+    name: string;
+    email: string;
+    role: SelectProps;
+}
+
 export interface IUserDecoded {
     nameid: string;
     role: string;

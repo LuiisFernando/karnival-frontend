@@ -3,6 +3,11 @@ import { GetServerSideProps } from 'next';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from "react-toastify";
+import { HiArrowLeft } from "react-icons/hi";
+
+import Input from "@/components/Form/Input";
+
+import { createService } from "@/services/serviceService";
 
 import { Role } from "@/types/User";
 import { IServiceCreate } from "@/types/Service";
@@ -11,18 +16,17 @@ import { withSSRAuth } from "@/Utils/withAuth";
 import { serviceRegisterSchema } from "@/Utils/schemas/service/serviceRegisterSchema";
 import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, ServiceCreatedSuccess } from "@/Utils/Messages.string";
 
-import { createService } from "@/services/serviceService";
 
-import Input from "@/components/Form/Input";
 import { Container } from "@/styles/Grid";
+import * as StyledForm from "@/styles/Form";
 
 export default function Cadastro() {
 
-    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IServiceCreate >({
+    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IServiceCreate>({
         resolver: yupResolver(serviceRegisterSchema),
     });
 
-    async function onSubmit(data: IServiceCreate ) {
+    async function onSubmit(data: IServiceCreate) {
         try {
             await createService(data);
             toast.success(ServiceCreatedSuccess);
@@ -39,12 +43,20 @@ export default function Cadastro() {
                 <title>Karnival: Serviços</title>
             </Head>
             <Container>
-                <h1>Serviço</h1>
+                <StyledForm.FormContainer>
+                    <StyledForm.FormTitleContainer>
+                        <StyledForm.FormGoBackButton href="/administrativo/servicos">
+                            <HiArrowLeft size={20} />
+                        </StyledForm.FormGoBackButton>
+                        <h1>Serviço</h1>
+                        <span></span>
+                    </StyledForm.FormTitleContainer>
 
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <Input name="name" register={register} errors={errors} placeholder="Nome do serviço" />
-                    <button type="submit">Cadastrar</button>
-                </form>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Input name="name" register={register} errors={errors} placeholder="Nome do serviço" />
+                        <button type="submit">Cadastrar</button>
+                    </form>
+                </StyledForm.FormContainer>
             </Container>
         </>
     );

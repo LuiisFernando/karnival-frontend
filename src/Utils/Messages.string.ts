@@ -7,4 +7,6 @@ export const ErrorMessageDefaultWithMessage = (message: string) => `Ops ... ${me
 export const UserCreatedSuccess = "Usuário criado com sucesso";
 export const PersonProfessionalCreatedSuccess = "Profissional criado com sucesso";
 export const PersonProfessionalEditedSuccess = "Profissional editado com sucesso";
+export const PersonCreatedSuccess = "Cliente criado com sucesso";
+export const PersonEditedSuccess = "Cliente editado com sucesso";
 export const ServiceCreatedSuccess = "Serviço criado com sucesso";

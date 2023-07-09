@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from "react-toastify";
+import { HiArrowLeft } from "react-icons/hi";
 
 import Input from "@/components/Form/Input";
 
@@ -11,13 +12,14 @@ import { IPersonCreate  } from "@/types/Person";
 
 import { withSSRAuth } from "@/Utils/withAuth";
 import { personRegisterSchema } from "@/Utils/schemas/person/personRegisterSchema";
-import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonProfessionalCreatedSuccess } from "@/Utils/Messages.string";
+import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonCreatedSuccess } from "@/Utils/Messages.string";
 import { onlyNumbers } from "@/Utils/Functions";
 import { maskCellphone } from "@/Utils/masks";
 
 import { createPersonClient } from "@/services/personService";
 
 import { Container } from "@/styles/Grid";
+import * as StyledForm from "@/styles/Form";
 
 export default function Cadastro() {
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IPersonCreate>({
@@ -31,7 +33,7 @@ export default function Cadastro() {
                 data.cellphone = onlyNumbers(data.cellphone);
                 
             await createPersonClient(data);
-            toast.success(PersonProfessionalCreatedSuccess);
+            toast.success(PersonCreatedSuccess);
             reset();
             setValue('cellphone', "");
         } catch (e: any) {
@@ -47,14 +49,22 @@ export default function Cadastro() {
                 <title>Karnival: Clientes</title>
             </Head>
             <Container>
-                <h1>Clientes</h1>
+                <StyledForm.FormContainer>
+                    <StyledForm.FormTitleContainer>
+                        <StyledForm.FormGoBackButton href="/administrativo/clientes">
+                            <HiArrowLeft size={20} />
+                        </StyledForm.FormGoBackButton>
+                        <h1>Cadastro de Cliente</h1>
+                        <span></span>
+                    </StyledForm.FormTitleContainer>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Input name="name" register={register} errors={errors} placeholder="Nome do cliente" />
+                        <Input name="email" register={register} errors={errors} placeholder="E-mail do cliente" />
+                        <Input name="cellphone" mask={maskCellphone} register={register} errors={errors} placeholder="Celular do cliente" />
+                        <button type="submit">Cadastrar</button>
+                    </form>
+                </StyledForm.FormContainer>
 
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <Input name="name" register={register} errors={errors} placeholder="Nome do cliente" />
-                    <Input name="email" register={register} errors={errors} placeholder="E-mail do cliente" />
-                    <Input name="cellphone" mask={maskCellphone} register={register} errors={errors} placeholder="Celular do cliente" />
-                    <button type="submit">Cadastrar</button>
-                </form>
             </Container>
         </>
     );

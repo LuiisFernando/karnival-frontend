@@ -147,3 +147,23 @@ export const ULSubMenu = styled.ul`
         }
     }
 `;
+
+export const UserContainer = styled.div`
+
+    span {
+        margin-right: 20px;
+    }
+
+    button {
+        background: transparent;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &:active {
+            background: transparent;
+        }
+    }
+
+`;

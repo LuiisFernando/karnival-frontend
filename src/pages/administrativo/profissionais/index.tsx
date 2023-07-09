@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from "next/head";
 import Link from "next/link";
-import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
+import { toast } from 'react-toastify';
 import { IPerson } from '@/types/Person';
 import { Role } from '@/types/User';
 
@@ -14,10 +15,13 @@ import { getProfessionalsService } from '@/services/personService';
 
 import { Container } from "@/styles/Grid";
 
-import * as Styled from "@/styles/pages/administrativo/profissionais/styles";
+import * as AdmStyled from '@/styles/pages/administrativo/DefaultLayout';
+import * as StyledFilter from '@/styles/shared/filterStyle';
 
 export default function Profissionais() {
     const [professionals, setProfessionals] = useState<IPerson[]>([]);
+
+    const route = useRouter();
 
     async function getProfessionals() {
         try {
@@ -27,6 +31,10 @@ export default function Profissionais() {
             const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
             toast.error(errorMessage);
         }
+    }
+
+    function edit(id: number) {
+        route.push(`/administrativo/profissionais/editar?id=${id}`);
     }
 
     useEffect(() => {
@@ -39,32 +47,34 @@ export default function Profissionais() {
                 <title>Karnival: Profissionais</title>
             </Head>
             <Container>
-                <h1>Profissionais</h1>
+                <AdmStyled.AdministrativoContainer>
+                    <h1>Profissionais</h1>
 
-                <Styled.FilterContainer>
-                    <input type="text" name="filter" placeholder="Filtre por Nome ou E-mail" />
+                    <StyledFilter.FilterContainer>
+                        <input type="text" name="filter" placeholder="Filtre por Nome ou E-mail" />
 
-                    <Link href="/administrativo/profissionais/cadastro">Cadastrar</Link>
-                </Styled.FilterContainer>
+                        <Link href="/administrativo/profissionais/cadastro">Cadastrar</Link>
+                    </StyledFilter.FilterContainer>
 
-                <table style={{ width: '100%' }}>
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Email</th>
-                            <th>Celular</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {professionals?.map((pro: IPerson, index: any) => (
-                            <tr key={index}>
-                                <td>{pro.name}</td>
-                                <td>{pro.email}</td>
-                                <td>{pro.cellphone ? formatCellphoneToMask(pro.cellphone) : ""}</td>
+                    <table style={{ width: '100%' }}>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Celular</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {professionals?.map((pro: IPerson, index: any) => (
+                                <tr key={index} onClick={() => edit(pro.id)}>
+                                    <td>{pro.name}</td>
+                                    <td>{pro.email}</td>
+                                    <td>{pro.cellphone ? formatCellphoneToMask(pro.cellphone) : ""}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </AdmStyled.AdministrativoContainer>
             </Container>
         </>
     );

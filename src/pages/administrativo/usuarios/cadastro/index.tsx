@@ -4,17 +4,20 @@ import Head from "next/head";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from 'react-toastify';
+import { HiArrowLeft } from "react-icons/hi";
 
+import Select from '@/components/Form/Select';
 import Input from '@/components/Form/Input';
+
 import { IUserCreate, Role } from '@/types/User';
 import { withSSRAuth } from "@/Utils/withAuth";
 import { userRegisterSchema } from '@/Utils/schemas/user/registerUserSchema';
+import { UserCreatedSuccess, ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/Messages.string';
 
 import { createUser } from "@/services/userService";
 
 import { Container } from '@/styles/Grid';
-import Select from '@/components/Form/Select';
-import { UserCreatedSuccess, ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/Messages.string';
+import * as StyledForm from "@/styles/Form";
 
 function Cadastro() {
     const { register, handleSubmit, formState: { errors }, reset, setValue, control } = useForm<IUserCreate>({
@@ -47,25 +50,33 @@ function Cadastro() {
 
     return (
         <>
-        <Head>
-            <title>Karnival: Cadastro de usuário</title>
-        </Head>
+            <Head>
+                <title>Karnival: Cadastro de usuário</title>
+            </Head>
             <Container>
-                <h1>Cadastro usuário</h1>
+                <StyledForm.FormContainer>
+                    <StyledForm.FormTitleContainer>
+                        <StyledForm.FormGoBackButton href="/administrativo/usuarios">
+                            <HiArrowLeft size={20} />
+                        </StyledForm.FormGoBackButton>
+                        <h1>Cadastro usuário</h1>
+                        <span></span>
+                    </StyledForm.FormTitleContainer>
 
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <Input name="name" register={register} errors={errors} placeholder="Digite o nome do usuário" />
-                    <Input name="email" register={register} errors={errors} placeholder="Digite o e-mail do usuário" />
-                    <Select 
-                        control={control}  
-                        options={roleOptions} 
-                        name="role"
-                        placeholder="Selecione o perfil do usuário"
-                        errors={errors} 
-                        setValue={setValue}
-                    />
-                    <button type="submit">Cadastrar</button>
-                </form>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Input name="name" register={register} errors={errors} placeholder="Digite o nome do usuário" />
+                        <Input name="email" register={register} errors={errors} placeholder="Digite o e-mail do usuário" />
+                        <Select
+                            control={control}
+                            options={roleOptions}
+                            name="role"
+                            placeholder="Selecione o perfil do usuário"
+                            errors={errors}
+                            setValue={setValue}
+                        />
+                        <button type="submit">Cadastrar</button>
+                    </form>
+                </StyledForm.FormContainer>
             </Container>
         </>
     );
