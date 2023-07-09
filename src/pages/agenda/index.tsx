@@ -1,14 +1,28 @@
 import React, { useState } from "react";
 import Head from "next/head";
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
-import 'moment/locale/pt-br';
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
+import {
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  getHours
+} from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR'
 
 import { Container } from "@/styles/Grid";
 
-moment.locale("moment/locale/pt-br");
+const locales = {
+  'pt-BR': ptBR,
+}
 
-const localizer = momentLocalizer(moment);
+const localizerFns = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+})
 
 type View = 'month' | 'week' | 'work_week' | 'day' | 'agenda';
 
@@ -38,6 +52,7 @@ export default function Agenda() {
     { start: dataInicial12, end: dataFim2, title: "reservado", paid: true },
     { start: dataInicial12, end: dataFim2, title: "reservado2", paid: false },
     { start: dataInicial12, end: dataFim2, title: "reservado3", paid: true },
+    { start: dataInicial12, end: dataFim2, title: "reservado3", paid: true },
     { start: dia27Ini, end: dia27Fim, title: "reservado", paid: true }
   ];
 
@@ -65,12 +80,15 @@ export default function Agenda() {
   };
 
   const handleSelect = ({ start, end }: any) => {
-    const isSunday = moment(start).day() === 0;
-    const hourSelecteIsLessThanMinHour = moment(start).hour() < moment(minDate).hour();
+    const selectedHour = getHours(start);
+    const minHourAvailable = getHours(minDate);
+
+    const isSunday = getDay(start) === 0;
+
+    const hourSelecteIsLessThanMinHour = selectedHour < minHourAvailable;
 
     if (hourSelecteIsLessThanMinHour)
       return;
-
 
     if (isSunday)
       return;
@@ -101,9 +119,8 @@ export default function Agenda() {
   }
 
   const customDayPropGetter = (date: Date) => {
-    const _date = moment(date);
-    const isSaturday = _date.day() === 6;
-    const isSunday = _date.day() === 0;
+    const isSaturday = getDay(date) === 6;
+    const isSunday = getDay(date) === 0;
 
     return {
       style: {
@@ -132,7 +149,7 @@ export default function Agenda() {
     const className = dayOfWeek === 0 || dayOfWeek === 6 ? 'classes.day_weekend' : 'classes.day_working';
 
     return (
-      <span className={className} style={{ cursor: 'pointer', display: 'block' , width: '100%', height: '100%'}} onClick={() => {
+      <span className={className} style={{ cursor: 'pointer', display: 'block', width: '100%', height: '100%' }} onClick={() => {
         setView('day');
         setDefaultDate(date);
       }}>
@@ -150,6 +167,7 @@ export default function Agenda() {
         <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 50 }}>
           <Calendar
             popup
+            localizer={localizerFns}
             defaultView={'week'}
             view={view}
             onView={setView}
@@ -159,7 +177,6 @@ export default function Agenda() {
             views={["month", "week", "day"]}
             culture="pt-BR"
             selectable
-            localizer={localizer}
             defaultDate={defaultDate}
             date={defaultDate}
             events={eventsData}
