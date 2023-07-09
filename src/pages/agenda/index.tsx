@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Head from "next/head";
-import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
+import { Calendar, Messages, dateFnsLocalizer } from 'react-big-calendar';
 import {
   format,
   parse,
@@ -58,7 +58,7 @@ export default function Agenda() {
 
   const [eventsData, setEventsData] = useState<any>(eventos);
 
-  const defaultMessages = {
+  const defaultMessages: Messages = {
     date: 'Data',
     time: 'Hora',
     event: 'Evento',
@@ -73,10 +73,10 @@ export default function Agenda() {
     tomorrow: 'Amanhã',
     today: 'Hoje',
     agenda: 'Agenda',
-    noEventsInRange: 'There are no events in this range.',
-    showMore: function showMore(total: any) {
-      return "+" + total + " more";
-    }
+    // noEventsInRange: 'There are no events in this range.',
+    showMore: function showMore(total: number) {
+      return "+" + total + " eventos";
+    },
   };
 
   const handleSelect = ({ start, end }: any) => {
