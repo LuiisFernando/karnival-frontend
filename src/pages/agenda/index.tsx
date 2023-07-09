@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
-import { Calendar, Messages, dateFnsLocalizer } from 'react-big-calendar';
+import { Calendar, DateHeaderProps, HeaderProps, Messages, NavigateAction, dateFnsLocalizer } from 'react-big-calendar';
 import {
   format,
   parse,
   startOfWeek,
   getDay,
+  getMonth,
   getHours
 } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR'
@@ -28,8 +29,12 @@ type View = 'month' | 'week' | 'work_week' | 'day' | 'agenda';
 
 
 export default function Agenda() {
-  const [defaultDate, setDefaultDate] = useState<Date>();
+  const today = new Date();
+  const currentMonth = getMonth(today) + 1;
+
+  const [defaultDate, setDefaultDate] = useState<Date>(today);
   const [view, setView] = useState<View>();
+  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
 
   const dataInicial1 = new Date(2023, 5, 29, 13, 0);
   const dataFim1 = new Date(2023, 5, 29, 13, 30);
@@ -129,25 +134,27 @@ export default function Agenda() {
     };
   };
 
-  const HeaderWeekContent: React.FC<any> = (props: any) => {
-    const { date } = props;
+  const HeaderWeekContent: React.FC<any> = (props: HeaderProps) => {
+    const { date, label } = props;
+
+    // capitalize dia da semana
+    const newLabel = label.split('-')[0].charAt(0).toUpperCase() + label.split('-')[0].slice(1);
 
     const dayOfWeek = date.getDay();
 
     const className = dayOfWeek === 0 || dayOfWeek === 6 ? 'classes.day_weekend' : 'classes.day_working';
     return (
       <span className={className}>
-        {props.label}
+        {newLabel}
       </span>
     );
   };
 
-  const DateCellContent: React.FC<any> = (props: any) => {
+  const DateCellContent: React.FC<any> = (props: DateHeaderProps) => {
     const { date } = props;
     const dayOfWeek = date.getDay();
 
     const className = dayOfWeek === 0 || dayOfWeek === 6 ? 'classes.day_weekend' : 'classes.day_working';
-
     return (
       <span className={className} style={{ cursor: 'pointer', display: 'block', width: '100%', height: '100%' }} onClick={() => {
         setView('day');
@@ -157,6 +164,20 @@ export default function Agenda() {
       </span>
     );
   };
+
+  const WeekHeaderContent: React.FC<any> = (props: HeaderProps) => {
+    const { label } = props;
+    
+    const newLabel = `${label.split(' ')[0]} ${label.split(' ')[1].charAt(0).toUpperCase()}${label.split(' ')[1].slice(1)}`;
+
+    return (
+      <span className="classes.day_working" style={{ fontWeight: '700' }}>{newLabel}</span>
+    );
+  };
+
+  useEffect(() => {
+    console.log('dispara a busca dos eventos do mês ', selectedMonth);
+  }, [selectedMonth]);
 
   return (
     <>
@@ -190,9 +211,18 @@ export default function Agenda() {
               month: {
                 header: HeaderWeekContent,
                 dateHeader: DateCellContent
-              }
+              },
+              week: {
+                header: WeekHeaderContent
+              },
             }}
-            onNavigate={(date: Date) => {
+            onNavigate={(date: Date, view: View, action: NavigateAction) => {
+              const month = getMonth(date) + 1; // por default starta em 0
+
+              if (month !== selectedMonth) {
+                setSelectedMonth(month);
+              }
+
               setDefaultDate(date);
             }}
             dayPropGetter={customDayPropGetter}

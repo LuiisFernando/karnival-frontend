@@ -56,6 +56,10 @@ td {
     border-radius: 4px;
   }
 
+  .rbc-toolbar-label {
+	  text-transform:capitalize
+  }
+
 `;
 
 export default GlobalStyles;
