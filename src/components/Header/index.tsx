@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { FaUser } from "react-icons/fa";
 
@@ -11,6 +11,10 @@ import * as Styled from './styles';
 export default function Header() {
     const [subAdmActive, setSubAdmActive] = useState(false);
     const { user, logout } = useAuth();
+
+    useEffect(() => {
+        console.log(user);
+    }, [user]);
 
     const wrapperRef = useRef(null);
     useClickOutside(wrapperRef, () => {
@@ -44,7 +48,7 @@ export default function Header() {
                 </ul>
             );
         }
-        else if (user?.role === Role.Administrador) {
+        else if (user?.roleDescription as Role === Role.Administrador) {
             return (
                 <ul>
                     <li>
@@ -107,7 +111,7 @@ export default function Header() {
                 </ul>
             );
         }
-        else if (user?.role === Role.User) {
+        else if (user?.roleDescription as Role === Role.User) {
             return (
                 <ul>
                     <li>

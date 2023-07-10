@@ -36,7 +36,7 @@ export interface IUserEditRequest extends IUserCreateRequest {
 export interface IUserCreate {
     name: string;
     email: string;
-    role: SelectProps;
+    roleProps: SelectProps;
 }
 
 export interface IUserEdit {
@@ -44,7 +44,7 @@ export interface IUserEdit {
     name: string;
     email: string;
     active: boolean;
-    role: SelectProps;
+    roleProps: SelectProps;
 }
 
 export interface IUserDecoded {

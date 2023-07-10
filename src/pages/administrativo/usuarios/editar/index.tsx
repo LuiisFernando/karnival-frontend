@@ -50,7 +50,7 @@ export default function Editar() {
                 try {
                     const userResponse = await getUserByIdService(Number(id));
                     setUser(userResponse.data);
-                    setValue('role', userResponse.data.role);
+                    setValue('roleProps', userResponse.data.roleProps);
                 } catch (e: any) {
                     const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
                     toast.error(errorMessage);
@@ -67,7 +67,7 @@ export default function Editar() {
                 id: data.id,
                 name: data.name,
                 email: data.email,
-                role: Number(data.role.value)
+                role: Number(data.roleProps.value)
             };
 
             await updateUserService(userToUpdate);
@@ -132,7 +132,7 @@ export default function Editar() {
                         <Select
                             control={control}
                             options={roleOptions}
-                            name="role"
+                            name="roleProps"
                             placeholder="Selecione o perfil do usuário"
                             errors={errors}
                             setValue={setValue}
