@@ -23,5 +23,5 @@ export const userEditSchema = yup.object({
     label: yup.string().required(FieldRequested),
     value: yup.string().required(FieldRequested),
   }).nullable().required(FieldRequested).typeError(FieldRequested),
-  active: yup.boolean()
+  active: yup.boolean().required()
 });

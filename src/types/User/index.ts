@@ -18,7 +18,8 @@ export interface IUser {
     id: number;
     name: string;
     email: string;
-    roleDescription: Role;
+    role: Role;
+    roleDescription: string;
     active: boolean;
 }
 

@@ -11,7 +11,7 @@ import Select from '@/components/Form/Select';
 import Input from '@/components/Form/Input';
 
 import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonProfessionalDeletedSuccess, UserActivatedSuccess, UserDeletedSuccess, UserEditedSuccess } from '@/Utils/Messages.string';
-import { IUser, IUserEdit, IUserEditRequest, Role, SelectProps } from '@/types/User';
+import { IUserEdit, IUserEditRequest, Role } from '@/types/User';
 import { withSSRAuth } from '@/Utils/withAuth';
 
 import { userEditSchema } from '@/Utils/schemas/user/registerUserSchema';
@@ -23,8 +23,6 @@ import ReactSelect from 'react-select';
 
 export default function Editar() {
     const [user, setUser] = useState<IUserEdit>();
-
-    const [userRole, setUserRole] = useState<SelectProps>();
 
     const { register, handleSubmit, formState: { errors }, reset, setValue, control } = useForm<IUserEdit>({
         resolver: yupResolver(userEditSchema),

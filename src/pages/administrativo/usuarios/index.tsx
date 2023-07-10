@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 
 import { toast } from 'react-toastify';
 
-import { IUser, IUserEdit, Role } from '@/types/User';
+import { IUser, Role } from '@/types/User';
 import { withSSRAuth } from "@/Utils/withAuth";
 import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/Messages.string';
 import { getUsersService } from '@/services/userService';
