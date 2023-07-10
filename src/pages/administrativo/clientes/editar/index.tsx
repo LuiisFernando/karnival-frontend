@@ -10,21 +10,21 @@ import { HiArrowLeft } from "react-icons/hi";
 import Input from '@/components/Form/Input';
 
 import { personEditSchema } from "@/Utils/schemas/person/personRegisterSchema";
-import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonEditedSuccess } from '@/Utils/Messages.string';
-import { IPerson, } from '@/types/Person';
+import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonActivatedSuccess, PersonDeletedSuccess, PersonEditedSuccess } from '@/Utils/Messages.string';
+import { IPerson, IPersonEdit, } from '@/types/Person';
 import { Role } from '@/types/User';
 import { onlyNumbers } from '@/Utils/Functions';
 import { maskCellphone } from '@/Utils/masks';
 import { withSSRAuth } from '@/Utils/withAuth';
 
-import { getPersonClient, updatePersonClient } from '@/services/personService';
+import { activePerson, deletePerson, getPersonClient, updatePerson } from '@/services/personService';
 
 import { Container } from '@/styles/Grid';
 import * as StyledForm from "@/styles/Form";
 
 export default function Editar() {
-    const [person, setPerson] = useState<IPerson>();
-    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IPerson>({
+    const [person, setPerson] = useState<IPersonEdit>();
+    const { register, handleSubmit, formState: { errors }, reset, setValue, setFocus } = useForm<IPersonEdit>({
         resolver: yupResolver(personEditSchema),
         values: useMemo(() => person, [person])
     });
@@ -40,6 +40,7 @@ export default function Editar() {
                     const personResponse = await getPersonClient(Number(id));
                     setPerson(personResponse.data);
                     setValue('cellphone', personResponse.data.cellphone);
+                    setFocus('name');
                 } catch (e: any) {
                     const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
                     toast.error(errorMessage);
@@ -49,14 +50,43 @@ export default function Editar() {
         getPersonById();
     }, [route, reset]);
 
-    async function onSubmit(data: IPerson) {
+    async function onSubmit(data: IPersonEdit) {
 
         try {
             if (data.cellphone)
                 data.cellphone = onlyNumbers(data.cellphone);
 
-            await updatePersonClient(data);
+            await updatePerson(data);
             toast.success(PersonEditedSuccess);
+        } catch (e: any) {
+            const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
+            toast.error(errorMessage);
+        }
+    }
+
+    async function handleDeletePerson() {
+        try {
+            if (person && person.id) {
+                await deletePerson(person.id)
+                toast.success(PersonDeletedSuccess);
+                route.push("/administrativo/clientes");
+            }
+        } catch (e: any) {
+            const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
+            toast.error(errorMessage);
+        }
+    }
+
+    async function handleActivePerson() {
+        try {
+            if (person && person.id) {
+                await activePerson(person.id)
+                setPerson({
+                    ...person,
+                    active: true
+                });
+                toast.success(PersonActivatedSuccess);
+            }
         } catch (e: any) {
             const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
             toast.error(errorMessage);
@@ -83,6 +113,8 @@ export default function Editar() {
                         <Input name="email" register={register} errors={errors} placeholder="E-mail do cliente" />
                         <Input name="cellphone" mask={maskCellphone} register={register} errors={errors} placeholder="Celular do cliente" />
                         <button type="submit">Editar</button>
+                        {person && person.active && <button type="button" className="delete" onClick={() => handleDeletePerson()}>Deletar</button>}
+                        {person && !person.active && <button type="button" className="active" onClick={() => handleActivePerson()}>Ativar</button>}
                     </form>
                 </StyledForm.FormContainer>
             </Container>

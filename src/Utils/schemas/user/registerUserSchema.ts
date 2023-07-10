@@ -3,7 +3,6 @@ import {
   FieldRequested,
   InvalidEmail,
   MinCharName,
-  SelectInvalidOption,
 } from "@/Utils/Messages.string";
 
 export const userRegisterSchema = yup.object({
@@ -24,4 +23,5 @@ export const userEditSchema = yup.object({
     label: yup.string().required(FieldRequested),
     value: yup.string().required(FieldRequested),
   }).nullable().required(FieldRequested).typeError(FieldRequested),
+  active: yup.boolean().required()
 });

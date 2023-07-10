@@ -20,6 +20,17 @@ export const FormContainer = styled.div`
   button {
     width: 100%;
     height: 40px;
+    margin-bottom: 10px;
+  }
+
+  .delete {
+    background-color: #ed645a;
+    color: #fff;
+  }
+
+  .active {
+    background-color: #65d67f;
+    color: #fff;
   }
 
   @media (min-width: ${C.XL}) {

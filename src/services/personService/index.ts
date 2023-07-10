@@ -1,5 +1,5 @@
 import api from "../api";
-import { IPerson, IPersonCreate  } from "@/types/Person"
+import { IPerson, IPersonCreate, IPersonEdit  } from "@/types/Person"
 
 export async function getProfessionalsService() {
     return await api.get<IPerson[]>('person/GetProfissionals');
@@ -20,9 +20,21 @@ export async function createPersonClient(person: IPersonCreate) {
 } 
 
 export async function getPersonClient(id: number) {
-    return await api.get<IPerson>(`person/GetPersonClient/${id}`);
+    return await api.get<IPersonEdit>(`person/GetPersonClient/${id}`);
 }
 
-export async function updatePersonClient(person: IPerson) {
-    return await api.put('person/updatePersonClient', person);
+export async function updatePerson(person: IPersonEdit) {
+    return await api.put('person/UpdatePerson', person);
+}
+
+export async function getPersonProfessional(id: number) {
+    return await api.get<IPersonEdit>(`person/GetPersonProfessional/${id}`);
+}
+
+export async function deletePerson(id: number) {
+    return await api.delete(`person/DeletePerson/${id}`);
+}
+
+export async function activePerson(id: number) {
+    return await api.put(`person/ActivePerson/${id}`);
 }
