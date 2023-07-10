@@ -34,7 +34,7 @@ export function AuthProvider({ children }: AuthProviderType ) {
             let userDecoded: Partial<IUser> = {};
             userDecoded.id = Number(tokenDecoded.nameid);
             userDecoded.name = tokenDecoded.unique_name;
-            userDecoded.role = tokenDecoded.role as Role;
+            userDecoded.roleDescription = tokenDecoded.role;
             setUser(userDecoded as IUser);
         }
     }, []);
@@ -51,7 +51,7 @@ export function AuthProvider({ children }: AuthProviderType ) {
                 maxAge: 60 * 60 * 24 * 7, // 7 dias
                 path: '/'
             });
-    
+    debugger
             setUser(response.data.user);
     
             route.push("/");

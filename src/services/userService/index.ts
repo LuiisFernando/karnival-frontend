@@ -9,7 +9,7 @@ export async function createUser(user: IUserCreate) {
     const userRequest: IUserCreateRequest = {
         email: user.email,
         name: user.name,
-        role: Number(user.role.value)
+        role: Number(user.roleProps.value)
     };
     return await api.post('user/CreateUser', userRequest);
 }
