@@ -8,6 +8,7 @@ import { Role } from '@/types/User';
 import { withSSRAuth } from "@/Utils/withAuth";
 
 import { Container } from "@/styles/Grid";
+import * as AdmStyled from '@/styles/pages/administrativo/DefaultLayout';
 
 export default function AgendamentoProfissional() {
     const [selectedOption, setSelectedOption] = useState(null);
@@ -29,7 +30,7 @@ export default function AgendamentoProfissional() {
         { value: 'forest', label: 'Forest', color: '#00875A' },
         { value: 'slate', label: 'Slate', color: '#253858' },
         { value: 'silver', label: 'Silver', color: '#666666' },
-      ];
+    ];
 
     function onChange(e: any) {
         console.log(e);
@@ -37,9 +38,9 @@ export default function AgendamentoProfissional() {
 
     const filterColors = (inputValue: string) => {
         return colourOptions.filter((i) =>
-          i.label.toLowerCase().includes(inputValue.toLowerCase())
+            i.label.toLowerCase().includes(inputValue.toLowerCase())
         );
-      };
+    };
 
     function loadOptions(inputValue: string, callback: (options: any[]) => void) {
         console.log(inputValue);
@@ -57,26 +58,28 @@ export default function AgendamentoProfissional() {
                 <title>Karnival: Agendamento profissionais</title>
             </Head>
             <Container>
-                <h1>agendamento profissional</h1>
+                <AdmStyled.AdministrativoContainer>
+                    <h1>agendamento profissional</h1>
 
-                <Select
-                    defaultValue={selectedOption}
-                    onChange={onChange}
-                    options={options}
-                    isClearable
-                    isSearchable={false}
-                    placeholder="selecione"
-                />
+                    <Select
+                        defaultValue={selectedOption}
+                        onChange={onChange}
+                        options={options}
+                        isClearable
+                        isSearchable={false}
+                        placeholder="selecione"
+                    />
 
-                <AsyncSelect
-                    isClearable
-                    isSearchable
-                    placeholder="selecione"
-                    loadOptions={loadOptions}
-                    defaultOptions
-                    cacheOptions
-                    onChange={selectAsync}
-                />
+                    <AsyncSelect
+                        isClearable
+                        isSearchable
+                        placeholder="selecione"
+                        loadOptions={loadOptions}
+                        defaultOptions
+                        cacheOptions
+                        onChange={selectAsync}
+                    />
+                </AdmStyled.AdministrativoContainer>
 
             </Container>
         </>

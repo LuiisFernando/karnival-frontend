@@ -5,6 +5,7 @@ const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BACKEND_API
 });
 
-setupInterceptorsTo(api, null);
+setupInterceptorsTo(api);
 
 export default api;
+

@@ -14,3 +14,14 @@ export const userRegisterSchema = yup.object({
     value: yup.string().required(FieldRequested),
   }).nullable().required(FieldRequested).typeError(FieldRequested),
 });
+
+
+export const userEditSchema = yup.object({
+  id: yup.number().positive().required(),
+  name: yup.string().min(3, MinCharName).required(FieldRequested),
+  email: yup.string().email(InvalidEmail).required(FieldRequested),
+  role: yup.object().shape({
+    label: yup.string().required(FieldRequested),
+    value: yup.string().required(FieldRequested),
+  }).nullable().required(FieldRequested).typeError(FieldRequested),
+});

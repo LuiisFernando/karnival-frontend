@@ -155,10 +155,10 @@ export default function Header() {
                             </Link>
                         )}
                         {user && (
-                            <div>
+                            <Styled.UserContainer>
                                 <span>Olá, {user.name}</span>
                                 <button onClick={logout}>Sair</button>
-                            </div>
+                            </Styled.UserContainer>
                         )}
                     </Styled.NavContainer>
                 </Styled.HeaderContainer>

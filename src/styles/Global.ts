@@ -16,13 +16,29 @@ const GlobalStyles = createGlobalStyle`
   }
 
 body {
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Ysabeau SC',sans-serif;
   position: relative;
   min-height: 100vh;
 }
 
+input {
+  font-family: 'Ysabeau SC',sans-serif;
+}
+
+button {
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: 'Ysabeau SC',sans-serif;
+
+  &:active{
+    filter: brightness(0.95);
+  }
+}
+
 table {
-  font-family: arial, sans-serif;
+  font-family: 'Ysabeau SC',sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
@@ -35,6 +51,10 @@ td, th {
 
 tr:nth-child(even) {
   background-color: #dddddd;
+}
+
+td {
+  cursor: pointer;
 }
 
 ::-webkit-scrollbar {
@@ -50,6 +70,10 @@ tr:nth-child(even) {
   ::-webkit-scrollbar-thumb {
     background: #AEAEAE; 
     border-radius: 4px;
+  }
+
+  .rbc-toolbar-label {
+	  text-transform:capitalize
   }
 
 `;

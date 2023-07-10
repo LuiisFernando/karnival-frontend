@@ -6,7 +6,6 @@ import { Container } from "@/styles/Grid";
 export const Header = styled.header`
   width: 100%;
   height: 70px;
-  z-index: 9999;
   display: flex;
   flex-direction: row;
   transition: all 0.4s ease-in;
@@ -131,11 +130,40 @@ export const ULSubMenu = styled.ul`
     display: flex; 
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
     padding: 10px 0;
     width: 100%;
 
     li:not(:last-child) {
         margin-bottom: 10px;
     }
+
+    li {
+        width: 100%;
+        padding: 0 !important;
+
+        a {
+            justify-content: left;
+            padding-left: 10px;
+        }
+    }
+`;
+
+export const UserContainer = styled.div`
+
+    span {
+        margin-right: 20px;
+    }
+
+    button {
+        background: transparent;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &:active {
+            background: transparent;
+        }
+    }
+
 `;

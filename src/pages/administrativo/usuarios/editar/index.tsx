@@ -1,28 +1,35 @@
-import { useRef } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { GetServerSideProps } from 'next';
-import Head from "next/head";
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { toast } from 'react-toastify';
 import { HiArrowLeft } from "react-icons/hi";
 
 import Select from '@/components/Form/Select';
 import Input from '@/components/Form/Input';
 
-import { IUserCreate, Role } from '@/types/User';
-import { withSSRAuth } from "@/Utils/withAuth";
-import { userRegisterSchema } from '@/Utils/schemas/user/registerUserSchema';
-import { UserCreatedSuccess, ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/Messages.string';
+import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonProfessionalEditedSuccess } from '@/Utils/Messages.string';
+import { IPerson, } from '@/types/Person';
+import { IUserEdit, Role } from '@/types/User';
+import { onlyNumbers } from '@/Utils/Functions';
+import { maskCellphone } from '@/Utils/masks';
+import { withSSRAuth } from '@/Utils/withAuth';
 
-import { createUser } from "@/services/userService";
+import { userEditSchema } from '@/Utils/schemas/user/registerUserSchema';
 
 import { Container } from '@/styles/Grid';
 import * as StyledForm from "@/styles/Form";
 
-function Cadastro() {
-    const { register, handleSubmit, formState: { errors }, reset, setValue, control } = useForm<IUserCreate>({
-        resolver: yupResolver(userRegisterSchema),
+export default function Editar() {
+    const [user, setUser] = useState<IUserEdit>();
+    const { register, handleSubmit, formState: { errors }, reset, setValue, control } = useForm<IUserEdit>({
+        resolver: yupResolver(userEditSchema),
+        values: useMemo(() => user, [user])
     });
+
+    const route = useRouter();
 
     const roleOptions = [
         {
@@ -35,13 +42,31 @@ function Cadastro() {
         }
     ];
 
-    async function onSubmit(data: IUserCreate) {
+    useEffect(() => {
+        async function getPersonById() {
+            const { id } = route.query;
+
+            if (id) {
+                try {
+                    // const personResponse = await getPersonClient(Number(id));
+                    // setPerson(personResponse.data);
+                    // setValue('cellphone', personResponse.data.cellphone);
+                } catch (e: any) {
+                    const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
+                    toast.error(errorMessage);
+                }
+            }
+        }
+        getPersonById();
+    }, [route, reset]);
+
+    async function onSubmit(data: IUserEdit) {
+
         try {
-            await createUser(data);
-            // console.log(data);
-            toast.success(UserCreatedSuccess);
-            reset();
-            // setValue('role', );
+            console.log(data);
+
+            // await updatePersonClient(data);
+            toast.success(PersonProfessionalEditedSuccess);
         } catch (e: any) {
             const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
             toast.error(errorMessage);
@@ -51,7 +76,7 @@ function Cadastro() {
     return (
         <>
             <Head>
-                <title>Karnival: Cadastro de usuário</title>
+                <title>Karnival: Clientes</title>
             </Head>
             <Container>
                 <StyledForm.FormContainer>
@@ -59,7 +84,7 @@ function Cadastro() {
                         <StyledForm.FormGoBackButton href="/administrativo/usuarios">
                             <HiArrowLeft size={20} />
                         </StyledForm.FormGoBackButton>
-                        <h1>Cadastro usuário</h1>
+                        <h1>Edição de Usuário</h1>
                         <span></span>
                     </StyledForm.FormTitleContainer>
 
@@ -74,15 +99,13 @@ function Cadastro() {
                             errors={errors}
                             setValue={setValue}
                         />
-                        <button type="submit">Cadastrar</button>
+                        <button type="submit">Editar</button>
                     </form>
                 </StyledForm.FormContainer>
             </Container>
         </>
     );
 }
-
-export default Cadastro;
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx: any) => {
     return {

@@ -29,7 +29,7 @@ const onResponseError = (error: AxiosError): Promise<AxiosError> => {
     return Promise.reject(error);
 }
 
-export function setupInterceptorsTo(axiosInstance: AxiosInstance, _ctx: any): AxiosInstance {
+export function setupInterceptorsTo(axiosInstance: AxiosInstance): AxiosInstance {
     axiosInstance.interceptors.request.use(onRequest, onRequestError);
     axiosInstance.interceptors.response.use(onResponse, onResponseError);
     return axiosInstance;

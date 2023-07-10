@@ -5,7 +5,7 @@ import { Role } from "@/types/User";
 import { withSSRAuth } from "@/Utils/withAuth";
 
 import { Container } from "@/styles/Grid";
-
+import * as AdmStyled from '@/styles/pages/administrativo/DefaultLayout';
 export default function GerenciarTarefas() {
     return (
         <>
@@ -13,7 +13,9 @@ export default function GerenciarTarefas() {
                 <title>Karnival: Gerenciamento de tarefas</title>
             </Head>
             <Container>
-                <p>teste</p>
+                <AdmStyled.AdministrativoContainer>
+                    <h1>Tarefas</h1>
+                </AdmStyled.AdministrativoContainer>
             </Container>
         </>
     );

@@ -16,6 +16,7 @@ import { getServices } from "@/services/serviceService";
 import { Container } from "@/styles/Grid";
 
 import * as StyledFilter from '@/styles/shared/filterStyle';
+import * as AdmStyled from '@/styles/pages/administrativo/DefaultLayout';
 
 export default function Servicos() {
     const [services, setServices] = useState<IService[]>([]);
@@ -41,28 +42,30 @@ export default function Servicos() {
             </Head>
 
             <Container>
-                <h1>Servicos</h1>
+                <AdmStyled.AdministrativoContainer>
+                    <h1>Servicos</h1>
 
-                <StyledFilter.FilterContainer>
-                    <input type="text" name="filter" placeholder="Filtre por Nome ou E-mail" />
+                    <StyledFilter.FilterContainer>
+                        <input type="text" name="filter" placeholder="Filtre por Nome ou E-mail" />
 
-                    <Link href="/administrativo/servicos/cadastro">Cadastrar</Link>
-                </StyledFilter.FilterContainer>
+                        <Link href="/administrativo/servicos/cadastro">Cadastrar</Link>
+                    </StyledFilter.FilterContainer>
 
-                <table style={{ width: '100%' }}>
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {services?.map((service: IService, index: any) => (
-                            <tr key={index}>
-                                <td>{service.name}</td>
+                    <table style={{ width: '100%' }}>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {services?.map((service: IService, index: any) => (
+                                <tr key={index}>
+                                    <td>{service.name}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </AdmStyled.AdministrativoContainer>
             </Container>
         </>
     );

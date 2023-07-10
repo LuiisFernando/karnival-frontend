@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+
 import { toast } from 'react-toastify';
 
 import { IUser, Role } from '@/types/User';
@@ -12,9 +14,12 @@ import { getUsersService } from '@/services/userService';
 import { Container } from '@/styles/Grid';
 
 import * as Styled from '@/styles/pages/administrativo/usuarios/styles';
+import * as AdmStyled from '@/styles/pages/administrativo/DefaultLayout';
 
 function Usuarios() {
     const [users, setUsers] = useState<IUser[]>([]);
+
+    const route = useRouter();
 
     async function getUsers() {
         try {
@@ -25,6 +30,11 @@ function Usuarios() {
             toast.error(errorMessage);
         }
     }
+
+    function edit(id: number) {
+        route.push(`/administrativo/usuarios/editar?id=${id}`);
+    }
+
     useEffect(() => {
         getUsers();
     }, []);
@@ -35,33 +45,35 @@ function Usuarios() {
                 <title>Karnival: Usuários</title>
             </Head>
             <Container>
-                <h1>Usuarios</h1>
+                <AdmStyled.AdministrativoContainer>
+                    <h1>Usuários</h1>
 
 
-                <Styled.FilterContainer>
-                    <input type="text" name="filter" placeholder="Filtre por Nome ou E-mail" />
+                    <Styled.FilterContainer>
+                        <input type="text" name="filter" placeholder="Filtre por Nome ou E-mail" />
 
-                    <Link href="/administrativo/usuarios/cadastro">Cadastrar</Link>
-                </Styled.FilterContainer>
+                        <Link href="/administrativo/usuarios/cadastro">Cadastrar</Link>
+                    </Styled.FilterContainer>
 
-                <table style={{ width: '100%' }}>
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Email</th>
-                            <th>Perfil</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users?.map((user: any, index: any) => (
-                            <tr key={index}>
-                                <td>{user?.name}</td>
-                                <td>{user?.email}</td>
-                                <td>{user?.role}</td>
+                    <table style={{ width: '100%' }}>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Perfil</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {users?.map((user: any, index: any) => (
+                                <tr key={index} onClick={() => edit(user.id)}>
+                                    <td>{user?.name}</td>
+                                    <td>{user?.email}</td>
+                                    <td>{user?.role}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </AdmStyled.AdministrativoContainer>
             </Container>
 
         </>

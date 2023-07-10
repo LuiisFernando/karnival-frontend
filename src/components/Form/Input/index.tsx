@@ -15,7 +15,6 @@ export default function Input({ label, name, register, errors, type, mask, ...re
                     mask={mask}
                     maskChar=""
                     {...register(name)}
-                    {...rest}
                 >
                     {(inputProps: any) => <Styled.Input errors={errors[name]} {...inputProps} {...rest} />}
                 </ReactInputMastk>
