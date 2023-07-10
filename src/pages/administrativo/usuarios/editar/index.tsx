@@ -3,27 +3,29 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { HiArrowLeft } from "react-icons/hi";
 
 import Select from '@/components/Form/Select';
 import Input from '@/components/Form/Input';
 
-import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonProfessionalEditedSuccess } from '@/Utils/Messages.string';
-import { IPerson, } from '@/types/Person';
-import { IUserEdit, Role } from '@/types/User';
-import { onlyNumbers } from '@/Utils/Functions';
-import { maskCellphone } from '@/Utils/masks';
+import { ErrorMessageDefault, ErrorMessageDefaultWithMessage, PersonProfessionalDeletedSuccess, UserActivatedSuccess, UserDeletedSuccess, UserEditedSuccess } from '@/Utils/Messages.string';
+import { IUser, IUserEdit, IUserEditRequest, Role, SelectProps } from '@/types/User';
 import { withSSRAuth } from '@/Utils/withAuth';
 
 import { userEditSchema } from '@/Utils/schemas/user/registerUserSchema';
+import { activeUser, deleteUser, getUserByIdService, updateUserService } from '@/services/userService';
 
 import { Container } from '@/styles/Grid';
 import * as StyledForm from "@/styles/Form";
+import ReactSelect from 'react-select';
 
 export default function Editar() {
     const [user, setUser] = useState<IUserEdit>();
+
+    const [userRole, setUserRole] = useState<SelectProps>();
+
     const { register, handleSubmit, formState: { errors }, reset, setValue, control } = useForm<IUserEdit>({
         resolver: yupResolver(userEditSchema),
         values: useMemo(() => user, [user])
@@ -33,50 +35,88 @@ export default function Editar() {
 
     const roleOptions = [
         {
-            value: 1,
+            value: "1",
             label: 'Administrador'
         },
         {
-            value: 2,
+            value: "2",
             label: 'Usuário'
         }
     ];
 
     useEffect(() => {
-        async function getPersonById() {
+        async function getUserById() {
             const { id } = route.query;
 
             if (id) {
                 try {
-                    // const personResponse = await getPersonClient(Number(id));
-                    // setPerson(personResponse.data);
-                    // setValue('cellphone', personResponse.data.cellphone);
+                    const userResponse = await getUserByIdService(Number(id));
+                    setUser(userResponse.data);
+                    setValue('role', userResponse.data.role);
                 } catch (e: any) {
                     const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
                     toast.error(errorMessage);
                 }
             }
         }
-        getPersonById();
+        getUserById();
     }, [route, reset]);
 
     async function onSubmit(data: IUserEdit) {
 
         try {
-            console.log(data);
+            const userToUpdate: IUserEditRequest = {
+                id: data.id,
+                name: data.name,
+                email: data.email,
+                role: Number(data.role.value)
+            };
 
-            // await updatePersonClient(data);
-            toast.success(PersonProfessionalEditedSuccess);
+            await updateUserService(userToUpdate);
+            toast.success(UserEditedSuccess);
         } catch (e: any) {
             const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
             toast.error(errorMessage);
         }
     }
 
+    async function handleDeleteUser() {
+        try {
+            if (user && user.id) {
+                await deleteUser(user.id)
+                toast.success(UserDeletedSuccess);
+                route.push("/administrativo/usuarios");
+            }
+        } catch (e: any) {
+            const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
+            toast.error(errorMessage);
+        }
+    }
+
+    async function handleActiveUser() {
+        try {
+            if (user && user.id) {
+                await activeUser(user.id)
+                setUser({
+                    ...user,
+                    active: true
+                });
+                toast.success(UserActivatedSuccess);
+            }
+        } catch (e: any) {
+            const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
+            toast.error(errorMessage);
+        }
+    }
+
+    useEffect(() => {
+        console.log('user >> ', user);
+    }, [user]);
+
     return (
         <>
             <Head>
-                <title>Karnival: Clientes</title>
+                <title>Karnival: Usuário</title>
             </Head>
             <Container>
                 <StyledForm.FormContainer>
@@ -100,6 +140,8 @@ export default function Editar() {
                             setValue={setValue}
                         />
                         <button type="submit">Editar</button>
+                        {user && user.active && <button type="button" className="delete" onClick={() => handleDeleteUser()}>Deletar</button>}
+                        {user && !user.active && <button type="button" className="active" onClick={() => handleActiveUser()}>Ativar</button>}
                     </form>
                 </StyledForm.FormContainer>
             </Container>

@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 
 import { toast } from 'react-toastify';
 
-import { IUser, Role } from '@/types/User';
+import { IUser, IUserEdit, Role } from '@/types/User';
 import { withSSRAuth } from "@/Utils/withAuth";
 import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/Messages.string';
 import { getUsersService } from '@/services/userService';
@@ -61,14 +61,16 @@ function Usuarios() {
                                 <th>Nome</th>
                                 <th>Email</th>
                                 <th>Perfil</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {users?.map((user: any, index: any) => (
+                            {users?.map((user: IUser, index: any) => (
                                 <tr key={index} onClick={() => edit(user.id)}>
-                                    <td>{user?.name}</td>
-                                    <td>{user?.email}</td>
-                                    <td>{user?.role}</td>
+                                    <td>{user.name}</td>
+                                    <td>{user.email}</td>
+                                    <td>{user.roleDescription}</td>
+                                    <td className={user.active ? 'active' : 'deleted'}>{user.active ? "Ativo" : "Excluído"}</td>
                                 </tr>
                             ))}
                         </tbody>

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Head from "next/head";
 import { GetServerSideProps } from 'next';
 import { useForm } from 'react-hook-form';
@@ -22,7 +23,7 @@ import { Container } from "@/styles/Grid";
 import * as StyledForm from "@/styles/Form";
 
 export default function Cadastro() {
-    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IPersonCreate>({
+    const { register, handleSubmit, formState: { errors }, reset, setValue, setFocus } = useForm<IPersonCreate>({
         resolver: yupResolver(personRegisterSchema),
     });
 
@@ -42,6 +43,9 @@ export default function Cadastro() {
         }
     }
 
+    useEffect(() => {
+        setFocus('name');
+    }, []);
 
     return (
         <>

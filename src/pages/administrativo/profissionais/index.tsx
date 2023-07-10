@@ -62,6 +62,7 @@ export default function Profissionais() {
                                 <th>Nome</th>
                                 <th>Email</th>
                                 <th>Celular</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,6 +71,7 @@ export default function Profissionais() {
                                     <td>{pro.name}</td>
                                     <td>{pro.email}</td>
                                     <td>{pro.cellphone ? formatCellphoneToMask(pro.cellphone) : ""}</td>
+                                    <td className={pro.active ? 'active' : 'deleted'}>{pro.active ? "Ativo" : "Excluído"}</td>
                                 </tr>
                             ))}
                         </tbody>

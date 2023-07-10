@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from "next/head";
 import { useForm } from 'react-hook-form';
@@ -20,7 +20,7 @@ import { Container } from '@/styles/Grid';
 import * as StyledForm from "@/styles/Form";
 
 function Cadastro() {
-    const { register, handleSubmit, formState: { errors }, reset, setValue, control } = useForm<IUserCreate>({
+    const { register, handleSubmit, formState: { errors }, reset, setValue, setFocus, control } = useForm<IUserCreate>({
         resolver: yupResolver(userRegisterSchema),
     });
 
@@ -35,10 +35,13 @@ function Cadastro() {
         }
     ];
 
+    useEffect(() => {
+        setFocus('name');
+    }, []);
+
     async function onSubmit(data: IUserCreate) {
         try {
             await createUser(data);
-            // console.log(data);
             toast.success(UserCreatedSuccess);
             reset();
             // setValue('role', );

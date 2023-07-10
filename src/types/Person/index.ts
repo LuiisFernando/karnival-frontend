@@ -13,4 +13,14 @@ export interface IPerson {
     email: string;
     cellphone: Maybe<string | null>;
     provider: boolean;
+    active: boolean;
+}
+
+export interface IPersonEdit {
+    id: number;
+    name: string;
+    email: string;
+    cellphone: Maybe<string | null>;
+    provider: boolean;
+    active: boolean;
 }

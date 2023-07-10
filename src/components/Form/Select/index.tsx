@@ -3,7 +3,7 @@ import { Controller } from 'react-hook-form';
 
 import * as Styled from './styles';
 
-export default function Select({ label, name, options, errors, setValue, control, placeholder, ...rest }: any) {    
+export default function Select({ control, label, name, options, errors, setValue, placeholder, ...rest }: any) {
 
     function onChangeSelect(e: any) {
         setValue(name, e);

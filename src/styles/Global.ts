@@ -57,6 +57,14 @@ td {
   cursor: pointer;
 }
 
+td.active {
+  color: green;
+}
+
+td.deleted {
+  color: red;
+}
+
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;

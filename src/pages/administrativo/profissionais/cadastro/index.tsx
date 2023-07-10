@@ -20,9 +20,10 @@ import { onlyNumbers } from "@/Utils/Functions";
 
 import { Container } from "@/styles/Grid";
 import * as StyledForm from "@/styles/Form";
+import { useEffect } from "react";
 
 export default function Cadastro() {
-    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IPersonCreate>({
+    const { register, handleSubmit, formState: { errors }, reset, setValue, setFocus } = useForm<IPersonCreate>({
         resolver: yupResolver(personRegisterSchema),
     });
 
@@ -41,6 +42,9 @@ export default function Cadastro() {
         }
     }
 
+    useEffect(() => {
+        setFocus('name');
+    }, []);
 
     return (
         <>
