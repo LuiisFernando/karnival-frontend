@@ -4,7 +4,7 @@ import { setCookie, parseCookies, destroyCookie } from "nookies";
 import jwt_decode from 'jwt-decode';
 import { toast } from "react-toastify";
 
-import { IUser, IUserDecoded, ILoginForm, Role } from "@/types/User";
+import { IUser, IUserDecoded, ILoginForm } from "@/types/User";
 import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from "@/Utils/Messages.string";
 import { loginService } from "@/services/authenticationService";
 

@@ -3,6 +3,8 @@ import Head from "next/head";
 import * as Styled from '@/styles/pages/Home';
 import Carousel from '@/components/Carousel';
 import { Container } from "@/styles/Grid";
+import { GetStaticProps } from "next";
+import { useEffect } from "react";
 
 const SlickArrowLeft = ({ currentSlide, slideCount, ...props }: any) => (
   <button
