@@ -37,7 +37,7 @@ function Cadastro() {
 
     useEffect(() => {
         setFocus('name');
-    }, []);
+    }, [setFocus]);
 
     async function onSubmit(data: IUserCreate) {
         try {

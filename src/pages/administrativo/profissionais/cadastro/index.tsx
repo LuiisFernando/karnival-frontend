@@ -51,7 +51,7 @@ export default function Cadastro() {
 
     useEffect(() => {
         setFocus('name');
-    }, []);
+    }, [setFocus]);
 
     return (
         <>

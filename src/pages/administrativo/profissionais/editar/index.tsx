@@ -24,7 +24,7 @@ import * as StyledForm from "@/styles/Form";
 
 export default function Editar() {
     const [person, setPerson] = useState<IPersonEdit>();
-    const { register, handleSubmit, formState: { errors }, reset, setValue, setFocus } = useForm<IPersonEdit>({
+    const { register, handleSubmit, formState: { errors }, setValue, setFocus } = useForm<IPersonEdit>({
         resolver: yupResolver(personEditSchema),
         values: useMemo(() => person, [person])
     });
@@ -90,11 +90,11 @@ export default function Editar() {
             }
         }
         getPersonById();
-    }, [route, reset]);
+    }, [route, setValue]);
 
     useEffect(() => {
         setFocus('name');
-    }, []);
+    }, [setFocus]);
 
     return (
         <>

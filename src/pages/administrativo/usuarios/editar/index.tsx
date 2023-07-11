@@ -24,7 +24,7 @@ import ReactSelect from 'react-select';
 export default function Editar() {
     const [user, setUser] = useState<IUserEdit>();
 
-    const { register, handleSubmit, formState: { errors }, reset, setValue, control } = useForm<IUserEdit>({
+    const { register, handleSubmit, formState: { errors }, setValue, control } = useForm<IUserEdit>({
         resolver: yupResolver(userEditSchema),
         values: useMemo(() => user, [user])
     });
@@ -58,7 +58,7 @@ export default function Editar() {
             }
         }
         getUserById();
-    }, [route, reset]);
+    }, [route, setValue]);
 
     async function onSubmit(data: IUserEdit) {
 
@@ -106,10 +106,6 @@ export default function Editar() {
             toast.error(errorMessage);
         }
     }
-
-    useEffect(() => {
-        console.log('user >> ', user);
-    }, [user]);
 
     return (
         <>

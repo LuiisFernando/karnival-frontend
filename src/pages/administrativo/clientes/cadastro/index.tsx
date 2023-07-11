@@ -38,7 +38,7 @@ export default function Cadastro() {
         try {
             if (data.cellphone)
                 data.cellphone = onlyNumbers(data.cellphone);
-                
+
             await createPersonClient(data);
             toast.success(PersonCreatedSuccess);
             reset();
@@ -51,7 +51,7 @@ export default function Cadastro() {
 
     useEffect(() => {
         setFocus('name');
-    }, []);
+    }, [setFocus, setValue]);
 
     return (
         <>
