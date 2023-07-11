@@ -23,8 +23,15 @@ import * as StyledForm from "@/styles/Form";
 import { useEffect } from "react";
 
 export default function Cadastro() {
+    const initialValues: IPersonCreate = {
+        name: "",
+        cellphone: "",
+        email: "",
+        provider: true
+    };
     const { register, handleSubmit, formState: { errors }, reset, setValue, setFocus } = useForm<IPersonCreate>({
         resolver: yupResolver(personRegisterSchema),
+        values: initialValues
     });
 
     async function onSubmit(data: IPersonCreate) {
