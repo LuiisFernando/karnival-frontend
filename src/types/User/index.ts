@@ -51,6 +51,7 @@ export interface IUserDecoded {
     nameid: string;
     role: string;
     unique_name: string;
+    exp: number;
 }
 
 export interface ILoginForm {

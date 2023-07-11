@@ -1,8 +1,10 @@
 
-import { parseCookies } from 'nookies';
-import jwt_decode from 'jwt-decode';
-import { IUser, Role } from '@/types/User';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { destroyCookie, parseCookies } from 'nookies';
+import jwt_decode from 'jwt-decode';
+import { fromUnixTime, isBefore } from 'date-fns';
+
+import { IUserDecoded, Role } from '@/types/User';
 
 export function withSSRAuth<P>(fn: Function, role: Role) {
     return async (ctx: GetServerSidePropsContext): Promise<GetServerSidePropsResult<P>> => {
@@ -19,7 +21,24 @@ export function withSSRAuth<P>(fn: Function, role: Role) {
                 };
             }
             
-            const tokenDecode = jwt_decode<IUser>(token);
+            const tokenDecode = jwt_decode<IUserDecoded>(token);
+            const dateToken = fromUnixTime(tokenDecode.exp);
+            const currentDate = fromUnixTime(Math.floor(Date.now() / 1000));
+
+            if (isBefore(dateToken, currentDate)) {
+                
+                destroyCookie(ctx, 'karnival.token', {
+                    path: '/'
+                });
+
+                return {
+                    redirect: {
+                        permanent: false,
+                        destination: '/login'
+                    }
+                };
+            }
+
 
             if (tokenDecode.role === role) {
                 return await fn(ctx);
@@ -32,6 +51,8 @@ export function withSSRAuth<P>(fn: Function, role: Role) {
                     }
                 };
             }
+
+            
 
             // if (tokenDecode.roles === null) {
             //     ctx.res.statusCode = 302;
