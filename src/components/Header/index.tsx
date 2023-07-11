@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { FaUser } from "react-icons/fa";
 
@@ -11,10 +11,6 @@ import * as Styled from './styles';
 export default function Header() {
     const [subAdmActive, setSubAdmActive] = useState(false);
     const { user, logout } = useAuth();
-
-    useEffect(() => {
-        console.log(user);
-    }, [user]);
 
     const wrapperRef = useRef(null);
     useClickOutside(wrapperRef, () => {
