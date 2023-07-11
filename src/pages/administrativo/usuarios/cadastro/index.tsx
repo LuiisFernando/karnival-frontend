@@ -44,7 +44,6 @@ function Cadastro() {
             await createUser(data);
             toast.success(UserCreatedSuccess);
             reset();
-            // setValue('role', );
         } catch (e: any) {
             const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
             toast.error(errorMessage);
@@ -72,7 +71,7 @@ function Cadastro() {
                         <Select
                             control={control}
                             options={roleOptions}
-                            name="role"
+                            name="roleProps"
                             placeholder="Selecione o perfil do usuário"
                             errors={errors}
                             setValue={setValue}
