@@ -9,7 +9,7 @@ import { HiArrowLeft } from "react-icons/hi";
 import Select from '@/components/Form/Select';
 import Input from '@/components/Form/Input';
 
-import { IUserCreate, Role } from '@/types/User';
+import { IUserCreate, Role, SelectProps } from '@/types/User';
 import { withSSRAuth } from "@/Utils/withAuth";
 import { userRegisterSchema } from '@/Utils/schemas/user/registerUserSchema';
 import { UserCreatedSuccess, ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/Messages.string';
@@ -20,9 +20,17 @@ import { Container } from '@/styles/Grid';
 import * as StyledForm from "@/styles/Form";
 
 function Cadastro() {
+    const defaultValues: IUserCreate = {
+        name: "",
+        email: "",
+        roleProps: null 
+    };
+
     const { register, handleSubmit, formState: { errors }, reset, setValue, setFocus, control } = useForm<IUserCreate>({
         resolver: yupResolver(userRegisterSchema),
     });
+
+    const selectRef = useRef<any>(null);
 
     const roleOptions = [
         {
@@ -43,7 +51,7 @@ function Cadastro() {
         try {
             await createUser(data);
             toast.success(UserCreatedSuccess);
-            reset();
+            reset(defaultValues);
         } catch (e: any) {
             const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
             toast.error(errorMessage);
@@ -75,6 +83,8 @@ function Cadastro() {
                             placeholder="Selecione o perfil do usuário"
                             errors={errors}
                             setValue={setValue}
+                            isSearchable={false}
+                            inputRef={selectRef}
                         />
                         <button type="submit">Cadastrar</button>
                     </form>

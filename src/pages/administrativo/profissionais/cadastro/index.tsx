@@ -29,9 +29,9 @@ export default function Cadastro() {
         email: "",
         provider: true
     };
-    const { register, handleSubmit, formState: { errors }, reset, setValue, setFocus } = useForm<IPersonCreate>({
+    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IPersonCreate>({
         resolver: yupResolver(personRegisterSchema),
-        values: initialValues
+        values: initialValues,
     });
 
     async function onSubmit(data: IPersonCreate) {
@@ -49,10 +49,6 @@ export default function Cadastro() {
         }
     }
 
-    useEffect(() => {
-        setFocus('name');
-    }, [setFocus]);
-
     return (
         <>
             <Head>
@@ -69,7 +65,7 @@ export default function Cadastro() {
                     </StyledForm.FormTitleContainer>
 
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <Input name="name" register={register} errors={errors} placeholder="Nome do profissional" />
+                        <Input name="name" register={register} errors={errors} placeholder="Nome do profissional" autoFocus />
                         <Input name="email" register={register} errors={errors} placeholder="E-mail do profissional" />
                         <Input name="cellphone" mask={maskCellphone} register={register} errors={errors} placeholder="Celular do profissional" />
                         <button type="submit">Cadastrar</button>

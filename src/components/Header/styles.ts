@@ -1,6 +1,6 @@
+import Link from "next/link";
 import styled from "styled-components";
 import * as C from '@/styles/Constants';
-import Link from "next/link";
 import { Container } from "@/styles/Grid";
 
 export const Header = styled.header`

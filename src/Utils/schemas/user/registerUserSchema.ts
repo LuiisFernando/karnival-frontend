@@ -8,20 +8,19 @@ import {
 export const userRegisterSchema = yup.object({
   name: yup.string().min(3, MinCharName).required(FieldRequested),
   email: yup.string().email(InvalidEmail).required(FieldRequested),
-  roleProps: yup.object().shape({
+  roleProps: yup.object<any>().shape({
     label: yup.string().required(FieldRequested),
     value: yup.string().required(FieldRequested),
-  }).nullable().required(FieldRequested).typeError(FieldRequested),
+  }).nullable().required(FieldRequested),
 });
-
 
 export const userEditSchema = yup.object({
   id: yup.number().positive().required(),
   name: yup.string().min(3, MinCharName).required(FieldRequested),
   email: yup.string().email(InvalidEmail).required(FieldRequested),
-  roleProps: yup.object().shape({
+  active: yup.boolean().required(),
+  roleProps: yup.object<any>().shape({
     label: yup.string().required(FieldRequested),
     value: yup.string().required(FieldRequested),
-  }).nullable().required(FieldRequested).typeError(FieldRequested),
-  active: yup.boolean().required()
+  }).nullable().required(FieldRequested),
 });

@@ -1,3 +1,5 @@
+import { Maybe } from "yup";
+
 export interface SelectProps {
     value: string;
     label: string;
@@ -36,7 +38,7 @@ export interface IUserEditRequest extends IUserCreateRequest {
 export interface IUserCreate {
     name: string;
     email: string;
-    roleProps: SelectProps;
+    roleProps: Maybe<any | null>;
 }
 
 export interface IUserEdit {
@@ -44,7 +46,7 @@ export interface IUserEdit {
     name: string;
     email: string;
     active: boolean;
-    roleProps: SelectProps;
+    roleProps: Maybe<any | null>;
 }
 
 export interface IUserDecoded {

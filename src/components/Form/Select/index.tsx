@@ -3,11 +3,24 @@ import { Controller } from 'react-hook-form';
 
 import * as Styled from './styles';
 
-export default function Select({ control, label, name, options, errors, setValue, placeholder, ...rest }: any) {
+export default function Select({ control, label, name, options, errors, setValue, placeholder, inputRef, ...rest }: any) {
 
-    function onChangeSelect(e: any) {
-        setValue(name, e);
-    }
+    // function onChangeSelect(e: any) {
+    //     setValue(name, e);
+    // }
+
+    function onChangeSelect(event: any) {
+        // Overwrite the event with your own object if it doesn't exist
+        if (!event) {
+          event = {
+            target: inputRef,
+            value: '',
+          };
+        }
+        setValue(name, event);
+
+        // onChange(event);
+      }
 
     const error = errors[name]?.message || errors[name]?.label?.message;
 
@@ -21,6 +34,7 @@ export default function Select({ control, label, name, options, errors, setValue
                     <Styled.Select
                         {...field}
                         {...rest}
+                        ref={inputRef}
                         options={options}
                         onChange={onChangeSelect}
                         instanceId={useId}
@@ -31,6 +45,8 @@ export default function Select({ control, label, name, options, errors, setValue
                                 ...baseStyle,
                                 borderColor: error ? 'red' : '#d3d3d3',
                                 boxShadow: 0,
+                                fontWeight: '100',
+
                                 "&:hover": {
                                     borderColor: error ? 'red' : '#d3d3d3',
                                     boxShadow: 0,
