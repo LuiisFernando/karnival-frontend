@@ -29,7 +29,7 @@ export default function Cadastro() {
         email: "",
         provider: true
     };
-    const { register, handleSubmit, formState: { errors }, reset, setValue, setFocus } = useForm<IPersonCreate>({
+    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IPersonCreate>({
         resolver: yupResolver(personRegisterSchema),
         values: initialValues
     });
@@ -49,10 +49,6 @@ export default function Cadastro() {
         }
     }
 
-    useEffect(() => {
-        setFocus('name');
-    }, [setFocus]);
-
     return (
         <>
             <Head>
@@ -68,7 +64,7 @@ export default function Cadastro() {
                         <span></span>
                     </StyledForm.FormTitleContainer>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <Input name="name" register={register} errors={errors} placeholder="Nome do cliente" />
+                        <Input name="name" register={register} errors={errors} placeholder="Nome do cliente" autoFocus />
                         <Input name="email" register={register} errors={errors} placeholder="E-mail do cliente" />
                         <Input name="cellphone" mask={maskCellphone} register={register} errors={errors} placeholder="Celular do cliente" />
                         <button type="submit">Cadastrar</button>

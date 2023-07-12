@@ -4,7 +4,7 @@ import { setCookie, parseCookies, destroyCookie } from "nookies";
 import jwt_decode from 'jwt-decode';
 import { toast } from "react-toastify";
 
-import { IUser, IUserDecoded, ILoginForm, Role } from "@/types/User";
+import { IUser, IUserDecoded, ILoginForm } from "@/types/User";
 import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from "@/Utils/Messages.string";
 import { loginService } from "@/services/authenticationService";
 
@@ -36,6 +36,8 @@ export function AuthProvider({ children }: AuthProviderType ) {
             userDecoded.name = tokenDecoded.unique_name;
             userDecoded.roleDescription = tokenDecoded.role;
             setUser(userDecoded as IUser);
+        } else {
+            setUser(null);
         }
     }, []);
 
@@ -51,7 +53,7 @@ export function AuthProvider({ children }: AuthProviderType ) {
                 maxAge: 60 * 60 * 24 * 7, // 7 dias
                 path: '/'
             });
-    debugger
+
             setUser(response.data.user);
     
             route.push("/");
