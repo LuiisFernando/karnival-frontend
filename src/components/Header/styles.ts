@@ -134,7 +134,7 @@ export const ULSubMenu = styled.ul`
     width: 100%;
 
     li:not(:last-child) {
-        margin-bottom: 10px;
+        height: 40px;
     }
 
     li {
