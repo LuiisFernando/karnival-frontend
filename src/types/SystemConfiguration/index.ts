@@ -6,8 +6,8 @@ export interface ISystemConfiguration {
 
 export interface OpeningHour {
     day: number;
-    initialHour: number;
-    finalHour: number;
+    initialHour: string;
+    finalHour: string;
 }
 
 export interface SocialNetwork {

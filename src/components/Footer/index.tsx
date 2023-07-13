@@ -1,43 +1,24 @@
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
-import { ISystemConfiguration } from '@/types/SystemConfiguration';
-import { getSystemConfiguration } from '@/services/systemConfigurationService';
+import { useAuth } from "@/hooks/useAuth";
+
+import { OpeningHour } from '@/types/SystemConfiguration';
+import { getWeekDayNameByIndex } from '@/Utils/Functions';
 
 import { Container } from '@/styles/Grid';
 import * as Styled from './styles';
 
 export default function Footer() {
-    const [systemConfiguration, setSystemConfiguration] = useState<ISystemConfiguration>();
-
-    function getWeekDayName(indice: number) {
-        const diasSemana = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
-
-        return diasSemana[indice];
-    }
-
-    useEffect(() => {
-        async function loadInfo() {
-            try {
-                const response = await getSystemConfiguration();
-                setSystemConfiguration(response.data);
-            } catch {
-
-            }
-        }
-        loadInfo();
-        console.log('footer')
-    }, []);
-
+    const { systemConfiguration } = useAuth();
     return (
         <Styled.FooterContainer>
             <Container>
                 <Styled.FooterWrap>
                     <Styled.Opening>
                         <span>Horário de Funcionamento</span>
-                        {systemConfiguration?.openings.map((open, index) => (
+                        {systemConfiguration?.openings.map((open: OpeningHour, index: any) => (
                             <Styled.OpeningContainer key={index}>
-                                    {getWeekDayName(open.day)} {open.initialHour} - {open.finalHour}
+                                    {getWeekDayNameByIndex(open.day)} {open.initialHour} - {open.finalHour}
                             </Styled.OpeningContainer>
                         ))}
                     </Styled.Opening>

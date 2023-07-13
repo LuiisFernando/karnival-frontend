@@ -7,40 +7,28 @@ import { toast } from "react-toastify";
 import { IUser, IUserDecoded, ILoginForm } from "@/types/User";
 import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from "@/Utils/Messages.string";
 import { loginService } from "@/services/authenticationService";
+import { getSystemConfiguration } from "@/services/systemConfigurationService";
+import { ISystemConfiguration } from "@/types/SystemConfiguration";
 
 type AuthProviderType = {
 	children: ReactNode;
 }
 
 type ContextProps = {
-    user: IUser | null,
+    user: IUser | null;
+    systemConfiguration: ISystemConfiguration | null;
     login: (data: ILoginForm) => void;
     logout: () => void;
     resetAll: () => void;
+    setSystemConfiguration: any;
 }
 
 export const AuthContext = createContext({} as ContextProps);
 
 export function AuthProvider({ children }: AuthProviderType ) {
     const [user, setUser] = useState<IUser | null>(null);
-
+    const [systemConfiguration, setSystemConfiguration] = useState<ISystemConfiguration | null>(null);
     const route = useRouter();
-
-    useEffect(() => {
-        const { ['karnival.token']: token } = parseCookies();
-
-        if (token) {
-            const tokenDecoded = jwt_decode<IUserDecoded>(token);
-            
-            let userDecoded: Partial<IUser> = {};
-            userDecoded.id = Number(tokenDecoded.nameid);
-            userDecoded.name = tokenDecoded.unique_name;
-            userDecoded.roleDescription = tokenDecoded.role;
-            setUser(userDecoded as IUser);
-        } else {
-            setUser(null);
-        }
-    }, []);
 
     async function login(data: ILoginForm) {
         try {
@@ -75,10 +63,37 @@ export function AuthProvider({ children }: AuthProviderType ) {
         });
         setUser(null);
     }
+
+    async function loadSystemConfiguration() {
+        try {
+            const response = await getSystemConfiguration();
+            setSystemConfiguration(response.data);
+        } catch { }
+    }
+
+    useEffect(() => {
+        const { ['karnival.token']: token } = parseCookies();
+
+        loadSystemConfiguration();
+
+        if (token) {
+            const tokenDecoded = jwt_decode<IUserDecoded>(token);
+            
+            let userDecoded: Partial<IUser> = {};
+            userDecoded.id = Number(tokenDecoded.nameid);
+            userDecoded.name = tokenDecoded.unique_name;
+            userDecoded.roleDescription = tokenDecoded.role;
+            setUser(userDecoded as IUser);
+        } else {
+            setUser(null);
+        }
+    }, []);
     
     return (
         <AuthContext.Provider value={{
             user,
+            systemConfiguration,
+            setSystemConfiguration,
             login,
             logout,
             resetAll

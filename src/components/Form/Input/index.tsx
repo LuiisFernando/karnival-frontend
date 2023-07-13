@@ -1,4 +1,5 @@
 import ReactInputMastk from 'react-input-mask';
+import { ErrorMessage } from '@hookform/error-message';
 
 import * as Styled from './styles';
 
@@ -21,7 +22,9 @@ export default function Input({ label, name, register, errors, type, mask, ...re
             ) : (
                 <Styled.Input errors={errors[name]} {...register(name)} type={type} id={name} {...rest} className={errors[name] ? 'input-error' : ''} />
             )}
-            {errors[name] && <Styled.ErrorMessage className="input-error-message">{errors[name].message}</Styled.ErrorMessage>}
+            <ErrorMessage errors={errors} name={name} render={({ message }) => (
+                <Styled.ErrorMessage className="input-error-message">{message}</Styled.ErrorMessage>
+            )} />
         </Styled.InputContainer>
     );
 }

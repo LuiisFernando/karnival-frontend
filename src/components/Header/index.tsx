@@ -101,6 +101,11 @@ export default function Header() {
                                         Gerenciar Tarefas
                                     </Link>
                                 </li>
+                                <li>
+                                    <Link href="/administrativo/system-configuration">
+                                        Configuração do site
+                                    </Link>
+                                </li>
                             </Styled.ULSubMenu>
                         </div>
                     </Styled.LiComSub>

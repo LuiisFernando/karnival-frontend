@@ -144,6 +144,7 @@ export const ULSubMenu = styled.ul`
         a {
             justify-content: left;
             padding-left: 10px;
+            height: 100%;
         }
     }
 `;
