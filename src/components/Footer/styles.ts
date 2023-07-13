@@ -7,7 +7,6 @@ export const FooterContainer = styled.footer`
   width: 100%;
   /* height: 400px; */
   color: #fff;
-
   padding: 20px 0;
 
   @media (min-width: ${C.XL}) {
@@ -17,35 +16,24 @@ export const FooterContainer = styled.footer`
 `;
 
 export const FooterWrap = styled.div`
-  /* padding-top: 40px; */
-
   display: flex;
-  /* justify-content: center;
-    align-items: flex-start; */
   width: 100%;
-
-  /* display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 10px;
-    
-    @media (min-width: ${C.XL}) {
-        grid-gap: 20px;
-    } */
   flex-direction: column;
 
   @media (min-width: ${C.XL}) {
     padding-top: 40px;
     flex-direction: row;
-    justify-content: space-between;
+
+    div:not(:last-child) {
+      margin-right: 100px;
+    }
   }
 `;
 
 export const Opening = styled.div`
   display: flex;
   flex-direction: column;
-  /* min-width: 200px; */
   margin-bottom: 20px;
-  /* width: 100%; */
 
   span {
     margin-bottom: 10px;
@@ -59,35 +47,25 @@ export const Opening = styled.div`
 `;
 
 export const OpeningContainer = styled.div`
-  /* display: flex;
-    flex-direction: column; */
 `;
 
 export const AddressContainer = styled.div`
-  /* max-width: 40px; */
-  /* margin-right: 50px; */
   margin-bottom: 20px;
 
   p {
     max-width: 200px;
   }
-
-  /* width: 100%; */
-
   span {
     display: block;
     margin-bottom: 10px;
   }
 
   @media (min-width: ${C.XL}) {
-    /* margin-right: 200px; */
     margin-bottom: 0;
   }
 `;
 
 export const PagesContainer = styled.div`
-  /* min-width: 200px; */
-  /* width: 100%; */
   display: flex;
   flex-direction: column;
 
@@ -106,7 +84,6 @@ export const PagesContainer = styled.div`
   }
 
   @media (min-width: ${C.XL}) {
-    /* min-width: 500px; */
   }
 `;
 
@@ -115,4 +92,14 @@ export const SocialNetworkContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+  bottom: 50px;
+  text-align: center;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    margin-right: 20px;
+  }
 `;

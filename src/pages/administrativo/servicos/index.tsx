@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { GetServerSideProps } from 'next';
 import Head from "next/head";
 import Link from "next/link";
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from "react-toastify";
 
 import { Role } from "@/types/User";
