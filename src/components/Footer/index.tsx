@@ -12,7 +12,7 @@ export default function Footer() {
     const { systemConfiguration } = useAuth();
     return (
         <Styled.FooterContainer>
-            <Container>
+            <Container style={{ position: 'relative', height: '100%' }}>
                 <Styled.FooterWrap>
                     <Styled.Opening>
                         <span>Horário de Funcionamento</span>
@@ -34,6 +34,7 @@ export default function Footer() {
                     </Styled.PagesContainer>
                 </Styled.FooterWrap>
                 <Styled.SocialNetworkContainer>
+                    <p  style={{ color: '#FFF' }}>instagram</p>
                     <p  style={{ color: '#FFF' }}>instagram</p>
                 </Styled.SocialNetworkContainer>
             </Container>
