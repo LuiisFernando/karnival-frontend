@@ -15,7 +15,7 @@ import { Container } from "@/styles/Grid";
 import * as Styled from '@/styles/pages/login/styles';
 
 export default function Login() {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<ILoginForm>({
+    const { register, handleSubmit, formState: { errors }} = useForm<ILoginForm>({
         resolver: yupResolver(loginSchema),
     });
 
@@ -41,7 +41,7 @@ export default function Login() {
 
                         <Styled.Form onSubmit={handleSubmit(onSubmit)}>
                             <Styled.FormControl>
-                                <Input name="email" register={register} errors={errors} placeholder="E-mail" />
+                                <Input name="email" register={register} errors={errors} placeholder="E-mail" autoFocus />
                             </Styled.FormControl>
 
                             <Styled.FormControl className="form-label">
