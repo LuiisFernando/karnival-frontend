@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -19,10 +19,14 @@ export default function Login() {
         resolver: yupResolver(loginSchema),
     });
 
-    const auth = useAuth();
+    const { login, resetAll } = useAuth();
+
+    useEffect(() => {
+        resetAll();
+    }, []);
 
     async function onSubmit(data: ILoginForm) {
-        await auth.login(data);
+        await login(data);
     }
 
     return (

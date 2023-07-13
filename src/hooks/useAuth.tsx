@@ -16,6 +16,7 @@ type ContextProps = {
     user: IUser | null,
     login: (data: ILoginForm) => void;
     logout: () => void;
+    resetAll: () => void;
 }
 
 export const AuthContext = createContext({} as ContextProps);
@@ -64,11 +65,15 @@ export function AuthProvider({ children }: AuthProviderType ) {
     }
 
     async function logout() {
+        resetAll();
+        route.push('/');
+    }
+
+    function resetAll() {
         destroyCookie({}, 'karnival.token', {
             path: '/'
         });
         setUser(null);
-        route.push('/');
     }
     
     return (
@@ -76,6 +81,7 @@ export function AuthProvider({ children }: AuthProviderType ) {
             user,
             login,
             logout,
+            resetAll
         }}>
             {children}
         </AuthContext.Provider>
