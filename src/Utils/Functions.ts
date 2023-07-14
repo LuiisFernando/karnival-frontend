@@ -8,6 +8,6 @@ export function formatCellphoneToMask(cellphone: string) {
 } 
 
 export function getWeekDayNameByIndex(indice: number) {
-  const diasSemana = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
+  const diasSemana = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
   return diasSemana[indice];
 }

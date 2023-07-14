@@ -7,5 +7,10 @@ export const ConfigurationContainer = styled.div`
 export const SubmitButton = styled.button`
     width: 100%;
     height: 40px;
-    margin-bottom: 10px;
+    margin: 30px 0 10px;
+    font-weight: 600;
+
+    &:hover {
+        filter: brightness(0.95);
+    }
 `;

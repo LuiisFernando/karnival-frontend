@@ -16,13 +16,13 @@ const GlobalStyles = createGlobalStyle`
   }
 
 body {
-	font-family: 'Ysabeau SC',sans-serif;
+	font-family: 'Cinzel', serif;
   position: relative;
   min-height: 100vh;
 }
 
 input {
-  font-family: 'Ysabeau SC',sans-serif;
+  font-family: 'Cinzel', serif;
 }
 
 button {
@@ -30,7 +30,7 @@ button {
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
-  font-family: 'Ysabeau SC',sans-serif;
+  font-family: 'Cinzel', serif;
 
   &:active{
     filter: brightness(0.95);
@@ -38,7 +38,7 @@ button {
 }
 
 table {
-  font-family: 'Ysabeau SC',sans-serif;
+  font-family: 'Cinzel', serif;
   border-collapse: collapse;
   width: 100%;
 }

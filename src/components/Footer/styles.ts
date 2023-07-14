@@ -34,19 +34,20 @@ export const Opening = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  margin-top: 40px;
 
   span {
-    margin-bottom: 10px;
+    margin-bottom: 30px;
   }
 
   @media (min-width: ${C.XL}) {
-    /* min-width: 300px; */
-
+    margin-top: 0;
     margin-bottom: 0;
   }
 `;
 
 export const OpeningContainer = styled.div`
+  margin-bottom: 10px;
 `;
 
 export const AddressContainer = styled.div`
@@ -54,10 +55,11 @@ export const AddressContainer = styled.div`
 
   p {
     max-width: 200px;
+    letter-spacing: 1px;
   }
   span {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
   }
 
   @media (min-width: ${C.XL}) {
@@ -68,10 +70,11 @@ export const AddressContainer = styled.div`
 export const PagesContainer = styled.div`
   display: flex;
   flex-direction: column;
-
+  margin-bottom: 80px;
   a {
     text-decoration: none;
     color: #fff;
+    margin-bottom: 10px;
 
     &:hover {
         text-decoration: underline;
@@ -80,10 +83,11 @@ export const PagesContainer = styled.div`
 
   span {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
   }
 
   @media (min-width: ${C.XL}) {
+    margin-bottom: 0;
   }
 `;
 
@@ -92,7 +96,7 @@ export const SocialNetworkContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  bottom: 50px;
+  bottom: 10px;
   text-align: center;
   position: absolute;
   display: flex;
@@ -102,4 +106,17 @@ export const SocialNetworkContainer = styled.div`
   p {
     margin-right: 20px;
   }
+
+  svg {
+    cursor: pointer;
+  }
+
+  a:not(:last-child) {
+    margin-right: 40px;
+  }
+
+  @media (min-width: ${C.XL}) {
+    bottom: 50px;
+  }
+
 `;
