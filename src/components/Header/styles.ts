@@ -34,7 +34,8 @@ export const HeaderContainer = styled(Container)`
 `;
 
 export const HeaderTitle = styled(Link)`
-    font-family: 'Ysabeau SC', sans-serif;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
     font-size: 2rem;
     text-decoration: none;
     color: #000;
@@ -67,7 +68,7 @@ export const Navbar = styled.nav`
     ul {
         margin-top: 50px;
         list-style-type: none;
-        font-family: 'Ysabeau SC', sans-serif;
+        font-family: 'Cinzel', serif;
         font-size: 1.1rem;
         height: 100%;
     }

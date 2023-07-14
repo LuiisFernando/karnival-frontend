@@ -35,9 +35,8 @@ export default class MyDocument extends Document {
 			<Html lang="pt-br">
 				<Head>
 					<link rel="preconnect" href="https://fonts.googleapis.com" />
-					<link rel="preconnect" href="https://fonts.gstatic.com" />
-					<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,600;1,400&family=Roboto:ital,wght@0,100;0,400;0,700;1,400;1,900&display=swap" rel="stylesheet" />
-					<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&family=Ysabeau+SC:wght@700&display=swap" rel="stylesheet" />
+					<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+					<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet" />
 				</Head>
 				<body>
 					<Main />
