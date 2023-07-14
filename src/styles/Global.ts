@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import * as C from "@/styles/Constants";
 
 const GlobalStyles = createGlobalStyle`
 * {
@@ -41,6 +42,8 @@ table {
   font-family: 'Cinzel', serif;
   border-collapse: collapse;
   width: 100%;
+  display: block;
+  overflow: scroll;
 }
 
 td, th {
@@ -63,6 +66,12 @@ td.active {
 
 td.deleted {
   color: red;
+}
+
+@media (min-width: ${C.XL}) {
+  table {
+    display: table;
+  }
 }
 
 ::-webkit-scrollbar {
