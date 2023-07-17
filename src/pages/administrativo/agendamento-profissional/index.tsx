@@ -1,105 +1,24 @@
-import { useState } from 'react';
-import Head from 'next/head';
-import { GetServerSideProps } from 'next';
-import Select from 'react-select';
-import AsyncSelect from 'react-select/async';
-import { Calendar, DateHeaderProps, HeaderProps, Messages, NavigateAction, dateFnsLocalizer } from 'react-big-calendar';
-import {
-    format,
-    parse,
-    startOfWeek,
-    getDay,
-    getMonth,
-    getHours
-} from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR'
+import Head from "next/head";
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from "react-toastify";
+import AsyncSelect from "react-select/async";
 
-import { Role } from '@/types/User';
-import { withSSRAuth } from "@/Utils/withAuth";
+import Input from "@/components/Form/Input";
+import InputCheckbox from "@/components/Form/InputCheckbox";
+
+import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from "@/Utils/Messages.string";
 
 import { Container } from "@/styles/Grid";
 import * as AdmStyled from '@/styles/pages/administrativo/DefaultLayout';
-
-const locales = {
-    'pt-BR': ptBR,
-};
-
-const localizerFns = dateFnsLocalizer({
-    format,
-    parse,
-    startOfWeek,
-    getDay,
-    locales,
-});
-
-type View = 'month' | 'week' | 'work_week' | 'day' | 'agenda';
-
-
+import * as StyledForm from "@/styles/Form";
 
 export default function AgendamentoProfissional() {
-    const today = new Date();
-    const currentMonth = getMonth(today) + 1;
 
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [defaultDate, setDefaultDate] = useState<Date>(today);
-    const [view, setView] = useState<View>();
-    const [selectedMonth, setSelectedMonth] = useState(currentMonth);
-
-
-    const minDate = new Date(0, 0, 0, 9, 0, 0); // horario de entrada
-    const maxDate = new Date(0, 0, 0, 20, 0, 0); // horario de saida
-
-
-    const dataInicial1 = new Date(2023, 5, 29, 13, 0);
-    const dataFim1 = new Date(2023, 5, 29, 13, 30);
-
-    const dataInicial12 = new Date(2023, 5, 29, 14, 30);
-    const dataFim2 = new Date(2023, 5, 29, 19, 0, 0);
-
-    const dia27Ini = new Date(2023, 5, 27, 18, 0);
-    const dia27Fim = new Date(2023, 5, 27, 19, 0);
-
-    const eventos = [
-        { start: dataInicial1, end: dataFim1, title: "reservado", paid: true },
-        { start: dataInicial1, end: dataFim1, title: "reservado", paid: false },
-        { start: dataInicial1, end: dataFim1, title: "reservado", paid: false },
-        { start: dataInicial1, end: dataFim1, title: "reservado", paid: true },
-        { start: dataInicial12, end: dataFim2, title: "reservado", paid: true },
-        { start: dataInicial12, end: dataFim2, title: "reservado2", paid: false },
-        { start: dataInicial12, end: dataFim2, title: "reservado3", paid: true },
-        { start: dataInicial12, end: dataFim2, title: "reservado3", paid: true },
-        { start: dia27Ini, end: dia27Fim, title: "reservado", paid: true }
-    ];
-
-    const [eventsData, setEventsData] = useState<any>(eventos);
-
-    const defaultMessages: Messages = {
-        date: 'Data',
-        time: 'Hora',
-        event: 'Evento',
-        allDay: 'Dia Todo',
-        week: 'Semana',
-        // work_week: 'Work Week',
-        day: 'Dia',
-        month: 'Mês',
-        previous: 'Voltar',
-        next: 'Avançar',
-        yesterday: 'Ontem',
-        tomorrow: 'Amanhã',
-        today: 'Hoje',
-        agenda: 'Agenda',
-        // noEventsInRange: 'There are no events in this range.',
-        showMore: function showMore(total: number) {
-            return "+" + total + " eventos";
-        },
-    };
-
-
-    const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' },
-    ];
+    const { register, control, handleSubmit, formState: { errors }, reset, setValue } = useForm<any>({
+        // resolver: yupResolver(personRegisterSchema),
+        // values: initialValues
+    });
 
     const colourOptions = [
         { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
@@ -114,8 +33,14 @@ export default function AgendamentoProfissional() {
         { value: 'silver', label: 'Silver', color: '#666666' },
     ];
 
-    function onChange(e: any) {
-        console.log(e);
+
+    async function onSubmit(data: any) {
+        try {
+            console.log(data);
+        } catch (e: any) {
+            const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
+            toast.error(errorMessage);
+        }
     }
 
     const filterColors = (inputValue: string) => {
@@ -126,106 +51,13 @@ export default function AgendamentoProfissional() {
 
     function loadOptions(inputValue: string, callback: (options: any[]) => void) {
         console.log(inputValue);
-        console.log(callback);
         callback(filterColors(inputValue));
     }
 
     function selectAsync(e: any) {
         console.log('selecionado >> ', e);
+        setValue('professional', e);
     }
-
-
-    const handleSelect = ({ start, end }: any) => {
-        const selectedHour = getHours(start);
-        const minHourAvailable = getHours(minDate);
-
-        const isSunday = getDay(start) === 0;
-
-        const hourSelecteIsLessThanMinHour = selectedHour < minHourAvailable;
-
-        if (hourSelecteIsLessThanMinHour)
-            return;
-
-        if (isSunday)
-            return;
-
-        const title = window.prompt("New Event name " + start);
-        if (title)
-            setEventsData([
-                ...eventsData,
-                {
-                    start,
-                    end,
-                    title
-                }
-            ]);
-    };
-
-    function eventPropGetter(event: any, start: any, end: any, isSelected: any) {
-        var style = {
-            backgroundColor: event.paid ? 'green' : 'red',
-            borderRadius: '5px',
-            opacity: 0.4,
-            color: '#FFF',
-            border: '0px',
-        };
-        return {
-            style: style
-        };
-    }
-
-    const customDayPropGetter = (date: Date) => {
-        const isSaturday = getDay(date) === 6;
-        const isSunday = getDay(date) === 0;
-
-        return {
-            style: {
-                backgroundColor: isSunday ? 'rgba(181, 181, 181, 0.3)' : 'transparent'
-            }
-        };
-    };
-
-    const HeaderWeekContent: React.FC<any> = (props: HeaderProps) => {
-        const { date, label } = props;
-
-        // capitalize dia da semana
-        const newLabel = label.split('-')[0].charAt(0).toUpperCase() + label.split('-')[0].slice(1);
-
-        const dayOfWeek = date.getDay();
-
-        const className = dayOfWeek === 0 || dayOfWeek === 6 ? 'classes.day_weekend' : 'classes.day_working';
-        return (
-            <span className={className}>
-                {newLabel}
-            </span>
-        );
-    };
-
-    const DateCellContent: React.FC<any> = (props: DateHeaderProps) => {
-        const { date } = props;
-        const dayOfWeek = date.getDay();
-
-        const className = dayOfWeek === 0 || dayOfWeek === 6 ? 'classes.day_weekend' : 'classes.day_working';
-        return (
-            <span className={className} style={{ cursor: 'pointer', display: 'block', width: '100%', height: '100%' }} onClick={() => {
-                setView('day');
-                setDefaultDate(date);
-            }}>
-                {props.label}
-            </span>
-        );
-    };
-
-    const WeekHeaderContent: React.FC<any> = (props: HeaderProps) => {
-        const { label } = props;
-
-        const newLabel = `${label.split(' ')[0]} ${label.split(' ')[1].charAt(0).toUpperCase()}${label.split(' ')[1].slice(1)}`;
-
-        return (
-            <span className="classes.day_working" style={{ fontWeight: '700' }}>{newLabel}</span>
-        );
-    };
-
 
     return (
         <>
@@ -235,80 +67,54 @@ export default function AgendamentoProfissional() {
             <Container>
                 <AdmStyled.AdministrativoContainer>
                     <h1>agendamento profissional</h1>
+                    <StyledForm.FormContainer>
+                        <form onSubmit={handleSubmit(onSubmit)}>
 
-                    <Select
-                        defaultValue={selectedOption}
-                        onChange={onChange}
-                        options={options}
-                        isClearable
-                        isSearchable={false}
-                        placeholder="selecione"
-                    />
+                            <Controller 
+                                name="professional"
+                                control={control}
+                                render={({ field }) => (
+                                    <AsyncSelect
+                                        {...field}
+                                        isClearable
+                                        isSearchable
+                                        placeholder="Selecione o profissional"
+                                        loadOptions={loadOptions}
+                                        defaultOptions
+                                        cacheOptions
+                                        onChange={selectAsync}
+                                        styles={{ 
+                                            control: (baseStyle) => ({
+                                                ...baseStyle,
+                                                width: '100%'
+                                            }),
+                                            container: (baseStyle) => ({
+                                                ...baseStyle,
+                                                width: '100%',
+                                                marginBottom: 20
+                                            })
+                                         }}
+                                    />
+                                )}
+                            />
 
-                    <AsyncSelect
-                        isClearable
-                        isSearchable
-                        placeholder="selecione"
-                        loadOptions={loadOptions}
-                        defaultOptions
-                        cacheOptions
-                        onChange={selectAsync}
-                    />
+                            <Input name="date" register={register} errors={errors} placeholder="Data do agendamento" />
+
+                            {/* <input type="checkbox" {...register('paid')} name="paid" /> */}
+                            <InputCheckbox
+                                label="Profissional pagou a diaria"
+                                register={register}
+                                errors={errors}
+                                control={control}
+                                name="paid"
+                            />
+
+                            
+                            <button type="submit">Cadastrar</button>
+                        </form>
+                    </StyledForm.FormContainer>
                 </AdmStyled.AdministrativoContainer>
-
-
-                <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 50 }}>
-                    <Calendar
-                        popup
-                        localizer={localizerFns}
-                        defaultView={'week'}
-                        view={view}
-                        onView={setView}
-                        min={minDate}
-                        max={maxDate}
-                        step={30}
-                        views={["month", "week", "day"]}
-                        culture="pt-BR"
-                        selectable
-                        defaultDate={defaultDate}
-                        date={defaultDate}
-                        events={eventsData}
-                        style={{ height: '600px', width: '100%' }}
-                        onSelectEvent={(event) => alert(event.title)}
-                        onSelectSlot={handleSelect}
-                        messages={defaultMessages}
-                        eventPropGetter={eventPropGetter}
-                        dayLayoutAlgorithm={"no-overlap"}
-                        components={{
-                            month: {
-                                header: HeaderWeekContent,
-                                dateHeader: DateCellContent
-                            },
-                            week: {
-                                header: WeekHeaderContent
-                            },
-                        }}
-                        onNavigate={(date: Date, view: View, action: NavigateAction) => {
-                            const month = getMonth(date) + 1; // por default starta em 0
-
-                            if (month !== selectedMonth) {
-                                setSelectedMonth(month);
-                            }
-
-                            setDefaultDate(date);
-                        }}
-                        dayPropGetter={customDayPropGetter}
-                    />
-                </div>
-
             </Container>
         </>
     );
 }
-
-export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx: any) => {
-    return {
-        props: {
-        }
-    }
-}, Role.Administrador);
