@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from "react-toastify";
@@ -9,9 +10,11 @@ import InputCheckbox from "@/components/Form/InputCheckbox";
 
 import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from "@/Utils/Messages.string";
 
+import { getActiveProfessionals } from "@/services/personService";
+
 import { Container } from "@/styles/Grid";
 import * as AdmStyled from '@/styles/pages/administrativo/DefaultLayout';
-import * as StyledForm from "@/styles/Form";
+import * as StyledFilter from '@/styles/shared/filterStyle';
 
 export default function AgendamentoProfissional() {
 
@@ -49,9 +52,28 @@ export default function AgendamentoProfissional() {
         );
     };
 
+    async function filterProfessionals(inputValue: string) {
+        const response = await getActiveProfessionals(inputValue);
+        return response.data;
+    }
+
     function loadOptions(inputValue: string, callback: (options: any[]) => void) {
-        console.log(inputValue);
-        callback(filterColors(inputValue));
+        filterProfessionals(inputValue).then((response: any) => {
+
+            if (response && response.length > 0) {
+                const profissionals = response.map((rep: any) => {
+                    return {
+                        value: rep.id,
+                        label: rep.name
+                    };
+                });
+                callback(profissionals);
+            } else {
+                callback([]);
+            }
+        }).catch((error: any) => {
+            toast.error('ocorreu um erro ao filtrar o profissional');
+        });
     }
 
     function selectAsync(e: any) {
@@ -67,52 +89,13 @@ export default function AgendamentoProfissional() {
             <Container>
                 <AdmStyled.AdministrativoContainer>
                     <h1>agendamento profissional</h1>
-                    <StyledForm.FormContainer>
-                        <form onSubmit={handleSubmit(onSubmit)}>
 
-                            <Controller 
-                                name="professional"
-                                control={control}
-                                render={({ field }) => (
-                                    <AsyncSelect
-                                        {...field}
-                                        isClearable
-                                        isSearchable
-                                        placeholder="Selecione o profissional"
-                                        loadOptions={loadOptions}
-                                        defaultOptions
-                                        cacheOptions
-                                        onChange={selectAsync}
-                                        styles={{ 
-                                            control: (baseStyle) => ({
-                                                ...baseStyle,
-                                                width: '100%'
-                                            }),
-                                            container: (baseStyle) => ({
-                                                ...baseStyle,
-                                                width: '100%',
-                                                marginBottom: 20
-                                            })
-                                         }}
-                                    />
-                                )}
-                            />
+                    <StyledFilter.FilterContainer>
+                        <input type="text" name="filter" placeholder="Filtre por Nome ou E-mail" />
 
-                            <Input name="date" register={register} errors={errors} placeholder="Data do agendamento" />
+                        <Link href="/administrativo/agendamento-profissional/cadastro">Cadastrar</Link>
+                    </StyledFilter.FilterContainer>
 
-                            {/* <input type="checkbox" {...register('paid')} name="paid" /> */}
-                            <InputCheckbox
-                                label="Profissional pagou a diaria"
-                                register={register}
-                                errors={errors}
-                                control={control}
-                                name="paid"
-                            />
-
-                            
-                            <button type="submit">Cadastrar</button>
-                        </form>
-                    </StyledForm.FormContainer>
                 </AdmStyled.AdministrativoContainer>
             </Container>
         </>
