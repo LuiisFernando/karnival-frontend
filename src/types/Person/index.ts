@@ -5,6 +5,7 @@ export interface IPersonCreate {
     email: string;
     cellphone: Maybe<string | null>;
     provider: boolean;
+    observation: Maybe<string | null>;
 }
 
 export interface IPerson {
@@ -13,6 +14,7 @@ export interface IPerson {
     email: string;
     cellphone: Maybe<string | null>;
     active: boolean;
+    observation: Maybe<string | null>;
 }
 
 export interface IPersonEdit {
@@ -21,4 +23,5 @@ export interface IPersonEdit {
     email: string;
     cellphone: Maybe<string | null>;
     active: boolean;
+    observation: Maybe<string | null>;
 }

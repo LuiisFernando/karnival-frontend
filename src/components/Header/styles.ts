@@ -120,7 +120,7 @@ export const LiComSub = styled.li<LiProps>`
         align-items: flex-start;
         justify-content: start;
         background: #FFF;
-        width: 220px;
+        width: 260px;
         border-radius: 5px;
         top: 50px;
         z-index: 1;
@@ -133,12 +133,9 @@ export const ULSubMenu = styled.ul`
     align-items: flex-start;
     padding: 10px 0;
     width: 100%;
-
-    li:not(:last-child) {
-        height: 40px;
-    }
-
+    
     li {
+        height: 40px;
         width: 100%;
         padding: 0 !important;
 

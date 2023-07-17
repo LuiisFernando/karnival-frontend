@@ -115,6 +115,7 @@ export default function Editar() {
                         <Input name="name" register={register} errors={errors} placeholder="Nome do profissional" />
                         <Input name="email" register={register} errors={errors} placeholder="E-mail do profissional" />
                         <Input name="cellphone" mask={maskCellphone} register={register} errors={errors} placeholder="Celular do profissional" />
+                        <Input name="observation" register={register} errors={errors} placeholder="Observação" />
                         <button type="submit">Editar</button>
                         {person && person.active && <button type="button" className="delete" onClick={() => handleDeletePerson()}>Deletar</button>}
                         {person && !person.active && <button type="button" className="active" onClick={() => handleActivePerson()}>Ativar</button>}
