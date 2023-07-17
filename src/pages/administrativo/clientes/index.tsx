@@ -70,7 +70,7 @@ export default function Clientes() {
                                 <tr key={index} onClick={() => edit(pro.id)}>
                                     <td>{pro.name}</td>
                                     <td>{pro.email}</td>
-                                    <td>{pro.cellphone ? formatCellphoneToMask(pro.cellphone) : ""}</td>
+                                    <td>{pro.cellphone ? formatCellphoneToMask(pro.cellphone) : "SEM CELULAR"}</td>
                                     <td className={pro.active ? 'active' : 'deleted'}>{pro.active ? "Ativo" : "Excluído"}</td>
                                 </tr>
                             ))}

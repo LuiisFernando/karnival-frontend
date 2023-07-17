@@ -6,6 +6,7 @@ export const personRegisterSchema = yup.object({
     email: yup.string().email(InvalidEmail).required(FieldRequested),
     cellphone: yup.string().nullable(),
     provider: yup.boolean().required(),
+    observation: yup.string().nullable()
 });
 
 
@@ -15,4 +16,5 @@ export const personEditSchema = yup.object({
     email: yup.string().email(InvalidEmail).required(FieldRequested),
     cellphone: yup.string().nullable(),
     active: yup.boolean().required(),
+    observation: yup.string().nullable()
 });

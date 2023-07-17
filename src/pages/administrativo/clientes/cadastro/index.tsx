@@ -27,7 +27,8 @@ export default function Cadastro() {
         name: "",
         cellphone: "",
         email: "",
-        provider: true
+        provider: true,
+        observation: ""
     };
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<IPersonCreate>({
         resolver: yupResolver(personRegisterSchema),
@@ -67,6 +68,7 @@ export default function Cadastro() {
                         <Input name="name" register={register} errors={errors} placeholder="Nome do cliente" autoFocus />
                         <Input name="email" register={register} errors={errors} placeholder="E-mail do cliente" />
                         <Input name="cellphone" mask={maskCellphone} register={register} errors={errors} placeholder="Celular do cliente" />
+                        <Input name="observation" register={register} errors={errors} placeholder="Observação" />
                         <button type="submit">Cadastrar</button>
                     </form>
                 </StyledForm.FormContainer>
