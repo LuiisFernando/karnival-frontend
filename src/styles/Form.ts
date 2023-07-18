@@ -52,7 +52,6 @@ export const FormTitleContainer = styled.div`
 
   h1 {
         font-size: 1.5rem;
-        font-family: 'Ysabeau SC',sans-serif;
     }
 
   @media (min-width: ${C.XL}) {

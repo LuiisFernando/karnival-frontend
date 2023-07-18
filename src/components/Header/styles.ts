@@ -123,7 +123,7 @@ export const LiComSub = styled.li<LiProps>`
         width: 260px;
         border-radius: 5px;
         top: 50px;
-        z-index: 1;
+        z-index: 9999;
     }
 `;
 

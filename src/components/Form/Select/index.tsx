@@ -5,10 +5,6 @@ import * as Styled from './styles';
 
 export default function Select({ control, label, name, options, errors, setValue, placeholder, inputRef, ...rest }: any) {
 
-    // function onChangeSelect(e: any) {
-    //     setValue(name, e);
-    // }
-
     function onChangeSelect(event: any) {
         // Overwrite the event with your own object if it doesn't exist
         if (!event) {

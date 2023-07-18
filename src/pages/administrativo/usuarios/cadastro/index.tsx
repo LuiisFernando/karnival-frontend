@@ -9,7 +9,7 @@ import { HiArrowLeft } from "react-icons/hi";
 import Select from '@/components/Form/Select';
 import Input from '@/components/Form/Input';
 
-import { IUserCreate, Role, SelectProps } from '@/types/User';
+import { IUserCreate, Role } from '@/types/User';
 import { withSSRAuth } from "@/Utils/withAuth";
 import { userRegisterSchema } from '@/Utils/schemas/user/registerUserSchema';
 import { UserCreatedSuccess, ErrorMessageDefault, ErrorMessageDefaultWithMessage } from '@/Utils/Messages.string';
