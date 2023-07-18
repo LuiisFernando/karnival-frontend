@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Calendar, DateHeaderProps, HeaderProps, Messages, NavigateAction, dateFnsLocalizer } from 'react-big-calendar';
+import { Calendar, DateHeaderProps, HeaderProps, Messages, NavigateAction, ViewsProps, dateFnsLocalizer } from 'react-big-calendar';
 import {
     format,
     parse,
@@ -31,7 +31,7 @@ const localizerFns = dateFnsLocalizer({
 });
 
 interface CalendarProps {
-
+    views: View[];
 }
 
 type View = 'month' | 'week' | 'work_week' | 'day' | 'agenda';
@@ -39,7 +39,7 @@ type View = 'month' | 'week' | 'work_week' | 'day' | 'agenda';
 const defaultMessages: Messages = {
     date: 'Data',
     time: 'Hora',
-    event: 'Evento',
+    event: 'Agendamento',
     allDay: 'Dia Todo',
     week: 'Semana',
     // work_week: 'Work Week',
@@ -53,18 +53,20 @@ const defaultMessages: Messages = {
     agenda: 'Agenda',
     // noEventsInRange: 'There are no events in this range.',
     showMore: function showMore(total: number) {
-        return "+" + total + " eventos";
+        return "+" + total + " agendamentos";
     },
 };
 
 
-export default function CalendarComponent({ }: CalendarProps) {
+export default function CalendarComponent({ views }: CalendarProps) {
     const today = new Date();
     const currentMonth = getMonth(today) + 1;
     const currentYear = getYear(today);
 
+    const [defaultViews, setDefaultViews] = useState<ViewsProps<ScheduleEvent | object> | undefined>(undefined);
+
     const [defaultDate, setDefaultDate] = useState<Date>(today);
-    const [view, setView] = useState<View>();
+    // const [view, setView] = useState<View>();
     const [eventsData, setEventsData] = useState<ScheduleEvent[] | undefined>(undefined); // eventos
 
     const [selectedMonth, setSelectedMonth] = useState(currentMonth);
@@ -132,17 +134,22 @@ export default function CalendarComponent({ }: CalendarProps) {
         }
     }, [systemConfiguration]);
 
+    useEffect(() => {
+        setDefaultViews(views);
+    }, [views])
+
     return (
         <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 50 }}>
             <Calendar
                 popup
                 localizer={localizerFns}
                 defaultView={'month'}
-                view={view}
+                // view={view}
                 max={scheduleEventMaxHour}
                 min={scheduleEventMinHour}
                 step={30}
-                views={["month", "week", "day"]}
+                // views={["month", "week", "day"]}
+                views={defaultViews}
                 culture="pt-BR"
                 defaultDate={defaultDate}
                 date={defaultDate}
