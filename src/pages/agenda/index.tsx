@@ -189,13 +189,13 @@ export default function Agenda() {
           <Calendar
             popup
             localizer={localizerFns}
-            defaultView={'week'}
+            defaultView={'month'}
             view={view}
             onView={setView}
             min={minDate}
             max={maxDate}
             step={30}
-            views={["month", "week", "day"]}
+            views={["month"]}
             culture="pt-BR"
             selectable
             defaultDate={defaultDate}

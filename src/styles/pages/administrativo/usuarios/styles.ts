@@ -28,7 +28,6 @@ export const FilterContainer = styled.div`
 
     border-radius: 5px;
     font-size: 1rem;
-    font-family: "Ysabeau SC", sans-serif;
 
     &:active {
       filter: brightness(0.95);

@@ -93,6 +93,32 @@ td.deleted {
 	  text-transform:capitalize
   }
 
+  .react-datepicker__navigation {
+    width: 32px !important;
+  }
+
+  .react-datepicker-wrapper {
+    width: 100% !important;
+    margin-bottom: 20px;
+  }
+  
+  .react-datepicker__input-container {
+    width: 100% !important;
+
+    input {
+      width: 100% !important;
+      height: 40px;
+      padding: 0 10px;
+      border: 1px solid #d3d3d3;
+      outline: 0;
+      border-radius: 5px;
+    }
+  }
+
+  /* .rbc-events-container {
+    max-width: 400px;
+  } */
+
 `;
 
 export default GlobalStyles;

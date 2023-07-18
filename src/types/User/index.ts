@@ -1,11 +1,5 @@
 import { Maybe } from "yup";
 
-export interface SelectProps {
-    value: string;
-    label: string;
-}
-
-
 export interface ILoginResponse {
     user: IUser;
     token: string;

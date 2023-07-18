@@ -38,3 +38,7 @@ export async function deletePerson(id: number) {
 export async function activePerson(id: number) {
     return await api.put(`person/ActivePerson/${id}`);
 }
+
+export async function getActiveProfessionals(filter: string) {   
+    return await api.get(`person/GetActiveProfissionals?filter=${filter}`, );
+}
