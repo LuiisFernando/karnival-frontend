@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 
-import Calendar from "@/components/Calendar";
+import CalendarComponent from "@/components/Calendar";
 
 import { Container } from "@/styles/Grid";
 import * as AdmStyled from '@/styles/pages/administrativo/DefaultLayout';
@@ -23,7 +23,7 @@ export default function AgendamentoProfissional() {
                         <Link href="/administrativo/agendamento-profissional/cadastro">Cadastrar</Link>
                     </StyledFilter.FilterContainer>
 
-                    <Calendar />
+                    <CalendarComponent views={["month", "week", "day", "agenda"]} />
 
                 </AdmStyled.AdministrativoContainer>
             </Container>
