@@ -18,3 +18,4 @@ export const PersonDeletedSuccess = "Cliente excluído com sucesso";
 export const PersonActivatedSuccess = "Cliente ativado com sucesso";
 export const ServiceCreatedSuccess = "Serviço criado com sucesso";
 export const SystemConfigurationEditSuccess = "Configuração do site atualizada com sucesso";
+export const ProfessionalScheduleCreatedSuccess = "Agendamento criado com sucesso.";

@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import ReactSelect from 'react-select';
 
-interface SelectProps {
+interface SelectPropsStyle {
     errors: any;
 }
 
-export const SelectContainer = styled.div<SelectProps>`
+export const SelectContainer = styled.div<SelectPropsStyle>`
     position: relative;
     border-radius: 5px;
     width: 100%;
@@ -13,7 +13,7 @@ export const SelectContainer = styled.div<SelectProps>`
 `;
 
 
-export const Select = styled(ReactSelect)<SelectProps>`
+export const Select = styled(ReactSelect)<SelectPropsStyle>`
     width: 100%;
     height: 40px;
     outline: 0;
