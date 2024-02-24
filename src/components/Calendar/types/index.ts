@@ -1,0 +1,1 @@
+export type View = 'month' | 'week' | 'work_week' | 'day' | 'agenda';
