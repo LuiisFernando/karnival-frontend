@@ -3,4 +3,6 @@ export interface ScheduleEvent {
     end: Date;
     title: string;
     paid: boolean;
+    date: string;
+    serviceName: string;
 };

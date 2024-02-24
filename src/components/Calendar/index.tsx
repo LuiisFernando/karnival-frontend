@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { Calendar, DateHeaderProps, HeaderProps, Messages, NavigateAction, ViewsProps, dateFnsLocalizer } from 'react-big-calendar';
 import {
     format,
@@ -12,9 +12,13 @@ import ptBR from 'date-fns/locale/pt-BR'
 import { toast } from "react-toastify";
 
 import { ScheduleEvent } from "@/types/ScheduleEvent";
+import { View } from "./types";
+
 import { ErrorMessageDefault, ErrorMessageDefaultWithMessage } from "@/Utils/Messages.string";
 
 import { useAuth } from "@/hooks/useAuth";
+
+import ScheduleModal from "../ScheduleModal";
 
 import { getProfessionalSchedule } from "@/services/professionalScheduleService";
 
@@ -33,8 +37,6 @@ const localizerFns = dateFnsLocalizer({
 interface CalendarProps {
     views: View[];
 }
-
-type View = 'month' | 'week' | 'work_week' | 'day' | 'agenda';
 
 const defaultMessages: Messages = {
     date: 'Data',
@@ -57,7 +59,6 @@ const defaultMessages: Messages = {
     },
 };
 
-
 export default function CalendarComponent({ views }: CalendarProps) {
     const today = new Date();
     const currentMonth = getMonth(today) + 1;
@@ -66,7 +67,7 @@ export default function CalendarComponent({ views }: CalendarProps) {
     const [defaultViews, setDefaultViews] = useState<ViewsProps<ScheduleEvent | object> | undefined>(undefined);
 
     const [defaultDate, setDefaultDate] = useState<Date>(today);
-    // const [view, setView] = useState<View>();
+
     const [eventsData, setEventsData] = useState<ScheduleEvent[] | undefined>(undefined); // eventos
 
     const [selectedMonth, setSelectedMonth] = useState(currentMonth);
@@ -76,6 +77,9 @@ export default function CalendarComponent({ views }: CalendarProps) {
     const [scheduleEventMinHour, setScheduleEventMinHour] = useState<Date | undefined>(undefined);
 
     const { systemConfiguration } = useAuth();
+
+    const [activeModalEvent, setActiveModalEvent] = useState<boolean>(false);
+    const [selectedEvent, setSelectedEvent] = useState<ScheduleEvent | null>(null);
 
     async function loadProfessionalSchedule(initialDate: string) {
         try {
@@ -96,29 +100,37 @@ export default function CalendarComponent({ views }: CalendarProps) {
                     const initialDateEvent = new Date(year, month, day, initialHour, 0);
                     const finalDateEvent = new Date(year, month, day, finalHour, 0);
 
-                    eventArr.push({ start: initialDateEvent, end: finalDateEvent, title: `${event.professionalName} - ${event.serviceName}`, paid: event.paid });
+                    eventArr.push({ 
+                        start: initialDateEvent, 
+                        end: finalDateEvent, 
+                        title: `${event.professionalName} - ${event.serviceName}`,
+                        paid: event.paid,
+                        date: event.date,
+                        serviceName: event.serviceName
+                    });
                 });
             }
-            console.log(eventArr);
+            console.log(response.data);
             setEventsData(eventArr);
         } catch (e: any) {
             const errorMessage = e?.response?.data?.Message ? `${ErrorMessageDefaultWithMessage(e?.response?.data?.Message)}` : ErrorMessageDefault;
             toast.error(errorMessage);
         }
     }
-    
+
     function eventPropGetter(event: ScheduleEvent) {
         var style = {
-          backgroundColor: event.paid ? 'green' : 'red',
-          borderRadius: '5px',
-          opacity: 0.4,
-          color: '#FFF',
-          border: '0px',
+            backgroundColor: event.paid ? 'green' : 'red',
+            borderRadius: '5px',
+            opacity: 0.4,
+            color: '#FFF',
+            border: '0px',
         };
         return {
-          style: style
+            style: style
         };
-      }
+    }
+    
 
     useEffect(() => {
         loadProfessionalSchedule(`${selectedYear}-${selectedMonth}-01`);
@@ -139,40 +151,47 @@ export default function CalendarComponent({ views }: CalendarProps) {
     }, [views])
 
     return (
-        <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 50 }}>
-            <Calendar
-                popup
-                localizer={localizerFns}
-                defaultView={'month'}
-                // view={view}
-                max={scheduleEventMaxHour}
-                min={scheduleEventMinHour}
-                step={30}
-                // views={["month", "week", "day"]}
-                views={defaultViews}
-                culture="pt-BR"
-                defaultDate={defaultDate}
-                date={defaultDate}
-                events={eventsData}
-                style={{ height: '700px', width: '100%' }}
-                onSelectEvent={(event) => alert(event.title)}
-                messages={defaultMessages}
-                eventPropGetter={eventPropGetter}
-                dayLayoutAlgorithm={"no-overlap"}
-                onNavigate={(date: Date, view: View, action: NavigateAction) => {
-                    const month = getMonth(date) + 1; // por default starta em 0
-                    const year = getYear(date);
-                    if (month !== selectedMonth) {
-                        setSelectedMonth(month);
-                    }
+        <>
+            <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 50 }}>
+                <Calendar
+                    popup
+                    localizer={localizerFns}
+                    defaultView={'month'}
+                    // view={view}
+                    max={scheduleEventMaxHour}
+                    min={scheduleEventMinHour}
+                    step={30}
+                    // views={["month", "week", "day"]}
+                    views={defaultViews}
+                    culture="pt-BR"
+                    defaultDate={defaultDate}
+                    date={defaultDate}
+                    events={eventsData}
+                    style={{ height: '700px', width: '100%' }}
+                    onSelectEvent={(event) => {
+                        // alert(event.title)
+                        setSelectedEvent(event);
+                        setActiveModalEvent(true);
+                    }}
+                    messages={defaultMessages}
+                    eventPropGetter={eventPropGetter}
+                    dayLayoutAlgorithm={"no-overlap"}
+                    onNavigate={(date: Date, view: View, action: NavigateAction) => {
+                        const month = getMonth(date) + 1; // por default starta em 0
+                        const year = getYear(date);
+                        if (month !== selectedMonth) {
+                            setSelectedMonth(month);
+                        }
 
-                    if (year !== selectedYear) {
-                        setSelectedYear(year);
-                    }
+                        if (year !== selectedYear) {
+                            setSelectedYear(year);
+                        }
 
-                    setDefaultDate(date);
-                }}
-            />
-        </div>
+                        setDefaultDate(date);
+                    }}
+                />
+            </div>
+            <ScheduleModal active={activeModalEvent} closeModal={() => setActiveModalEvent(false)} event={selectedEvent} />
+        </>
     );
 }
